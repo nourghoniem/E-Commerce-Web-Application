@@ -3,22 +3,16 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-<%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="dbconnection.DatabaseConnection"%>
-<%!
-    Connection conn = null;
-    String SQL = "SELECT first_name, last_name, dob, email, address, phone_number from users;";
-%>
+<%@page import="dbconnection.DatabaseManagement"%>
+<%@page import="java.util.List"%>
+<%@page import="model.Customer"%>
+
 <%
-    conn = DatabaseConnection.getConnection();
-    if (conn == null) {
-        out.println("database connection is null");
-    }
-    Statement stmt = conn.createStatement();
-    ResultSet rs = stmt.executeQuery(SQL);
+    DatabaseManagement data = new DatabaseManagement();
+    List<Customer> getCustomers = data.getCustomers();
+
 %>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -411,22 +405,15 @@
                                         </thead>
 
                                         <tbody>
-                                            <%
-                                                while (rs.next()) {
-                                                    String fname = rs.getString("first_name");
-                                                    String lname = rs.getString("last_name");
-                                                    String email = rs.getString("email");
-                                                    String phone = rs.getString("phone_number");
-                                                    String dob = rs.getString("dob");
-                                                    String address = rs.getString("address");
-
+                                            <%     
+                                                for (Customer c : getCustomers) {
                                             %>
                                             <tr>
-                                                <td><% out.println(fname+" "+lname); %> </td>
-                                                <td><% out.println(email); %> </td>
-                                                <td><% out.println(phone); %></td>
-                                                <td><% out.println(dob); %></td>
-                                                <td><% out.println(address); %></td>
+                                                <td><% out.println(c.getFirst_name() + " " + c.getLast_name()); %> </td>
+                                                <td><% out.println(c.getEmail()); %> </td>
+                                                <td><% out.println(c.getPhone_number()); %></td>
+                                                <td><% out.println(c.getDob()); %></td>
+                                                <td><% out.println(c.getAddress()); %></td>
                                                 <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
                                             </tr>
                                             <% }%>
