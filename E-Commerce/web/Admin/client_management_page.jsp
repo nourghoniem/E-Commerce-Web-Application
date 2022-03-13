@@ -3,7 +3,22 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="dbconnection.DatabaseConnection"%>
+<%!
+    Connection conn = null;
+    String SQL = "SELECT first_name, last_name, dob, email, address, phone_number from users;";
+%>
+<%
+    conn = DatabaseConnection.getConnection();
+    if (conn == null) {
+        out.println("database connection is null");
+    }
+    Statement stmt = conn.createStatement();
+    ResultSet rs = stmt.executeQuery(SQL);
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -372,9 +387,9 @@
 
                         <!-- Page Heading -->
                         <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-<!--                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
-                            For more information about DataTables, please visit the <a target="_blank"
-                                                                                       href="https://datatables.net">official DataTables documentation</a>.</p>-->
+                        <!--                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
+                                                    For more information about DataTables, please visit the <a target="_blank"
+                                                                                                               href="https://datatables.net">official DataTables documentation</a>.</p>-->
 
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
@@ -394,17 +409,27 @@
                                                 <th>Action</th>
                                             </tr>
                                         </thead>
-                                     
+
                                         <tbody>
+                                            <%
+                                                while (rs.next()) {
+                                                    String fname = rs.getString("first_name");
+                                                    String lname = rs.getString("last_name");
+                                                    String email = rs.getString("email");
+                                                    String phone = rs.getString("phone_number");
+                                                    String dob = rs.getString("dob");
+                                                    String address = rs.getString("address");
+
+                                            %>
                                             <tr>
-                                                <td>Tiger Nixon</td>
-                                                <td>System Architect</td>
-                                                <td>Edinburgh</td>
-                                                <td>61</td>
-                                                <td>2011/04/25</td>
+                                                <td><% out.println(fname+" "+lname); %> </td>
+                                                <td><% out.println(email); %> </td>
+                                                <td><% out.println(phone); %></td>
+                                                <td><% out.println(dob); %></td>
+                                                <td><% out.println(address); %></td>
                                                 <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
                                             </tr>
-                               
+                                            <% }%>
                                         </tbody>
                                     </table>
                                 </div>
