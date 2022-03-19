@@ -10,7 +10,7 @@
     </context-param>
     <context-param>
         <param-name>password</param-name>
-        <param-value>root</param-value>
+        <param-value>postgres</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>
