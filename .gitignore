@@ -1,5 +1,6 @@
-
-build/*
+/E-Commerce/nbproject/
+/E-Commerce/build/*
 !build/build.xml
 /E-Commerce/dist/
-/E-Commerce/nbproject/
+/E-Commerce/build/
+/E-Commerce/build.xml
