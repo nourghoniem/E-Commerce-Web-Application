@@ -12,6 +12,8 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import com.iti.ecommerce.essentials.model.Customer;
+import java.sql.Date;
+import java.sql.PreparedStatement;
 
 /**
  *
@@ -21,6 +23,7 @@ public class DatabaseManagement {
 
     Connection conn;
     Statement stmt;
+    PreparedStatement pstmt;
     ArrayList<Customer> customers;
     ResultSet rs;
 
@@ -54,5 +57,29 @@ public class DatabaseManagement {
         }
         return customers;
     }
-
+    public boolean addCustomer(String fname,String lname,String email,String Password,Date dob,String address,String phone,String interets,int creditLimit) throws SQLException
+        {
+            boolean isAdded =false; 
+            try {
+            String InsertStatement="insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,intersts)"
+                                   + "VALUES(?,?,?,?,?,?,?,?,?)";
+            pstmt=conn.prepareStatement(InsertStatement);
+            pstmt.setString(1, fname);
+            pstmt.setString(2, lname);
+            pstmt.setString(3, email);
+            pstmt.setString(4, Password);
+            pstmt.setDate  (5, dob);
+            pstmt.setString(6, address);
+            pstmt.setString(7, phone);
+            pstmt.setString(8, interets);
+            pstmt.setInt   (9, creditLimit);
+            int i=pstmt.executeUpdate();
+            System.out.println(i+" records inserted"); 
+            isAdded=true;
+            } catch (SQLException e) {
+             System.out.println(" Exception at adding new users in data base : "+e);
+             isAdded=true;
+            }
+            return isAdded;
+        }
 }

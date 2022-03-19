@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/web/Admin/client_management_page.jsp</file>
-            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/web/META-INF/context.xml</file>
+            <file>file:/F:/webProject/E-Commerce-Web-Application/E-Commerce/src/java/com/iti/ecommerce/essentials/dbconnection/DatabaseManagement.java</file>
+            <file>file:/F:/webProject/E-Commerce-Web-Application/E-Commerce/src/java/com/iti/ecommerce/essentials/model/Customer.java</file>
+            <file>file:/F:/webProject/E-Commerce-Web-Application/E-Commerce/web/index.html</file>
+            <file>file:/F:/webProject/E-Commerce-Web-Application/E-Commerce/web/WEB-INF/web.xml</file>
+            <file>file:/F:/webProject/E-Commerce-Web-Application/E-Commerce/src/java/com/iti/ecommerce/essentials/dbconnection/DatabaseListener.java</file>
+            <file>file:/F:/webProject/E-Commerce-Web-Application/E-Commerce/src/java/com/iti/ecommerce/essentials/dbconnection/DatabaseConnection.java</file>
         </group>
     </open-files>
 </project-private>
