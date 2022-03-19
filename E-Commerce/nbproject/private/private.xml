@@ -3,8 +3,10 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/web/Admin/client_management_page.jsp</file>
-            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/web/META-INF/context.xml</file>
+            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/web/Admin/add_new_product.jsp</file>
+            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/src/java/image/handling/ImageHandling.java</file>
+            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/src/java/model/Customer.java</file>
+            <file>file:/home/nour/NetBeansProjects/Web_Development/E-Commerce/web/Admin/products_management_page.jsp</file>
         </group>
     </open-files>
 </project-private>

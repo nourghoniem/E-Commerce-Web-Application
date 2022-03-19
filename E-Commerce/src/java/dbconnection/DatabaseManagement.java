@@ -4,13 +4,16 @@
  */
 package dbconnection;
 
+import java.io.FileInputStream;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import model.Customer;
+import model.Product;
 
 /**
  *
@@ -22,6 +25,7 @@ public class DatabaseManagement {
     Statement stmt;
     ArrayList<Customer> customers;
     ResultSet rs;
+    PreparedStatement pst;
 
     public DatabaseManagement() {
         conn = DatabaseConnection.getConnection();
@@ -52,6 +56,30 @@ public class DatabaseManagement {
             e.printStackTrace();
         }
         return customers;
+    }
+
+    public void addProduct(Product p) {
+        try {
+            pst = conn.prepareStatement("INSERT INTO products (name, price, quantity, description, image, product_type) VALUES(?,?,?,?,?,?)");
+            pst.setString(1, p.getProduct_name());
+            pst.setDouble(2, p.getPrice());
+            pst.setInt(3, p.getQuantity());
+            pst.setString(4, p.getDescription());
+            FileInputStream file_in = new FileInputStream(p.getImage());
+            pst.setBinaryStream(5, file_in);
+            pst.execute();
+            if(p.getProduct_type().equalsIgnoreCase("Laptop")){
+              pst.setInt(6, 1);
+            }
+            else{
+              pst.setInt(6, 2);
+            }
+            int rows = pst.executeUpdate();
+            pst.close();
+            System.out.print(rows);
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
 }
