@@ -3,9 +3,9 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-<%@page import="dbconnection.DatabaseManagement"%>
+<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <%@page import="java.util.List"%>
-<%@page import="model.Customer"%>
+<%@page import="com.iti.ecommerce.essentials.model.Customer"%>
 
 <%
     DatabaseManagement data = new DatabaseManagement();

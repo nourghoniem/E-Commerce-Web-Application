@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
-<!--    <context-param>
+    <!--    <context-param>
         <param-name>dbUrl</param-name>
         <param-value>jdbc:postgresql://localhost:5432/postgres</param-value>
     </context-param>-->
@@ -10,11 +10,11 @@
     </context-param>
     <context-param>
         <param-name>password</param-name>
-        <param-value>postgres</param-value>
+        <param-value>root</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>dbconnection.DatabaseListener</listener-class>
+        <listener-class>com.iti.ecommerce.essentials.dbconnection.DatabaseListener</listener-class>
     </listener>
     <session-config>
         <session-timeout>

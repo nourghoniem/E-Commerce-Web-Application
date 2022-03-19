@@ -4,18 +4,16 @@
     Author     : nour
 --%>
 
-<%@page import="image.handling.ImageHandling"%>
 <%@page import="java.util.Arrays"%>
 <%@page import="java.util.stream.StreamSupport"%>
 <%@page import="java.nio.file.Paths"%>
 <%@page import="java.nio.file.Path"%>
-<%@page import="dbconnection.DatabaseManagement"%>
+<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <%--<%@page import="org.apache.commons.io.FilenameUtils" %>--%>
-<%@page import="model.Product"%>
+<%@page import="com.iti.ecommerce.essentials.model.Product"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%
-    ImageHandling imagesHandling = new ImageHandling();
     String name = request.getParameter("name");
     String desc = request.getParameter("description");
     String quantity = request.getParameter("quantity");
