@@ -3,15 +3,20 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-<%@page import="com.iti.ecommerce.essentials.imagehandling.ImageHandling"%>
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <%@page import="java.util.List"%>
 <%@page import="com.iti.ecommerce.essentials.model.Customer"%>
 
+<%
+    DatabaseManagement data = new DatabaseManagement();
+    List<Customer> getCustomers = data.getCustomers();
+
+%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
+
     <head>
 
         <meta charset="utf-8">
@@ -19,8 +24,6 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <meta name="description" content="">
         <meta name="author" content="">
-
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
 
         <title>SB Admin 2 - Tables</title>
 
@@ -32,15 +35,13 @@
 
         <!-- Custom styles for this template -->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
-        <!--        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
         <!-- Custom styles for this page -->
-        <!--        <link href="E-Commerce/web/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">-->
+        <link href="E-Commerce/web/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
 
     <body id="page-top">
-
 
         <!-- Page Wrapper -->
         <div id="wrapper">
@@ -387,215 +388,105 @@
                         <!-- DataTales Example -->
                         <div class="card shadow mb-4">
                             <div class="card-header py-3">
-                                <h6 class="m-0 font-weight-bold text-primary">Products' Information</h6>
-
-                                <button type="button" style="position: relative; left: 1350px" class="btn btn-info" data-toggle="modal" data-target="#addProductModal">
-                                    Add Product
-
+                                <h6 class="m-0 font-weight-bold text-primary">Clients' Information</h6>
                             </div>
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                            <tr>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone Number</th>
+                                                <th>Address</th>
+                                                <th>DOB</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
 
-                            <!-- Modal -->
-                            <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content" style="width:800px">
-                                        <div class="modal-header">
-                                            <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
-                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                <span aria-hidden="true">&times;</span>
-                                            </button>
-                                        </div>
-                                        <form method="POST"  id="addingProduct"  enctype='multipart/form-data'>
-                                            <div class="modal-body">
-                                                <div class="row">
-                                                    <div class="col-md-6">
-                                                        <div class="form-group col-md-6 col-sm-6">
-                                                            <label for="name"> Product Name </label>
-                                                            <input type="text" class="form-control input-sm" id="name" required="" name="name" placeholder="">
-                                                        </div>
-                                                        <div class="form-group col-md-6 col-sm-6">
-                                                            <label for="description"> Description </label>
-                                                            <!--                                                            <input type="text" class="form-control input-sm" id="form-description" required="" name="description" placeholder="">-->
-                                                            <textarea id="description" class="form-control input-sm" name="description" form="addingProduct" width="1000px"></textarea>
-
-                                                        </div>
-
-                                                        <div class="form-group col-md-6 col-sm-6">
-                                                            <label for="quantity">Quantity</label>
-                                                            <input type="number" class="form-control input-sm" required="" id="quantity" name="quantity"  min="1" max="100" step="1" value="1"  placeholder="">
-                                                        </div>
-                                                    </div>
-                                                    <div class="col-md-6">
-                                                        <div class = "form-group col-md-6 col-sm-6">
-                                                            <label for="clinc">Product Type</label>
-                                                            <select class="form-control input-sm"  required="" id="PType" name="PType">
-                                                                <option></option>
-                                                                <option>Laptop</option>  //This is a dummy data filled from database
-                                                                <option>Mobile</option>
-
-                                                            </select>
-                                                        </div>
-                                                        <div>
-                                                            <label  style="position: relative; left: 11px" for="image">Product Image</label>
-                                                            <input type="file"  style="position: relative; left: 15px" required="" id="image" name="image" accept="image/*" placeholder="">
-                                                        </div>
-                                                        <div>
-                                                            <label for="price" style="padding-top: 20px; position: relative; left: 10px">Product Price</label>
-                                                            <input type="text" style="width: 100px; position: relative; left: 10px" class="form-control input-sm" id="price" required="" name="price" placeholder="$1000">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="modal-footer">
-                                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                    <button type="submit" id="add_product_submit" name="editStaff" class="btn btn-outline-info">Add Product</button>
-                                                </div>
-                                        </form>
-                                        <script>
-
-                                            $(document).ready(function () {
-                                                $("#add_product_submit").click(function (event) {
-                                                    event.preventDefault();
-                                                    var dataForm = $('#addingProduct').serialize();
-//                                                    var name = $('#name').val();
-//                                                    var description = $('#description').val();
-//                                                    var quantity = $('#quantity').val();
-//                                                    var PType = $('#PType').val();
-//                                                    var image = $('#image').val();
-//                                                    var price = $('#price').val();
-//                                                    var input = document.getElementById('image');
-//                                                    var file = input.files[0];
-//                                                    var data = new FormData();
-//                                                    data.append('file', file);
-
-                                                    $.ajax({
-//                                                      
-                                                        url: "/addProductServlet",
-//                                                        enctype: 'multipart/form-data',
-                                                        type: "POST",
-                                                        processData: false,
-                                                        contentType: false,
-                                                        cache: false,
-                                                        data: dataForm,
-//                                                        data: {
-//                                                            name: name,
-//                                                            description: description,
-//                                                            quantity: quantity,
-//                                                            PType: PType,
-//                                                            image: image,
-//                                                            price: price
-//                                                        },
-                                                        success: function (data) {
-                                                            alert(data);
-                                                        },
-                                                        error: function (resp) {
-                                                            alert(resp)
-                                                        }
-                                                    });
-                                                });
-                                            });
-                                        </script>
-                                    </div>
+                                        <tbody>
+                                            <%     
+                                                for (Customer c : getCustomers) {
+                                            %>
+                                            <tr>
+                                                <td><% out.println(c.getFirst_name() + " " + c.getLast_name()); %> </td>
+                                                <td><% out.println(c.getEmail()); %> </td>
+                                                <td><% out.println(c.getPhone_number()); %></td>
+                                                <td><% out.println(c.getDob()); %></td>
+                                                <td><% out.println(c.getAddress()); %></td>
+                                                <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
+                                            </tr>
+                                            <% }%>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
 
+                    </div>
+                    <!-- /.container-fluid -->
 
-                        <div class="card-body">
-                            <div class="table-responsive">
+                </div>
+                <!-- End of Main Content -->
 
-
-                                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                                    <thead>
-                                        <tr>
-                                            <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>DOB</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-
-                                    <tbody>
-                                        <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
-                                        </tr>
-
-                                    </tbody>
-                                </table>
-                            </div>
+                <!-- Footer -->
+                <footer class="sticky-footer bg-white">
+                    <div class="container my-auto">
+                        <div class="copyright text-center my-auto">
+                            <span>Copyright &copy; Your Website 2020</span>
                         </div>
                     </div>
-
-                </div>
-                <!-- /.container-fluid -->
+                </footer>
+                <!-- End of Footer -->
 
             </div>
-            <!-- End of Main Content -->
+            <!-- End of Content Wrapper -->
 
-            <!-- Footer -->
-            <footer class="sticky-footer bg-white">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
+        </div>
+        <!-- End of Page Wrapper -->
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="login.html">Logout</a>
                     </div>
                 </div>
-            </footer>
-            <!-- End of Footer -->
-
-        </div>
-        <!-- End of Content Wrapper -->
-
-    </div>
-    <!-- End of Page Wrapper -->
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.html">Logout</a>
-                </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <!--        <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>-->
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <!--        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
-    <!-- Page level plugins -->
-    <!--        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-            <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>-->
+        <!-- Page level plugins -->
+        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
 
-    <!-- Page level custom scripts -->
-    <script src="js/demo/datatables-demo.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</body>
+        <!-- Page level custom scripts -->
+        <script src="js/demo/datatables-demo.js"></script>
+
+    </body>
 
 </html>
