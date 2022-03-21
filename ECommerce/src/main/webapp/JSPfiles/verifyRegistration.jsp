@@ -6,5 +6,6 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
   <%@ include file="../HTMLPages/Header.html" %>
+  
   wait until we verify your phone number
   <%@ include file="../HTMLPages/Footer.html" %> 

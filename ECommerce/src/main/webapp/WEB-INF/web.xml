@@ -11,6 +11,14 @@
         <file-size-threshold>1048576</file-size-threshold>
     </multipart-config>-->
     <context-param>
+        <param-name>ACCOUNT_SID</param-name>
+        <param-value>ACa6cbcb955bca23cadd8875e0a6ff1983</param-value> 
+    </context-param>
+    <context-param>
+        <param-name>AUTH_TOKEN</param-name>
+        <param-value>a94eb2cd15673f55826758cd0fa4ad15</param-value> 
+    </context-param>
+    <context-param>
         <param-name>db_username</param-name>
         <param-value>postgres</param-value>
     </context-param>
@@ -26,9 +34,17 @@
         <servlet-name>addProductServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.addProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerifyPhoneNumber</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.verifications.VerifyPhoneNumber</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
         <url-pattern>/addProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyPhoneNumber</servlet-name>
+        <url-pattern>/VerifyPhoneNumber</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
