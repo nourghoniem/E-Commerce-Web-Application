@@ -3,13 +3,13 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-<%@page import="com.iti.ecommerce.essentials.imagehandling.ImageHandling"%>
+<%@page import="java.io.File"%>
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <%@page import="java.util.List"%>
 <%@page import="com.iti.ecommerce.essentials.model.Customer"%>
 
-
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -404,7 +404,8 @@
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                        <form method="POST"  id="addingProduct"  enctype='multipart/form-data'>
+                                      
+                                        <form method="POST"  id="addingProduct" enctype='multipart/form-data' >
                                             <div class="modal-body">
                                                 <div class="row">
                                                     <div class="col-md-6">
@@ -454,40 +455,24 @@
                                             $(document).ready(function () {
                                                 $("#add_product_submit").click(function (event) {
                                                     event.preventDefault();
-                                                    var dataForm = $('#addingProduct').serialize();
-//                                                    var name = $('#name').val();
-//                                                    var description = $('#description').val();
-//                                                    var quantity = $('#quantity').val();
-//                                                    var PType = $('#PType').val();
-//                                                    var image = $('#image').val();
-//                                                    var price = $('#price').val();
-//                                                    var input = document.getElementById('image');
-//                                                    var file = input.files[0];
-//                                                    var data = new FormData();
-//                                                    data.append('file', file);
-
+                                                    var form = $('#addingProduct')[0];
+                                                    var data = new FormData(form);
+                                                  
                                                     $.ajax({
-//                                                      
-                                                        url: "/addProductServlet",
-//                                                        enctype: 'multipart/form-data',
                                                         type: "POST",
+                                                        enctype: 'multipart/form-data',
+                                                        url: "${pageContext.request.contextPath}/addProductServlet",
+                                                        data: data,
                                                         processData: false,
                                                         contentType: false,
-                                                        cache: false,
-                                                        data: dataForm,
-//                                                        data: {
-//                                                            name: name,
-//                                                            description: description,
-//                                                            quantity: quantity,
-//                                                            PType: PType,
-//                                                            image: image,
-//                                                            price: price
-//                                                        },
+                                                        cache: false,                                            
                                                         success: function (data) {
-                                                            alert(data);
+
+                                                            alert(data)
+
                                                         },
                                                         error: function (resp) {
-                                                            alert(resp)
+                                                            console.log(resp);
                                                         }
                                                     });
                                                 });

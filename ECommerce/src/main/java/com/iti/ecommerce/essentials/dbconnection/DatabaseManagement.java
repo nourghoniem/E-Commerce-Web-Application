@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import com.iti.ecommerce.essentials.model.Product;
 import com.iti.ecommerce.essentials.model.Customer;
+import java.io.File;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 
@@ -22,7 +23,8 @@ import java.sql.PreparedStatement;
  * @author nour
  */
 public class DatabaseManagement {
-
+      public static String AbsolutePath = new File("").getAbsolutePath();
+ 
     Connection conn;
     Statement stmt;
     PreparedStatement pstmt;
