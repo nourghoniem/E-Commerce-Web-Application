@@ -64,13 +64,10 @@ public class Verfication {
             {
                 condition =true;
             }
-        if (condition)
-         {
-            condition=isANEWEmail(email);
-         }
+
         return condition;
     }
-    private static boolean isANEWEmail(String email)
+    public static boolean isANEWEmail(String email)
      {
         boolean isExist=false;
         try {
@@ -82,9 +79,9 @@ public class Verfication {
             }catch(SQLException SE){
                 System.out.println("there is a exception at retrieving mail"+SE);
             }
-        return !isExist; 
+        return isExist; 
      }
-    private static boolean isavalidPhone(String phone, String method,int Random)
+    public static boolean isavalidPhone(String phone, String method,int Random)
      {
         boolean condition=false;
         String regexPhone= "^01[0125][0-9]{8}$";
@@ -93,17 +90,10 @@ public class Verfication {
             {
                 condition =true;
             }
-        if (condition)
-            {
-                condition=isANEWphone(phone);
-            }
-        if (condition)
-            {
-             
-            }
+
         return condition;
      }
-        private static boolean isANEWphone(String phone)
+        public static boolean isANEWphone(String phone)
      {
         boolean isExist=false;
         try {
@@ -115,7 +105,7 @@ public class Verfication {
             }catch(SQLException SE){
                 System.out.println("there is a exception at retrieving phone "+SE);
             }
-        return !isExist;
+        return isExist;
      }
       public static boolean isphoneauthenticated(String phone, String method,int Random ,String ACCOUNT_SID,String AUTH_TOKEN)
      {
@@ -132,12 +122,12 @@ public class Verfication {
                 Message message = Message.creator(
                 new com.twilio.type.PhoneNumber("+2"+phone),
                 new com.twilio.type.PhoneNumber("+15139404907"),
-                "Your code for registration at electro. is"+ Random)
-            .create(); 
+              //  "Your code for registration at electro. is"+ Random).create(); 
+               String.valueOf(Random)).create(); 
                  break;
              default:
                  throw new AssertionError();
          }
-        return !isAuth;
+        return isAuth;
      }
 }

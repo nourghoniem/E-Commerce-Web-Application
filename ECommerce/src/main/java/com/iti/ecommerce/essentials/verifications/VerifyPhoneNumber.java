@@ -53,9 +53,11 @@ public class VerifyPhoneNumber extends HttpServlet {
          int upperbound = 9999;
         // int Random = rand.nextInt(upperbound);
        int Random  = Integer.parseInt(String.format("%04d", rand.nextInt(upperbound)));
-
-       Verfication.isphoneauthenticated(request.getParameter("phone"), "sms",Random, ACCOUNT_SID, AUTH_TOKEN);
-    //   Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+ //Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+      Verfication.isphoneauthenticated(request.getParameter("phone"),"sms",Random, ACCOUNT_SID, AUTH_TOKEN);
+       boolean Emailcondition=Verfication.isANEWEmail(request.getParameter("email"));
+       boolean Phonecondition =Verfication.isANEWphone(request.getParameter("phone"));
+  //Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 //       Call call = Call.creator(
 //                new com.twilio.type.PhoneNumber("+201147964655"),
 //                new com.twilio.type.PhoneNumber("+15139404907"),
@@ -64,7 +66,7 @@ public class VerifyPhoneNumber extends HttpServlet {
 
      //   System.out.println(call.getSid());
           PrintWriter pw =response.getWriter();
-          pw.println(Random);
+          pw.println(Random+":"+String.valueOf(Phonecondition)+":"+String.valueOf(Emailcondition) );
     }
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

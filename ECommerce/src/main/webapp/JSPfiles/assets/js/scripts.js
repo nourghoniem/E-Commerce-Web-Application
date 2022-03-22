@@ -1,6 +1,9 @@
 
 jQuery(document).ready(function() {
 	var Random;
+        var Email;
+        var phoneCondition;
+        var emailCondition;
     /*
         Fullscreen background
     */
@@ -41,9 +44,11 @@ jQuery(document).ready(function() {
           if(IsEmail($(this).val())==false){
     			$(this).addClass('input-error');
     			next_step = false;
+                        Email=null;
     		}
     		else {
     			$(this).removeClass('input-error');
+                        Email=$(this).val();
     		}});
     	parent_fieldset.find(' #form-Phone-num').each(function() {
           if(IsPhone($(this).val())==false){
@@ -52,7 +57,8 @@ jQuery(document).ready(function() {
     		}
     		else {
     			$(this).removeClass('input-error');
-                        var dataForm ="phone="+$(this).val();
+                        if (Email!=null){
+                        var dataForm ="phone="+$(this).val()+"&email="+Email;
                         var request = $.ajax({                                                      
                         url: "/ECommerce/VerifyPhoneNumber",
                         type: "GET",
@@ -62,16 +68,29 @@ jQuery(document).ready(function() {
                         data:  dataForm
                        });
                    request.done(function(msg) {
-                  Random= msg ;
-                  alert( "Request success msg: " + Random );
+                   var array= msg.split(":") ;
+                   Random=array[0];
+                   phoneCondition = array[1] ;
+                   emailCondition = array[2] ;
+                  alert( "Request success msg: " + array[0]+"phone condition : "+array[1] +"email condition : "+array[2]);
                      });
 
                 request.fail(function(jqXHR, textStatus) {
                       alert( "Request failed: " + textStatus );
                       });
-                    
-                        
+                        }   
     		}});
+            RandomNum
+            parent_fieldset.find(' #RandomNum').each(function() {
+                if($(this).val() != Random){
+                    $(this).addClass('input-error');
+    			next_step = false;
+                }
+                else {
+    			$(this).removeClass('input-error');
+                        password =$(this).val();
+    		}
+            });
         parent_fieldset.find(' #form-password').each(function() {
           if($(this).val().length <= 8){
     			$(this).addClass('input-error');
@@ -102,6 +121,19 @@ jQuery(document).ready(function() {
     	$(this).parents('fieldset').fadeOut(400, function() {
     		$(this).prev().fadeIn();
     	});
+             parent_fieldset.find(' input[type="email"]').each(function() {
+          if(emailCondition=="true"){
+    			$(this).addClass('input-error');
+  
+    		}
+             });
+    	parent_fieldset.find(' #form-Phone-num').each(function() {
+          if(phoneCondition=="true"){
+    			$(this).addClass('input-error');
+    			
+    		}
+    		
+            });
     });
     
     // submit
@@ -117,6 +149,25 @@ jQuery(document).ready(function() {
     			$(this).removeClass('input-error');
 
     		}
+        $(this).find(' #RandomNum').each(function() {
+                if($(this).val() != Random){
+                    e.preventDefault();
+                    $(this).addClass('input-error');
+    			
+                }
+                else {
+    			$(this).removeClass('input-error');
+                        
+    		}
+            }); 
+//           if (phoneCondition=="false" && emailCondition=="false")
+//           {
+//               
+//           }
+//           else
+//           {
+//               e.preventDefault();
+//           }
     	});
     	
     });
