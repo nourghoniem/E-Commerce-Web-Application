@@ -13,12 +13,16 @@
         <param-value>274e48d032948ab3dfc938a39fa79bc0</param-value> 
     </context-param>
     <context-param>
+        <param-name>db_URL</param-name>
+        <param-value>jdbc:postgresql://bfibxulveprmogqgrhkm-postgresql.services.clever-cloud.com</param-value>
+    </context-param>
+    <context-param>
         <param-name>db_username</param-name>
-        <param-value>postgres</param-value>
+        <param-value>usljypeo3cubvrf850oh</param-value>
     </context-param>
     <context-param>
         <param-name>password</param-name>
-        <param-value>postgres</param-value>
+        <param-value>2BhzY4f4Mjmu7zWz9UmM</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>

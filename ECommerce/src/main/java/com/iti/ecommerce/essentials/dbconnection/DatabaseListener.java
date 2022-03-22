@@ -5,19 +5,25 @@
 package com.iti.ecommerce.essentials.dbconnection;
 
 import java.io.File;
+import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 public class DatabaseListener implements ServletContextListener {
-     @Override
+
+    @Override
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         String dbusername = context.getInitParameter("db_username");
         String dbpassword = context.getInitParameter("password");
-        
-        DatabaseConnection.createConnection(dbusername, dbpassword);
-        System.out.println("Connection Establised.........");
+        String dbURL=       context.getInitParameter("db_URL");
+        try {
+            DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
+            System.out.println("Connection Establised.........");
+        } catch (Exception ex) {
+            System.out.println("Connection not Establised.........");
+        }
     }
 
     @Override
