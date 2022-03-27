@@ -2,6 +2,7 @@
 jQuery(document).ready(function() {
 	var Random;
         var Email;
+        var Phone;
         var phoneCondition;
         var emailCondition;
     /*
@@ -56,9 +57,43 @@ jQuery(document).ready(function() {
     			next_step = false;
     		}
     		else {
+    			  $(this).removeClass('input-error');
+                        Phone=$(this).val();
+    		}});
+            
+            parent_fieldset.find(' #RandomNum').each(function() {
+                if($(this).val() != Random){
+                    $(this).addClass('input-error');
+    			next_step = false;
+                }
+                else {
     			$(this).removeClass('input-error');
-                        if (Email!=null){
-                        var dataForm ="phone="+$(this).val()+"&email="+Email;
+                        password =$(this).val();
+    		}
+            });
+        parent_fieldset.find(' #form-password').each(function() {
+          if($(this).val().length() < 7){
+    			$(this).addClass('input-error');
+    			next_step = false;
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+                        password =$(this).val();
+    		}});
+            parent_fieldset.find(' #form-repeat-password').each(function() {
+          if($(this).val()!= password){
+    			$(this).addClass('input-error');
+    			next_step = false;
+    		}
+    		else {
+    			$(this).removeClass('input-error');
+    		}});
+    	if( next_step ) {
+    		parent_fieldset.fadeOut(400, function() {
+	    		$(this).next().fadeIn();
+                        
+                        if (Email!=null && Phone!=null){
+                        var dataForm ="phone="+Phone+"&email="+Email;
                         var request = $.ajax({                                                      
                         url: "/ECommerce/VerifyPhoneNumber",
                         type: "GET",
@@ -78,39 +113,7 @@ jQuery(document).ready(function() {
                 request.fail(function(jqXHR, textStatus) {
                       alert( "Request failed: " + textStatus );
                       });
-                        }   
-    		}});
-            RandomNum
-            parent_fieldset.find(' #RandomNum').each(function() {
-                if($(this).val() != Random){
-                    $(this).addClass('input-error');
-    			next_step = false;
-                }
-                else {
-    			$(this).removeClass('input-error');
-                        password =$(this).val();
-    		}
-            });
-        parent_fieldset.find(' #form-password').each(function() {
-          if($(this).val().length <= 8){
-    			$(this).addClass('input-error');
-    			next_step = false;
-    		}
-    		else {
-    			$(this).removeClass('input-error');
-                        password =$(this).val();
-    		}});
-            parent_fieldset.find(' #form-repeat-password').each(function() {
-          if($(this).val()!= password){
-    			$(this).addClass('input-error');
-    			next_step = false;
-    		}
-    		else {
-    			$(this).removeClass('input-error');
-    		}});
-    	if( next_step ) {
-    		parent_fieldset.fadeOut(400, function() {
-	    		$(this).next().fadeIn();
+                        } 
 	    	});
     	}
     	
@@ -160,6 +163,14 @@ jQuery(document).ready(function() {
                         
     		}
             }); 
+            if (phoneCondition=="true")
+            {
+              e.preventDefault();  
+            }
+            if(emailCondition=="true")
+                {
+              e.preventDefault();  
+            }
 //           if (phoneCondition=="false" && emailCondition=="false")
 //           {
 //               

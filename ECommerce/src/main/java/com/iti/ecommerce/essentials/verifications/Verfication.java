@@ -24,34 +24,26 @@ import java.util.Random;
 public class Verfication {
 
     //methods to verfiy user inputs at the server 
-    public static boolean RegistrationVerfied (String fname,String lname,String email,String Password,Date dob,String address,String phone,String interets,int creditLimit,String method)
+    public static boolean RegistrationVerfied (String fname,String lname,String email,String Password,Date Dob,String address,String phone,String interets,int creditLimit)
     {
-        boolean condition =false;
+        boolean condition =true;
         //verify mail before insert in database
-        if (isvalidEmail(email))
-           {
-                condition=true;
-           }
-        else 
-           {
-             //tell the user that he already registered
-           }
-        //verify phone number
-        Random rand = new Random(); //instance of random class
-         int upperbound = 9999;
-        //generate random values from 0-24
-         int Random = rand.nextInt(upperbound);
-        isavalidPhone(phone,method,Random);
+        condition =isvalidEmail(email);
+        System.out.print("email codition "+condition);
+        condition =isavalidPhone(phone);
+        System.out.print("phone codition "+condition);
+        if (!condition){
 //////////////////////////////////////////////////////////
-        DatabaseManagement DM =null;
+ System.out.print("email codition "+condition);
+        DatabaseManagement DM =new DatabaseManagement();
         try {
-               condition=DM.addCustomer(fname, lname, email, Password, dob, address, phone, interets, creditLimit);
+               condition=DM.addCustomer(fname, lname, email, Password, Dob, address, phone, interets, creditLimit);
 
         } catch (SQLException e) {
                System.out.println("exception at end of verfication"+e);
         }catch (NullPointerException ne) {
                 System.out.println("null exception at end of verfication"+ne);
-    }
+    }}
         return condition;
     }
     //method to verify the email address of the user 
@@ -81,7 +73,7 @@ public class Verfication {
             }
         return isExist; 
      }
-    public static boolean isavalidPhone(String phone, String method,int Random)
+    public static boolean isavalidPhone(String phone)
      {
         boolean condition=false;
         String regexPhone= "^01[0125][0-9]{8}$";

@@ -54,7 +54,7 @@ public class VerifyPhoneNumber extends HttpServlet {
         // int Random = rand.nextInt(upperbound);
        int Random  = Integer.parseInt(String.format("%04d", rand.nextInt(upperbound)));
  //Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
-      Verfication.isphoneauthenticated(request.getParameter("phone"),"sms",Random, ACCOUNT_SID, AUTH_TOKEN);
+   //   Verfication.isphoneauthenticated(request.getParameter("phone"),"sms",Random, ACCOUNT_SID, AUTH_TOKEN);
        boolean Emailcondition=Verfication.isANEWEmail(request.getParameter("email"));
        boolean Phonecondition =Verfication.isANEWphone(request.getParameter("phone"));
   //Twilio.init(ACCOUNT_SID, AUTH_TOKEN);

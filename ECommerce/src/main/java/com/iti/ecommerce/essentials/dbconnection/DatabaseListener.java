@@ -16,8 +16,8 @@ public class DatabaseListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         ServletContext context = sce.getServletContext();
         String dbusername = context.getInitParameter("db_username");
-        String dbpassword = context.getInitParameter("password");
-        String dbURL=       context.getInitParameter("db_URL");
+        String dbpassword = context.getInitParameter("db_password");
+        String dbURL= context.getInitParameter("db_URL");
         try {
             DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
             System.out.println("Connection Establised.........");

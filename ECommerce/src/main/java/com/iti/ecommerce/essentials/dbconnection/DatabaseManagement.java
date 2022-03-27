@@ -17,6 +17,8 @@ import com.iti.ecommerce.essentials.model.Customer;
 import java.io.File;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.Month;
 
 /**
  *
@@ -87,29 +89,32 @@ public class DatabaseManagement {
         }
     }
 
-    public boolean addCustomer(String fname,String lname,String email,String Password,Date dob,String address,String phone,String interets,int creditLimit) throws SQLException
+    public boolean addCustomer(String fname,String lname,String email,String Password,Date Dob,String address,String phone,String interets,int creditLimit) throws SQLException
         {
             boolean isAdded =false; 
             try {
-            String InsertStatement="insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,intersts)"
+            String InsertStatement="insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,interests)"
                                    + "VALUES(?,?,?,?,?,?,?,?,?)";
             pstmt=conn.prepareStatement(InsertStatement);
             pstmt.setString(1, fname);
             pstmt.setString(2, lname);
-            pstmt.setString(3, email);
-            pstmt.setString(4, Password);
-            pstmt.setDate  (5, dob);
-            pstmt.setString(6, address);
-            pstmt.setString(7, phone);
-            pstmt.setString(8, interets);
-            pstmt.setInt   (9, creditLimit);
+            pstmt.setString(4, email);
+            pstmt.setString(5, Password);
+            pstmt.setDate  (3, Dob);
+            pstmt.setString(7, address);
+            pstmt.setString(8, phone);
+            pstmt.setString(9, interets);
+            pstmt.setInt   (6, creditLimit);
             int i=pstmt.executeUpdate();
             System.out.println(i+" records inserted"); 
             isAdded=true;
             } catch (SQLException e) {
              System.out.println(" Exception at adding new users in data base : "+e);
-             isAdded=true;
+             isAdded=false;
             }
             return isAdded;
         }
+public Connection getConnection(){
+return conn;
+}
 }

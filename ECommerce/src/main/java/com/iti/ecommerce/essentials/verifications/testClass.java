@@ -4,6 +4,7 @@
  */
 package com.iti.ecommerce.essentials.verifications;
 
+import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
 import java.net.URI;
 import java.util.Arrays;
 import com.twilio.Twilio;
@@ -21,6 +22,8 @@ import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Call;
 import com.twilio.rest.api.v2010.account.Message;
 import com.twilio.type.PhoneNumber;
+import java.sql.Date;
+import java.sql.SQLException;
 
 public class testClass {
   // Find your Account Sid and Token at twilio.com/user/account
@@ -28,11 +31,20 @@ public class testClass {
   public static final String AUTH_TOKEN = "274e48d032948ab3dfc938a39fa79bc0";
 
   public static void main(String[] args) {
-    Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+      DatabaseManagement DM =null;
+      Date d=new Date(12,5,2011);
+        try {
+             boolean cond= DM.addCustomer("aaa", "bbb", "www", "ddd", d, "aaa", "aaa", "aaa", 1111);
+System.out.println("success,"+cond);
+        } catch (SQLException e) {
+               System.out.println("exception at end of verfication"+e);
+        }catch (NullPointerException ne) {
+                System.out.println("null exception at end of verfication"+ne);
+  //  Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
-    Message message = Message.creator(new PhoneNumber("+201147964655"),
-        new PhoneNumber("+15139404907"), 
-        "This is the ship that made the Kessel Run in fourteen parsecs?").create();
+   // Message message = Message.creator(new PhoneNumber("+201147964655"),
+    //    new PhoneNumber("+15139404907"), 
+      //  "This is the ship that made the Kessel Run in fourteen parsecs?").create();
       // Call call = Call.creator(new PhoneNumber("+201102908309"),
        //        new PhoneNumber("+15139404907"),
        //         new com.twilio.type.Twiml("<Response><Say loop=\"1\">hello nour your code is 5 4 3 2</Say></Response>")).create();
@@ -54,4 +66,5 @@ public class testClass {
 //
 //        System.out.println(call.getSid());
   }
+}
 }
