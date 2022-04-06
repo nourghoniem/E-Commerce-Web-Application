@@ -40,6 +40,7 @@
         <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
         <script src='bootbox.min.js'></script>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+        <link href="E-Commerce/web/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
 
@@ -63,50 +64,32 @@
                 <!-- Divider -->
                 <hr class="sidebar-divider my-0">
                 <!-- Nav Item - Tables -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Add Staff</span></a>
+                <!-- Nav Item - Dashboard -->
+                <li class="nav-item">
+                    <a class="nav-link" href="products_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Dashboard</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>View Staff</span></a>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <!-- Heading -->
+                <div class="sidebar-heading">
+                    Manage Users
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="client_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Users</span></a>
                 </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>View Appoitments</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-history"></i>
-                        <span>View Histories</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="far fa-sticky-note"></i>
-                        <span>View Reports</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-cut"></i>
-                        <span>Book an Operation</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-cut"></i>
-                        <span>View Operations</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-user"></i>
-                        <span>View Patients</span></a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" href="index.html">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Schedule</span></a>
+                <!-- Divider -->
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Manage Products
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="products_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Products</span></a>
                 </li>
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
@@ -208,7 +191,7 @@
                             <li class="nav-item dropdown no-arrow">
                                 <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="mr-2 d-none d-lg-inline text-gray-600 small">Admin</span>
-                                    <img class="img-profile rounded-circle" src="/Applications/XAMPP/xamppfiles/htdocs/web/images/user1.png">
+                                    <img class="img-profile rounded-circle" src="img/undraw_profile.svg">
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
@@ -358,11 +341,11 @@
                                 <form action="" method= "POST">
                                     <div class="modal-body">
                                         <div>
-                                           Are you sure you want to delete this product? This process cannot be undone.
+                                            Are you sure you want to delete this product? This process cannot be undone.
                                         </div>
 
-                                       <div class="form-group col-md-6 col-sm-6">
-                             
+                                        <div class="form-group col-md-6 col-sm-6">
+
                                             <input style="display: none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<% out.println(id); %>" >
                                         </div>
                                     </div>
@@ -385,7 +368,7 @@
 
                                             },
                                             success: function (data) {
-                                               
+
                                                 window.open('products_management_page.jsp');
                                             },
                                             error: function (resp) {
@@ -507,7 +490,8 @@
 
                     <!-- Custom scripts for all pages-->
                     <script src="js/sb-admin-2.min.js"></script>
-
-                    </body>
+<!--                    <script src="js/demo/datatables-demo.js"></script>
+                    <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>-->
+                 </body>
 
                     </html>

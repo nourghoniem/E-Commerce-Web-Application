@@ -67,20 +67,40 @@
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="products_management_page.jsp">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
-
-                <!-- Divider -->
+                   <!-- Divider -->
                 <hr class="sidebar-divider">
+                     <!-- Heading -->
+                <div class="sidebar-heading">
+                    Manage Users
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="client_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Users</span></a>
+                </li>
+                   <!-- Divider -->
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Manage Products
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="products_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Products</span></a>
+                </li>
+
+           
 
                 <!-- Heading -->
-                <div class="sidebar-heading">
+<!--                <div class="sidebar-heading">
                     Interface
                 </div>
 
-                <!-- Nav Item - Pages Collapse Menu -->
+                 Nav Item - Pages Collapse Menu 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                        aria-expanded="true" aria-controls="collapseTwo">
@@ -94,70 +114,11 @@
                             <a class="collapse-item" href="cards.html">Cards</a>
                         </div>
                     </div>
-                </li>
+                </li>-->
 
-                <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                       aria-expanded="true" aria-controls="collapseUtilities">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Utilities</span>
-                    </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color.html">Colors</a>
-                            <a class="collapse-item" href="utilities-border.html">Borders</a>
-                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                            <a class="collapse-item" href="utilities-other.html">Other</a>
-                        </div>
-                    </div>
-                </li>
+            
 
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Addons
-                </div>
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                       aria-expanded="true" aria-controls="collapsePages">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>Pages</span>
-                    </a>
-                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Login Screens:</h6>
-                            <a class="collapse-item" href="login.html">Login</a>
-                            <a class="collapse-item" href="register.html">Register</a>
-                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                            <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="404.html">404 Page</a>
-                            <a class="collapse-item" href="blank.html">Blank Page</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Charts -->
-                <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Charts</span></a>
-                </li>
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="client_management_page.jsp">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Tables</span></a>
-                </li>
-
+         
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
 
@@ -385,7 +346,7 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<!--                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>-->
                         <!--                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                                                     For more information about DataTables, please visit the <a target="_blank"
                                                                                                                href="https://datatables.net">official DataTables documentation</a>.</p>-->
@@ -473,59 +434,54 @@
                                             $(document).ready(function () {
                                                 $("#add_product_submit").click(function (event) {
                                                     event.preventDefault();
-//                                                    var regex = /^(\+|-)?(\d*\.?\d*)$/;
+                                                    var regex = /^(\+|-)?(\d*\.?\d*)$/;
                                                     var form = $('#addingProduct')[0];
                                                     var data = new FormData(form);
-//                                                    var description = $('#description').val();
-//                                                    var quantity = $('#quantity').val();
-//                                                    var price = $('#price').val();
-//                                                    var name = $('#price').val();
-//                                                    var type = $('#PType').val();
-//                                                    var image = $('#image').val();
-//                                                    if ((!regex.test(price)) || quantity == '' || price == '' || type == '' || image == '' || name == '' || (!$.trim(description))) {
-//                                                        if (quantity == '') {
-//                                                            $('#quantityval').text("Quantity should not be empty..");
-//                                                            $('#quantityval').show();
-//                                                        } else {
-//                                                            $('#quantityval').hide();
-//                                                        }
-//                                                        if (price == null) {
-//                                                            $('#priceval').text("Price should not be empty..");
-//                                                            $('#priceval').show();
-//                                                        } else {
-//                                                            if (!regex.test(price)) {
-//                                                                $('#priceval').text("Price should be a number..");
-//                                                                $('#priceval').show();
-//                                                            } else {
-//                                                                $('#priceval').hide();
-//                                                            }
-//                                                        }
-//                                                        if (!$.trim(description)) {
-//                                                            $('#descval').text("Description should not be empty..");
-//                                                            $('#descval').show();
-//                                                        } else {
-//                                                            $('#descval').hide();
-//                                                        }
-//                                                        if (name == '') {
-//                                                            $('#nameval').text("Product name should not be empty..");
-//                                                            $('#nameval').show();
-//                                                        } else {
-//                                                            $('#nameval').hide();
-//                                                        }
-//                                                         if (type == '') {
-//                                                            $('#typeval').text("Product type should not be empty..");
-//                                                            $('#typeval').show();
-//                                                        } else {
-//                                                            $('#typeval').hide();
-//                                                        }
-//                                                         if (image == '') {
-//                                                            $('#imageval').text("Choose an image for the product..");
-//                                                            $('#imageval').show();
-//                                                        } else {
-//                                                            $('#imageval').hide();
-//                                                        }
-//
-//                                                    } else {
+                                                    var description = $('#description').val();
+                                                    var quantity = $('#quantity').val();
+                                                    var price = $('#price').val();
+                                                    var name = $('#name').val();
+                                                    var type = $('#PType').val();
+                                                    var image = $('#image').val();
+                                                    if ((!regex.test(price)) || price == '' || type == '' || image == '' || name == '' || (!$.trim(description))) {
+                                                        if (name == '') {
+                                                            $('#nameval').text("Product name should not be empty..");
+                                                            $('#nameval').show();
+                                                        } else {
+                                                            $('#nameval').hide();
+                                                        }
+                                                        if (price == '') {
+                                                            $('#priceval').text("Price should not be empty..");
+                                                            $('#priceval').show();
+                                                        } else {
+                                                            if (!regex.test(price)) {
+                                                                $('#priceval').text("Price should be a number..");
+                                                                $('#priceval').show();
+                                                            } else {
+                                                                $('#priceval').hide();
+                                                            }
+                                                        }
+                                                        if (!$.trim(description)) {
+                                                            $('#descval').text("Description should not be empty..");
+                                                            $('#descval').show();
+                                                        } else {
+                                                            $('#descval').hide();
+                                                        }
+
+                                                        if (type == '') {
+                                                            $('#typeval').text("Product type should not be empty..");
+                                                            $('#typeval').show();
+                                                        } else {
+                                                            $('#typeval').hide();
+                                                        }
+                                                        if (image == '') {
+                                                            $('#imageval').text("Choose an image for the product..");
+                                                            $('#imageval').show();
+                                                        } else {
+                                                            $('#imageval').hide();
+                                                        }
+
+                                                    } else {
                                                         $.ajax({
                                                             type: "POST",
                                                             enctype: 'multipart/form-data',
@@ -552,7 +508,7 @@
                                                                 console.log(resp);
                                                             }
                                                         });
-//                                                    }
+                                                    }
                                                 });
 
                                                 $(document).ajaxStop(function () {
