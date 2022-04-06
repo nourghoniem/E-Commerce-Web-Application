@@ -423,17 +423,19 @@
                                                         <div class="form-group col-md-6 col-sm-6">
                                                             <label for="name"> Product Name </label>
                                                             <input type="text" class="form-control input-sm" id="name" required="" name="name" placeholder="">
+                                                            <p id="nameval" style="color: red; display:none;"></p>
                                                         </div>
                                                         <div class="form-group col-md-6 col-sm-6">
                                                             <label for="description"> Description </label>
                                                             <!--                                                            <input type="text" class="form-control input-sm" id="form-description" required="" name="description" placeholder="">-->
                                                             <textarea id="description" class="form-control input-sm" name="description" form="addingProduct" width="1000px"></textarea>
-
+                                                            <p id="descval" style="color: red; display:none;"></p>
                                                         </div>
 
                                                         <div class="form-group col-md-6 col-sm-6">
                                                             <label for="quantity">Quantity</label>
                                                             <input type="number" class="form-control input-sm" required="" id="quantity" name="quantity"  min="1" max="100" step="1" value="1"  placeholder="">
+                                                            <p id="quantityval" style="color: red; display:none;"></p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
@@ -445,14 +447,17 @@
                                                                 <option>Mobile</option>
 
                                                             </select>
+                                                            <p id="typeval" style="color: red; display:none;"></p>
                                                         </div>
                                                         <div>
                                                             <label  style="position: relative; left: 11px" for="image">Product Image</label>
                                                             <input type="file"  style="position: relative; left: 15px" required="" id="image" name="image" accept="image/*" placeholder="">
+                                                            <p id="imageval" style="color: red; display:none;"></p>
                                                         </div>
                                                         <div>
                                                             <label for="price" style="padding-top: 20px; position: relative; left: 10px">Product Price</label>
-                                                            <input type="text" style="width: 100px; position: relative; left: 10px" class="form-control input-sm" id="price" required="" name="price" placeholder="$1000">
+                                                            <input type="text" style="width: 100px; position: relative; left: 10px" class="form-control input-sm" id="price" required="" name="price" placeholder="10000LE">
+                                                            <p id="priceval" style="color: red; display:none;"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -468,35 +473,88 @@
                                             $(document).ready(function () {
                                                 $("#add_product_submit").click(function (event) {
                                                     event.preventDefault();
+//                                                    var regex = /^(\+|-)?(\d*\.?\d*)$/;
                                                     var form = $('#addingProduct')[0];
                                                     var data = new FormData(form);
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        enctype: 'multipart/form-data',
-                                                        url: "${pageContext.request.contextPath}/addProductServlet",
-                                                        data: data,
-                                                        processData: false,
-                                                        contentType: false,
-                                                        cache: false,
-                                                        success: function (data) {
+//                                                    var description = $('#description').val();
+//                                                    var quantity = $('#quantity').val();
+//                                                    var price = $('#price').val();
+//                                                    var name = $('#price').val();
+//                                                    var type = $('#PType').val();
+//                                                    var image = $('#image').val();
+//                                                    if ((!regex.test(price)) || quantity == '' || price == '' || type == '' || image == '' || name == '' || (!$.trim(description))) {
+//                                                        if (quantity == '') {
+//                                                            $('#quantityval').text("Quantity should not be empty..");
+//                                                            $('#quantityval').show();
+//                                                        } else {
+//                                                            $('#quantityval').hide();
+//                                                        }
+//                                                        if (price == null) {
+//                                                            $('#priceval').text("Price should not be empty..");
+//                                                            $('#priceval').show();
+//                                                        } else {
+//                                                            if (!regex.test(price)) {
+//                                                                $('#priceval').text("Price should be a number..");
+//                                                                $('#priceval').show();
+//                                                            } else {
+//                                                                $('#priceval').hide();
+//                                                            }
+//                                                        }
+//                                                        if (!$.trim(description)) {
+//                                                            $('#descval').text("Description should not be empty..");
+//                                                            $('#descval').show();
+//                                                        } else {
+//                                                            $('#descval').hide();
+//                                                        }
+//                                                        if (name == '') {
+//                                                            $('#nameval').text("Product name should not be empty..");
+//                                                            $('#nameval').show();
+//                                                        } else {
+//                                                            $('#nameval').hide();
+//                                                        }
+//                                                         if (type == '') {
+//                                                            $('#typeval').text("Product type should not be empty..");
+//                                                            $('#typeval').show();
+//                                                        } else {
+//                                                            $('#typeval').hide();
+//                                                        }
+//                                                         if (image == '') {
+//                                                            $('#imageval').text("Choose an image for the product..");
+//                                                            $('#imageval').show();
+//                                                        } else {
+//                                                            $('#imageval').hide();
+//                                                        }
+//
+//                                                    } else {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            enctype: 'multipart/form-data',
+                                                            url: "${pageContext.request.contextPath}/addProductServlet",
+                                                            data: data,
+                                                            processData: false,
+                                                            contentType: false,
+                                                            cache: false,
+                                                            success: function (data) {
 
-                                                            $('#success-message').show();
-                                                            $("#add_product_submit").prop("disabled", true);
-                                                            setTimeout(function () {
+                                                                $('#success-message').show();
+                                                                $("#add_product_submit").prop("disabled", true);
+                                                                setTimeout(function () {
 
-                                                                $('#addProductModal.modal.fade.show').hide();
-                                                                $('body').removeClass('modal-open');
-                                                                $('.modal-backdrop').remove();
+                                                                    $('#addProductModal.modal.fade.show').hide();
+                                                                    $('body').removeClass('modal-open');
+                                                                    $('.modal-backdrop').remove();
 
 
-                                                            }, 2000);
+                                                                }, 2000);
 
-                                                        },
-                                                        error: function (resp) {
-                                                            console.log(resp);
-                                                        }
-                                                    });
+                                                            },
+                                                            error: function (resp) {
+                                                                console.log(resp);
+                                                            }
+                                                        });
+//                                                    }
                                                 });
+
                                                 $(document).ajaxStop(function () {
                                                     window.location.reload();
                                                 });
