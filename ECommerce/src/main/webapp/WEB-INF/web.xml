@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
-<web-app xmlns="http://xmlns.jcp.org/xml/ns/javaee"
-	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
-	 version="3.1">
+<web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>db_username</param-name>
         <param-value>postgres</param-value>
@@ -20,9 +16,25 @@
         <servlet-name>addProductServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.addProductServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>editProductServlet</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.editProductServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>deleteProductServlet</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.deleteProductServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
         <url-pattern>/addProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>editProductServlet</servlet-name>
+        <url-pattern>/editProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>deleteProductServlet</servlet-name>
+        <url-pattern>/deleteProductServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

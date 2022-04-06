@@ -4,8 +4,14 @@
     Author     : nour
 --%>
 
+<%@page import="com.iti.ecommerce.essentials.model.Product"%>
+<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<%
+    Integer id = Integer.parseInt(request.getParameter("id"));
+    DatabaseManagement data = new DatabaseManagement();
+    Product getProduct = data.getProductById(id);
+%>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -24,7 +30,7 @@
 
         <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-       
+
         <!-- Custom styles for this template-->
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
         <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>
@@ -228,42 +234,114 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Edit Staff</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Edit Product</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
-                                <form action="" method= "POST">
+                                <form action="" id="editProduct" method= "POST">
                                     <div class="modal-body">
-                                        <div class="form-group col-md-6 col-sm-6">
-                                            <label for="email"> Email </label>
-                                            <input type="email" class="form-control input-sm" id="form-email" required="" name="email" placeholder="">
+                                        <div style="display:none" id="success-message" class="alert alert-success" role="alert">
+                                            Product data are successfully edited!
                                         </div>
                                         <div class="form-group col-md-6 col-sm-6">
-                                            <label for="Password"> Password </label>
-                                            <input type="password" class="form-control input-sm" id="form-pass" required="" name="pass" placeholder="">
+                                            <label for="description"> Description </label>
+                                            <textarea class="form-control input-sm" required id="description" required="" name="decription" width="1000px" placeholder=""><% out.println(getProduct.getDescription()); %> </textarea>
+                                            <p id="descval" style="color: red; display:none;"></p>
                                         </div>
-
                                         <div class="form-group col-md-6 col-sm-6">
-                                            <label for="mobile">Mobile</label>
-                                            <input type="text" class="form-control input-sm" required="" id="form-mobile" name="mobile"  placeholder="">
+                                            <label for="quantity"> Quantity </label>
+                                            <input type="number" class="form-control input-sm" id="quantity" required="" name="quantity" min="1" max="100" step="1" value="<% out.println(getProduct.getQuantity()); %>" required placeholder="">
+                                            <p id="quantityval" style="color: red; display:none;"></p>
                                         </div>
-                                        <div class = "form-group col-md-6 col-sm-6">
-                                            <label for="clinc">Clinic</label>
-                                            <select class="form-control input-sm"  required="" id="form-CID" name="CID">
-                                                <option></option>
-                                                <option>Tagmoaa Clinic</option>  //This is a dummy data filled from database
-                                                <option>Maadi Clinic</option>
-                                                <option>Manial Clinic</option>
-                                            </select>
+                                        <div class="form-group col-md-6 col-sm-6">
+                                            <label for="price">Price</label>
+                                            <input type="text" class="form-control input-sm" required="" id="price" name="price"  placeholder="" value="<% out.println(getProduct.getPrice()); %>" required >
+                                            <p id="priceval" style="color: red; display:none;"></p>
                                         </div>
-
+                                        <div style="display: none;" class="form-group col-md-6 col-sm-6">
+                                            <label for="id">id</label>
+                                            <input type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<% out.println(id); %>" >
+                                        </div>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" name="editStaff" class="btn btn-primary">Edit Staff</button>
+                                        <button type="submit" id="edit_product_submit" name="editStaff" class="btn btn-primary">Edit Product</button>
                                     </div>
                                 </form>
+                                <script>
+                                    $(document).ready(function () {
+                                        $("#edit_product_submit").click(function (event) {
+                                            event.preventDefault();
+                                            var regex = /^(\+|-)?(\d*\.?\d*)$/;
+                                            var id = $('#id').val();
+                                            var description = $('#description').val();
+                                            var quantity = $('#quantity').val();
+                                            var price = $('#price').val();
+                                            if ((!regex.test(price)) || quantity == '' || price.length == '' || (!$.trim(description))) {
+
+
+                                                if (quantity == '') {
+                                                    $('#quantityval').text("Quantity should not be empty..");
+                                                    $('#quantityval').show();
+                                                } else {
+                                                    $('#quantityval').hide();
+                                                }
+                                                if (price.length == 0) {
+                                                    $('#priceval').text("Price should not be empty..");
+                                                    $('#priceval').show();
+                                                } else {
+                                                    if (!regex.test(price)) {
+                                                        $('#priceval').text("Price should be a number..");
+                                                        $('#priceval').show();
+                                                    } else {
+                                                        $('#priceval').hide();
+                                                    }
+                                                }
+
+                                                if (!$.trim(description)) {
+                                                    $('#descval').text("Description should not be empty..");
+                                                    $('#descval').show();
+                                                } else {
+                                                    $('#descval').hide();
+                                                }
+                                            } else {
+
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "${pageContext.request.contextPath}/editProductServlet",
+                                                    data: {
+                                                        id: id,
+                                                        description: description,
+                                                        quantity: quantity,
+                                                        price: price
+                                                    },
+                                                    success: function (data) {
+                                                        $('#success-message').show();
+                                                        $("#edit_product_submit").prop("disabled", true);
+                                                        setTimeout(function () {
+
+                                                            $('#editStaffModal.modal.fade.show').hide();
+                                                            $('body').removeClass('modal-open');
+                                                            $('.modal-backdrop').remove();
+                                                        }, 2000);
+                                                    },
+                                                    error: function (resp) {
+                                                        console.log(resp);
+                                                    }
+                                                });
+                                            }
+                                        });
+                                        $(document).ajaxStop(function () {
+                                            window.location.reload();
+                                        });
+
+
+
+                                    }
+                                    );
+
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -272,20 +350,54 @@
                         <div class="modal-dialog">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Delete Staff</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete Product</h5>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
                                 </div>
                                 <form action="" method= "POST">
                                     <div class="modal-body">
-                                        Are you sure you want to delete this user? This process cannot be undone.
+                                        <div>
+                                           Are you sure you want to delete this product? This process cannot be undone.
+                                        </div>
+
+                                       <div class="form-group col-md-6 col-sm-6">
+                             
+                                            <input style="display: none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<% out.println(id); %>" >
+                                        </div>
                                     </div>
+
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" name="deleteStaff" class="btn btn-danger">Delete</button>
+                                        <button type="submit" id="deleteProduct" name="deleteProduct" class="btn btn-danger">Delete</button>
                                     </div>
                                 </form>
+                                <script>
+
+                                    $("#deleteProduct").click(function (event) {
+                                        event.preventDefault();
+                                        var id = $('#id').val();
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "${pageContext.request.contextPath}/deleteProductServlet",
+                                            data: {
+                                                id: id
+
+                                            },
+                                            success: function (data) {
+                                               
+                                                window.open('products_management_page.jsp');
+                                            },
+                                            error: function (resp) {
+                                                alert("Error");
+                                            }
+                                        });
+
+
+
+                                    });
+
+                                </script>
                             </div>
                         </div>
                     </div>
@@ -295,65 +407,33 @@
                         <body>
                             <div class="panel panel-primary" style="margin:20px;">
                                 <div class="panel-heading">
-                                    <h3 class="panel-title" >Add Product </h3>
+                                    <h3 class="panel-title" >Product Details</h3>
                                 </div>
+                                <img class="rounded float-left" style="position: absolute; right: 250px;" src="${pageContext.request.contextPath}/db_images/<% out.println(getProduct.getId()); %>.jpg" alt="" border=3 height=400 width=400></img>
+
                                 <div class="panel-body">
+
                                     <form id="form1" action="" method= "POST">
                                         <div class="col-md-12 col-sm-12">
+
                                             <div class="form-group col-md-6 col-sm-6">
                                                 <label for="name"> Product Name  </label>
-                                                <input type="text" class="form-control input-sm" id="form-name" required="" name="name" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="description">Description  </label>
-                                                <input type="text" class="form-control input-sm" id="form-description" required="" name="description" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="quantity">Product Type</label>
-                                                <input type="text" class="form-control input-sm"  id="form-quantity" required="" name="quantity" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="name"> National ID  </label>
-                                                <input type="text" class="form-control input-sm" id="form-ssn" required="" name="SSN" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="email"> Email </label>
-                                                <input type="email" class="form-control input-sm" id="form-email" required="" name="email" placeholder="">
+                                                <input type="text" class="form-control input-sm" id="form-name" required="" name="name" value="<% out.println(getProduct.getProduct_name()); %>" placeholder="" readonly>
                                             </div>
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="userType"> User Type </label>
-                                                <input type="text" class="form-control input-sm" id="form-userType" required="" name="userType">
+                                                <label for="description">Description</label>
+                                                <input type="text" class="form-control input-sm" id="form-description" required="" name="description" value="<% out.println(getProduct.getDescription()); %>" placeholder="" readonly>
                                             </div>
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="mobile">Mobile</label>
-                                                <input type="text" class="form-control input-sm" required="" id="form-mobile" name="mobile">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="gender"> Gender </label>
-                                                <input type="text" class="form-control input-sm" id="form-gender" required="" name="gender">
+                                                <label for="quantity"> Quantity </label>
+                                                <input type="text" class="form-control input-sm" id="form-quantity" required="" name="quantity" value="<% out.println(getProduct.getQuantity()); %>" placeholder="" readonly>
                                             </div>
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="address">Birthdate </label>
-                                                <input type="date" class="form-control input-sm" required="" id="form-BirthDay"  name="BirthDay"></textarea>
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="languages"> Languages </label>
-                                                <input type="text" class="form-control input-sm" id="form-languages" required="" readonly name="languages" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="Qual"> Qualifications </label>
-                                                <input type="text" class="form-control input-sm" id="form-Qual" required=""  name="Qual" placeholder="" >
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="clinic">Clinic</label>
-                                                <input type="text" class="form-control input-sm" required="" id="form-CID"  name="CID" placeholder="">
-                                            </div>
-                                            <div class="form-group col-md-6 col-sm-6">
-                                                <label for="joinedDate">Joined Date </label>
-                                                <input type="date" class="form-control input-sm" id="form-JoinedDate" required="" name="JoinedDate"></textarea>
+                                                <label for="price"> Price </label>
+                                                <input type="text" class="form-control input-sm" id="form-price" required="" name="price" value="<% out.println(getProduct.getPrice());%>" readonly>
                                             </div>
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="form-group col-md-3 col-sm-3 pull-right" >
@@ -369,6 +449,7 @@
                                         </div>
 
                                     </form>
+
                                     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
                                     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
                                     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

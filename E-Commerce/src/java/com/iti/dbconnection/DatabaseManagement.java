@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.iti.ecommerce.essentials.dbconnection;
+package com.iti.dbconnection;
 
 import java.io.FileInputStream;
 import java.sql.Connection;
@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import com.iti.ecommerce.essentials.model.Product;
-import com.iti.ecommerce.essentials.model.Customer;
+import com.iti.model.Product;
+import com.iti.model.Customer;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 

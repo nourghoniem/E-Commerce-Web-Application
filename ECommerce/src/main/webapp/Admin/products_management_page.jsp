@@ -3,12 +3,18 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-<%@page import="java.io.File"%>
-<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
+<%@page import="java.nio.file.Paths"%>
+<%@page import="java.nio.file.Path"%>
 <%@page import="java.util.List"%>
-<%@page import="com.iti.ecommerce.essentials.model.Customer"%>
-
+<%@page import="com.iti.ecommerce.essentials.model.Product"%>
+<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
+<%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    DatabaseManagement data = new DatabaseManagement();
+    List<Product> getProducts = data.getProducts();
+
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -397,16 +403,21 @@
                             <!-- Modal -->
                             <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
-                                    <div class="modal-content" style="width:800px">
+                                    <div class="modal-content" id="myModal" style="width:800px">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                      
+
                                         <form method="POST"  id="addingProduct" enctype='multipart/form-data' >
                                             <div class="modal-body">
+
+                                                <div style="display:none" id="success-message" class="alert alert-success" role="alert">
+                                                    Product is successfully added!
+                                                </div>
+
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group col-md-6 col-sm-6">
@@ -427,7 +438,7 @@
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class = "form-group col-md-6 col-sm-6">
-                                                            <label for="clinc">Product Type</label>
+                                                            <label for="type">Product Type</label>
                                                             <select class="form-control input-sm"  required="" id="PType" name="PType">
                                                                 <option></option>
                                                                 <option>Laptop</option>  //This is a dummy data filled from database
@@ -449,7 +460,9 @@
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                     <button type="submit" id="add_product_submit" name="editStaff" class="btn btn-outline-info">Add Product</button>
                                                 </div>
+
                                         </form>
+
                                         <script>
 
                                             $(document).ready(function () {
@@ -457,7 +470,6 @@
                                                     event.preventDefault();
                                                     var form = $('#addingProduct')[0];
                                                     var data = new FormData(form);
-                                                  
                                                     $.ajax({
                                                         type: "POST",
                                                         enctype: 'multipart/form-data',
@@ -465,10 +477,19 @@
                                                         data: data,
                                                         processData: false,
                                                         contentType: false,
-                                                        cache: false,                                            
+                                                        cache: false,
                                                         success: function (data) {
 
-                                                            alert(data)
+                                                            $('#success-message').show();
+                                                            $("#add_product_submit").prop("disabled", true);
+                                                            setTimeout(function () {
+
+                                                                $('#addProductModal.modal.fade.show').hide();
+                                                                $('body').removeClass('modal-open');
+                                                                $('.modal-backdrop').remove();
+
+
+                                                            }, 2000);
 
                                                         },
                                                         error: function (resp) {
@@ -476,6 +497,10 @@
                                                         }
                                                     });
                                                 });
+                                                $(document).ajaxStop(function () {
+                                                    window.location.reload();
+                                                });
+
                                             });
                                         </script>
                                     </div>
@@ -491,25 +516,29 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Image</th>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>DOB</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Type</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+                                        <%                                            for (Product c : getProducts) {
+                                        %>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
-                                        </tr>
+                                            <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></img></td>
+                                            <td><% out.println(c.getProduct_name()); %> </td>
+                                            <td><% out.println(c.getPrice()); %></td>
+                                            <td><% out.println(c.getQuantity()); %></td>
+                                            <td><% out.println(c.getProduct_type());%></td>
+                                            <td><a href="view_product_details.jsp?id=<%out.println(c.getId()); %>" class="btn btn-link" role="button">View Details</a></td>
 
+
+                                        </tr>
+                                        <% }%>
                                     </tbody>
                                 </table>
                             </div>
@@ -579,6 +608,8 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>
