@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Date;
 import java.sql.PreparedStatement;
+import java.time.LocalDate;
+import java.time.Month;
 
 /**
  *
@@ -174,8 +176,6 @@ public class DatabaseManagement {
         }
     }
     
-    
-
     public boolean addCustomer(String fname, String lname, String email, String Password, Date dob, String address, String phone, String interets, int creditLimit) throws SQLException {
         boolean isAdded = false;
         try {
@@ -200,4 +200,9 @@ public class DatabaseManagement {
         }
         return isAdded;
     }
+
+  
+public Connection getConnection(){
+return conn;
+}
 }

@@ -1,12 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
-        <param-name>db_username</param-name>
-        <param-value>postgres</param-value>
+        <param-name>ACCOUNT_SID</param-name>
+        <param-value>ACa6cbcb955bca23cadd8875e0a6ff1983</param-value> 
     </context-param>
     <context-param>
-        <param-name>password</param-name>
-        <param-value>postgres</param-value>
+        <param-name>AUTH_TOKEN</param-name>
+        <param-value>274e48d032948ab3dfc938a39fa79bc0</param-value> 
+    </context-param>
+    <context-param>
+        <param-name>db_URL</param-name>
+        <param-value>jdbc:postgresql://bfibxulveprmogqgrhkm-postgresql.services.clever-cloud.com:5432/bfibxulveprmogqgrhkm</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db_username</param-name>
+        <param-value>usljypeo3cubvrf850oh</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db_password</param-name>
+        <param-value>bdgWsraFaLT8rDiZglxB</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>
@@ -17,12 +29,22 @@
         <servlet-class>com.iti.ecommerce.essentials.controller.addProductServlet</servlet-class>
     </servlet>
     <servlet>
+
         <servlet-name>editProductServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.editProductServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>deleteProductServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.deleteProductServlet</servlet-class>
+     
+    </servlet>
+    <servlet>
+        <servlet-name>VerifyPhoneNumber</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.verifications.VerifyPhoneNumber</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Login</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.Login.Login</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
@@ -35,6 +57,14 @@
     <servlet-mapping>
         <servlet-name>deleteProductServlet</servlet-name>
         <url-pattern>/deleteProductServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyPhoneNumber</servlet-name>
+        <url-pattern>/VerifyPhoneNumber</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Login</servlet-name>
+        <url-pattern>/Login</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

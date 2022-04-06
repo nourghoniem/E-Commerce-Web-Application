@@ -6,7 +6,10 @@ package com.iti.verifications;
 
 import java.util.regex.Pattern;
 import com.iti.dbconnection.DatabaseManagement;
+import com.iti.dbconnection.DatabaseConnection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 /**
  *
@@ -19,7 +22,17 @@ public class Verfication {
     public static boolean RegistrationVerfied (String fname,String lname,String email,String Password,Date dob,String address,String phone,String interets,int creditLimit)
     {
         boolean condition =false;
-        //verfiy mail phone before insert in database
+        //verify mail before insert in database
+        if (isvalidEmail(email))
+           {
+                condition=true;
+           }
+        else 
+           {
+             //tell the user that he already registered
+           }
+        //verify phone number
+        
 //////////////////////////////////////////////////////////
         DatabaseManagement DM =null;
         try {
@@ -37,10 +50,76 @@ public class Verfication {
     {
         boolean condition=false;
         String regexMail = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        
         if (!Pattern.matches(regexMail, email))
             {
                 condition =true;
             }
+        if (condition)
+         {
+            condition=isANEWEmail(email);
+         }
         return condition;
     }
+    private static boolean isANEWEmail(String email)
+     {
+        boolean isExist=false;
+        try {
+           PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement("SELECT * FROM users WHERE email=?");
+           pstmt.setString(1, email);
+           ResultSet rs = pstmt.executeQuery();
+           isExist = rs.next();
+           System.out.println("is exist "+isExist);
+            }catch(SQLException SE){
+                System.out.println("there is a exception at retrieving mail"+SE);
+            }
+        return !isExist;
+     }
+    private static boolean isavalidPhone(String phone)
+     {
+        boolean condition=false;
+        String regexPhone= "^01[0125][0-9]{8}$";
+         
+        if (!Pattern.matches(regexPhone, phone))
+            {
+                condition =true;
+            }
+        if (condition)
+            {
+                condition=isANEWphone(phone);
+            }
+        if (condition)
+            {
+                condition=isANEWphone(phone);
+            }
+        return condition;
+     }
+        private static boolean isANEWphone(String phone)
+     {
+        boolean isExist=false;
+        try {
+           PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number=?");
+           pstmt.setString(1, phone);
+           ResultSet rs = pstmt.executeQuery();
+           isExist = rs.next();
+           System.out.println("is exist "+isExist);
+            }catch(SQLException SE){
+                System.out.println("there is a exception at retrieving phone "+SE);
+            }
+        return !isExist;
+     }
+      private static boolean isphoneauthenticated(String phone)
+     {
+        boolean isExist=false;
+        try {
+           PreparedStatement pstmt = DatabaseConnection.getConnection().prepareStatement("SELECT * FROM users WHERE phone_number=?");
+           pstmt.setString(1, phone);
+           ResultSet rs = pstmt.executeQuery();
+           isExist = rs.next();
+           System.out.println("is exist "+isExist);
+            }catch(SQLException SE){
+                System.out.println("there is a exception at retrieving phone "+SE);
+            }
+        return !isExist;
+     }
 }
