@@ -3,12 +3,18 @@
     Created on : Mar 12, 2022, 10:37:41 PM
     Author     : nour
 --%>
-<%@page import="java.io.File"%>
-<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
+<%@page import="java.nio.file.Paths"%>
+<%@page import="java.nio.file.Path"%>
 <%@page import="java.util.List"%>
-<%@page import="com.iti.ecommerce.essentials.model.Customer"%>
-
+<%@page import="com.iti.ecommerce.essentials.model.Product"%>
+<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
+<%@page import="java.io.File"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%
+    DatabaseManagement data = new DatabaseManagement();
+    List<Product> getProducts = data.getProducts();
+
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -61,20 +67,40 @@
 
                 <!-- Nav Item - Dashboard -->
                 <li class="nav-item">
-                    <a class="nav-link" href="index.html">
+                    <a class="nav-link" href="products_management_page.jsp">
                         <i class="fas fa-fw fa-tachometer-alt"></i>
                         <span>Dashboard</span></a>
                 </li>
-
-                <!-- Divider -->
+                   <!-- Divider -->
                 <hr class="sidebar-divider">
+                     <!-- Heading -->
+                <div class="sidebar-heading">
+                    Manage Users
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="client_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Users</span></a>
+                </li>
+                   <!-- Divider -->
+                <hr class="sidebar-divider">
+                <div class="sidebar-heading">
+                    Manage Products
+                </div>
+                <li class="nav-item">
+                    <a class="nav-link" href="products_management_page.jsp">
+                        <i class="fas fa-fw fa-tachometer-alt"></i>
+                        <span>Products</span></a>
+                </li>
+
+           
 
                 <!-- Heading -->
-                <div class="sidebar-heading">
+<!--                <div class="sidebar-heading">
                     Interface
                 </div>
 
-                <!-- Nav Item - Pages Collapse Menu -->
+                 Nav Item - Pages Collapse Menu 
                 <li class="nav-item">
                     <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
                        aria-expanded="true" aria-controls="collapseTwo">
@@ -88,70 +114,11 @@
                             <a class="collapse-item" href="cards.html">Cards</a>
                         </div>
                     </div>
-                </li>
+                </li>-->
 
-                <!-- Nav Item - Utilities Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseUtilities"
-                       aria-expanded="true" aria-controls="collapseUtilities">
-                        <i class="fas fa-fw fa-wrench"></i>
-                        <span>Utilities</span>
-                    </a>
-                    <div id="collapseUtilities" class="collapse" aria-labelledby="headingUtilities"
-                         data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Custom Utilities:</h6>
-                            <a class="collapse-item" href="utilities-color.html">Colors</a>
-                            <a class="collapse-item" href="utilities-border.html">Borders</a>
-                            <a class="collapse-item" href="utilities-animation.html">Animations</a>
-                            <a class="collapse-item" href="utilities-other.html">Other</a>
-                        </div>
-                    </div>
-                </li>
+            
 
-                <!-- Divider -->
-                <hr class="sidebar-divider">
-
-                <!-- Heading -->
-                <div class="sidebar-heading">
-                    Addons
-                </div>
-
-                <!-- Nav Item - Pages Collapse Menu -->
-                <li class="nav-item">
-                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePages"
-                       aria-expanded="true" aria-controls="collapsePages">
-                        <i class="fas fa-fw fa-folder"></i>
-                        <span>Pages</span>
-                    </a>
-                    <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
-                        <div class="bg-white py-2 collapse-inner rounded">
-                            <h6 class="collapse-header">Login Screens:</h6>
-                            <a class="collapse-item" href="login.html">Login</a>
-                            <a class="collapse-item" href="register.html">Register</a>
-                            <a class="collapse-item" href="forgot-password.html">Forgot Password</a>
-                            <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Other Pages:</h6>
-                            <a class="collapse-item" href="404.html">404 Page</a>
-                            <a class="collapse-item" href="blank.html">Blank Page</a>
-                        </div>
-                    </div>
-                </li>
-
-                <!-- Nav Item - Charts -->
-                <li class="nav-item">
-                    <a class="nav-link" href="charts.html">
-                        <i class="fas fa-fw fa-chart-area"></i>
-                        <span>Charts</span></a>
-                </li>
-
-                <!-- Nav Item - Tables -->
-                <li class="nav-item active">
-                    <a class="nav-link" href="client_management_page.jsp">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Tables</span></a>
-                </li>
-
+         
                 <!-- Divider -->
                 <hr class="sidebar-divider d-none d-md-block">
 
@@ -379,7 +346,7 @@
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<!--                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>-->
                         <!--                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                                                     For more information about DataTables, please visit the <a target="_blank"
                                                                                                                href="https://datatables.net">official DataTables documentation</a>.</p>-->
@@ -397,51 +364,61 @@
                             <!-- Modal -->
                             <div class="modal fade" id="addProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog">
-                                    <div class="modal-content" style="width:800px">
+                                    <div class="modal-content" id="myModal" style="width:800px">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalLabel">Add Product</h5>
                                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                                 <span aria-hidden="true">&times;</span>
                                             </button>
                                         </div>
-                                      
+
                                         <form method="POST"  id="addingProduct" enctype='multipart/form-data' >
                                             <div class="modal-body">
+
+                                                <div style="display:none" id="success-message" class="alert alert-success" role="alert">
+                                                    Product is successfully added!
+                                                </div>
+
                                                 <div class="row">
                                                     <div class="col-md-6">
                                                         <div class="form-group col-md-6 col-sm-6">
                                                             <label for="name"> Product Name </label>
                                                             <input type="text" class="form-control input-sm" id="name" required="" name="name" placeholder="">
+                                                            <p id="nameval" style="color: red; display:none;"></p>
                                                         </div>
                                                         <div class="form-group col-md-6 col-sm-6">
                                                             <label for="description"> Description </label>
                                                             <!--                                                            <input type="text" class="form-control input-sm" id="form-description" required="" name="description" placeholder="">-->
                                                             <textarea id="description" class="form-control input-sm" name="description" form="addingProduct" width="1000px"></textarea>
-
+                                                            <p id="descval" style="color: red; display:none;"></p>
                                                         </div>
 
                                                         <div class="form-group col-md-6 col-sm-6">
                                                             <label for="quantity">Quantity</label>
                                                             <input type="number" class="form-control input-sm" required="" id="quantity" name="quantity"  min="1" max="100" step="1" value="1"  placeholder="">
+                                                            <p id="quantityval" style="color: red; display:none;"></p>
                                                         </div>
                                                     </div>
                                                     <div class="col-md-6">
                                                         <div class = "form-group col-md-6 col-sm-6">
-                                                            <label for="clinc">Product Type</label>
+                                                            <label for="type">Product Type</label>
                                                             <select class="form-control input-sm"  required="" id="PType" name="PType">
                                                                 <option></option>
                                                                 <option>Laptop</option>  //This is a dummy data filled from database
                                                                 <option>Mobile</option>
 
                                                             </select>
+                                                            <p id="typeval" style="color: red; display:none;"></p>
                                                         </div>
                                                         <div>
                                                             <label  style="position: relative; left: 11px" for="image">Product Image</label>
                                                             <input type="file"  style="position: relative; left: 15px" required="" id="image" name="image" accept="image/*" placeholder="">
+                                                            <p id="imageval" style="color: red; display:none;"></p>
                                                         </div>
                                                         <div>
                                                             <label for="price" style="padding-top: 20px; position: relative; left: 10px">Product Price</label>
-                                                            <input type="text" style="width: 100px; position: relative; left: 10px" class="form-control input-sm" id="price" required="" name="price" placeholder="$1000">
+                                                            <input type="text" style="width: 100px; position: relative; left: 10px" class="form-control input-sm" id="price" required="" name="price" placeholder="10000LE">
+                                                            <p id="priceval" style="color: red; display:none;"></p>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -449,33 +426,95 @@
                                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                                                     <button type="submit" id="add_product_submit" name="editStaff" class="btn btn-outline-info">Add Product</button>
                                                 </div>
+
                                         </form>
+
                                         <script>
 
                                             $(document).ready(function () {
                                                 $("#add_product_submit").click(function (event) {
                                                     event.preventDefault();
+                                                    var regex = /^(\+|-)?(\d*\.?\d*)$/;
                                                     var form = $('#addingProduct')[0];
                                                     var data = new FormData(form);
-                                                  
-                                                    $.ajax({
-                                                        type: "POST",
-                                                        enctype: 'multipart/form-data',
-                                                        url: "${pageContext.request.contextPath}/addProductServlet",
-                                                        data: data,
-                                                        processData: false,
-                                                        contentType: false,
-                                                        cache: false,                                            
-                                                        success: function (data) {
-
-                                                            alert(data)
-
-                                                        },
-                                                        error: function (resp) {
-                                                            console.log(resp);
+                                                    var description = $('#description').val();
+                                                    var quantity = $('#quantity').val();
+                                                    var price = $('#price').val();
+                                                    var name = $('#name').val();
+                                                    var type = $('#PType').val();
+                                                    var image = $('#image').val();
+                                                    if ((!regex.test(price)) || price == '' || type == '' || image == '' || name == '' || (!$.trim(description))) {
+                                                        if (name == '') {
+                                                            $('#nameval').text("Product name should not be empty..");
+                                                            $('#nameval').show();
+                                                        } else {
+                                                            $('#nameval').hide();
                                                         }
-                                                    });
+                                                        if (price == '') {
+                                                            $('#priceval').text("Price should not be empty..");
+                                                            $('#priceval').show();
+                                                        } else {
+                                                            if (!regex.test(price)) {
+                                                                $('#priceval').text("Price should be a number..");
+                                                                $('#priceval').show();
+                                                            } else {
+                                                                $('#priceval').hide();
+                                                            }
+                                                        }
+                                                        if (!$.trim(description)) {
+                                                            $('#descval').text("Description should not be empty..");
+                                                            $('#descval').show();
+                                                        } else {
+                                                            $('#descval').hide();
+                                                        }
+
+                                                        if (type == '') {
+                                                            $('#typeval').text("Product type should not be empty..");
+                                                            $('#typeval').show();
+                                                        } else {
+                                                            $('#typeval').hide();
+                                                        }
+                                                        if (image == '') {
+                                                            $('#imageval').text("Choose an image for the product..");
+                                                            $('#imageval').show();
+                                                        } else {
+                                                            $('#imageval').hide();
+                                                        }
+
+                                                    } else {
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            enctype: 'multipart/form-data',
+                                                            url: "${pageContext.request.contextPath}/addProductServlet",
+                                                            data: data,
+                                                            processData: false,
+                                                            contentType: false,
+                                                            cache: false,
+                                                            success: function (data) {
+
+                                                                $('#success-message').show();
+                                                                $("#add_product_submit").prop("disabled", true);
+                                                                setTimeout(function () {
+
+                                                                    $('#addProductModal.modal.fade.show').hide();
+                                                                    $('body').removeClass('modal-open');
+                                                                    $('.modal-backdrop').remove();
+
+
+                                                                }, 2000);
+
+                                                            },
+                                                            error: function (resp) {
+                                                                console.log(resp);
+                                                            }
+                                                        });
+                                                    }
                                                 });
+
+                                                $(document).ajaxStop(function () {
+                                                    window.location.reload();
+                                                });
+
                                             });
                                         </script>
                                     </div>
@@ -491,25 +530,29 @@
                                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                     <thead>
                                         <tr>
+                                            <th>Image</th>
                                             <th>Name</th>
-                                            <th>Email</th>
-                                            <th>Phone Number</th>
-                                            <th>Address</th>
-                                            <th>DOB</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Type</th>
                                             <th>Action</th>
                                         </tr>
                                     </thead>
 
                                     <tbody>
+                                        <%                                            for (Product c : getProducts) {
+                                        %>
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
-                                        </tr>
+                                            <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></img></td>
+                                            <td><% out.println(c.getProduct_name()); %> </td>
+                                            <td><% out.println(c.getPrice()); %></td>
+                                            <td><% out.println(c.getQuantity()); %></td>
+                                            <td><% out.println(c.getProduct_type());%></td>
+                                            <td><a href="view_product_details.jsp?id=<%out.println(c.getId()); %>" class="btn btn-link" role="button">View Details</a></td>
 
+
+                                        </tr>
+                                        <% }%>
                                     </tbody>
                                 </table>
                             </div>
@@ -579,6 +622,8 @@
 
     <!-- Page level custom scripts -->
     <script src="js/demo/datatables-demo.js"></script>
+    <script type="text/javascript" src="http://getbootstrap.com/2.3.2/assets/js/bootstrap.js"></script>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
 </body>

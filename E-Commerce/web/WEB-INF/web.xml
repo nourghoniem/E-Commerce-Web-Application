@@ -20,11 +20,11 @@
     </context-param>
     <listener>
         <description>ServletContextListener</description>
-        <listener-class>com.iti.ecommerce.essentials.dbconnection.DatabaseListener</listener-class>
+        <listener-class>com.iti.dbconnection.DatabaseListener</listener-class>
     </listener>
     <servlet>
         <servlet-name>addProductServlet</servlet-name>
-        <servlet-class>com.iti.ecommerce.essentials.controller.addProductServlet</servlet-class>
+        <servlet-class>com.iti.controller.addProductServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>

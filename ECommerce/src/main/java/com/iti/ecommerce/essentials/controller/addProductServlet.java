@@ -5,7 +5,9 @@
 package com.iti.ecommerce.essentials.controller;
 
 import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
+import com.iti.ecommerce.essentials.model.Product;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -31,17 +33,20 @@ public class addProductServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         String name = request.getParameter("name");
         String desc = request.getParameter("description");
-        String quantity = request.getParameter("quantity");
+        Integer quantity = Integer.parseInt(request.getParameter("quantity"));
         String product_type = request.getParameter("PType");
-        String price = request.getParameter("price");
-
+        Double price = Double.parseDouble(request.getParameter("price"));
         Part part = request.getPart("image");
-    
+        
         
         String file_name = extractFileName(part);
         String save_path = "/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/images" + File.separator + file_name;
         File fileSaveDir = new File(save_path);
         part.write(save_path + File.separator);
+        Product p  = new Product(fileSaveDir, name, price, quantity, desc, product_type);
+        DatabaseManagement data = new DatabaseManagement();
+        data.addProduct(p);
+//        
      
     }
 

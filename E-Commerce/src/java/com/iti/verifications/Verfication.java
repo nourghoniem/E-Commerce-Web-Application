@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package com.iti.ecommerce.essentials.verifications;
+package com.iti.verifications;
 
 import java.util.regex.Pattern;
-import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
-import com.iti.ecommerce.essentials.dbconnection.DatabaseConnection;
+import com.iti.dbconnection.DatabaseManagement;
+import com.iti.dbconnection.DatabaseConnection;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;

@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 
-package com.iti.ecommerce.essentials.model;
+package com.iti.model;
 /**
  *
  * @author nour
