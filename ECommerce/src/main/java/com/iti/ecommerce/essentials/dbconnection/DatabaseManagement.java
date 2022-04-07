@@ -90,7 +90,7 @@ public class DatabaseManagement {
                 InputStream image = rs.getBinaryStream("image");
                 byte byteArray[] = new byte[image.available()];
                 image.read(byteArray);
-                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
+                FileOutputStream out = new FileOutputStream("F:/webProject/newerversion/E-Commerce-Web-Application/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
                 out.write(byteArray);
                 Product product = new Product(id, name, price, quantity, product_type);
                 products.add(product);

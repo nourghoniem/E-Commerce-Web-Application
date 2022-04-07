@@ -10,9 +10,9 @@
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <% DatabaseManagement DM = new DatabaseManagement();%>
 <% List<Product> products = DM.getProducts();%>
-<%  String name ,description,image,product_type;
+<%  String name ,description, image_URL,product_type;
     Double price,oldPrice;
-    Integer quantity ;
+    Integer quantity,id ;
 %>
 <!DOCTYPE html>
 
@@ -297,14 +297,15 @@
                                                 oldPrice=price +(price*.02);
                                                 quantity = product.getQuantity();
                                                 description = product.getDescription();
-                                                image = product.getImage();
+                                                id = product.getId();
+                                                image_URL="../db_images/"+id+".jpg";
                                                 product_type =product.getProduct_type();
                                                 
                                         
                                         %>
                                         <div class="product">
                                             <div class="product-img">
-                                                <img src=<%=image%> alt="">
+                                                <img src=<%=image_URL%>>
                                                 <div class="product-label">
                                                     <span class="sale">-30%</span>
                                                     <span class="new">NEW</span>
@@ -432,14 +433,15 @@
                                                 oldPrice=price +(price*.30);
                                                 quantity = product.getQuantity();
                                                 description = product.getDescription();
-                                                image = product.getImage();
+                                                id = product.getId();
+                                                image_URL="../db_images/"+id+".jpg";
                                                 product_type =product.getProduct_type();
                                                 
                                         
                                         %>
                                         <div class="product">
                                             <div class="product-img">
-                                                <img src=<%=image%> alt="">
+                                                <img src=<%=image_URL%> >
                                                 <div class="product-label">
                                                     <span class="sale">-30%</span>
                                                     <span class="new">NEW</span>
