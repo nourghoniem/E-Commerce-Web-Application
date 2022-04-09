@@ -10,6 +10,7 @@
 <%
     DatabaseManagement data = new DatabaseManagement();
     List<Customer> getCustomers = data.getCustomers();
+    Integer getting_id = 0;
 
 %>
 
@@ -28,7 +29,7 @@
         <title>SB Admin 2 - Tables</title>
 
         <!-- Custom fonts for this template -->
-        <!--    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">-->
+        <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
         <link
             href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
             rel="stylesheet">
@@ -37,6 +38,15 @@
         <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
         <!-- Custom styles for this page -->
+        <link href="E-Commerce/web/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
+        <link href="css/sb-admin-2.min.css" rel="stylesheet">
+        <!--        <script src="//code.jquery.com/jquery-1.11.3.min.js"></script>-->
+        <script src="bootstrap.confirm.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <!--        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+                <script src="https://code.jquery.com/jquery-1.10.2.js"></script>-->
+        <!--        <script src='bootbox.min.js'></script>-->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
         <link href="E-Commerce/web/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
     </head>
@@ -312,67 +322,14 @@
 
                     </nav>
                     <!-- End of Topbar -->
-                    <!-- Modal -->
-                    <div class="modal fade" id="deleteCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Delete Customer</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form action="" method= "POST">
-                                    <div class="modal-body">
-                                        <div>
-                                            Are you sure you want to delete this customer's data? This process cannot be undone.
-                                        </div>
-
-                                        <div class="form-group col-md-6 col-sm-6">
-
-                                            <input style="display: none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="" >
-                                        </div>
-                                    </div>
-
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                        <button type="submit" id="deleteCustomer" name="deleteCustomer" class="btn btn-danger">Delete</button>
-                                    </div>
-                                </form>
-                                <script>
-
-                                    $("#deleteCustomer").click(function (event) {
-                                        event.preventDefault();
-                                        var id = $('#id').val();
-                                        $.ajax({
-                                            type: "POST",
-                                            url: "${pageContext.request.contextPath}/deleteCustomerServlet",
-                                            data: {
-                                                id: id
-
-                                            },
-                                            success: function (data) {
-
-                                                window.open('client_management_page.jsp');
-                                            },
-                                            error: function (resp) {
-                                                alert("Error");
-                                            }
-                                        });
 
 
-
-                                    });
-
-                                </script>
-                            </div>
-                        </div>
-                    </div>
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
+
                         <!-- Page Heading -->
-<!--                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>-->
+                        <!--                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>-->
                         <!--                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                                                     For more information about DataTables, please visit the <a target="_blank"
                                                                                                                href="https://datatables.net">official DataTables documentation</a>.</p>-->
@@ -387,6 +344,7 @@
                                     <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                                         <thead>
                                             <tr>
+                                                <th style="display:none;"></th>
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Phone Number</th>
@@ -400,17 +358,83 @@
                                             <%    for (Customer c : getCustomers) {
                                             %>
                                             <tr>
-<!--                                                <td><input type="hidden" value="<% c.getId(); %>" id="rows"/></td>-->
+                                                <td style="display:none;"><input type="hidden" value="<%out.println(c.getId());%>" id="rows"/></td>
                                                 <td><% out.println(c.getFirst_name() + " " + c.getLast_name()); %> </td>
                                                 <td><% out.println(c.getEmail()); %> </td>
                                                 <td><% out.println(c.getPhone_number()); %></td>
                                                 <td><% out.println(c.getDob()); %></td>
                                                 <td><% out.println(c.getAddress()); %></td>
-                                                <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCustomerModal">Delete</button></td>
+                                                <td><button onclick="clickHandler()" type="button" id="deletebtn" class="btn btn-danger" data-toggle="modal" data-target="#deleteStaffModal">Delete</button></td>
                                             </tr>
-                                            <% }%>
+                                        <script>
+                                            function clickHandler() {
+
+                                            <%getting_id = c.getId();
+                                            
+                                            %>
+
+                                            }
+
+                                        </script>
+                                        <% }%>
                                         </tbody>
                                     </table>
+
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal -->
+                        <div class="modal fade" id="deleteStaffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Delete User</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <form action="" method= "POST">
+                                        <div class="modal-body">
+                                            <div>
+                                                Are you sure you want to delete this user's data? This process cannot be undone.
+                                            </div>
+
+                                            <div class="form-group col-md-6 col-sm-6">
+
+                                                <input style="display: none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<%out.println(getting_id);%>" >
+                                            </div>
+                                        </div>
+
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                            <button type="submit" id="deleteProduct" name="deleteProduct" class="btn btn-danger">Delete</button>
+                                        </div>
+                                    </form>
+                                    <script>
+
+                                        $("#deleteProduct").click(function (event) {
+                                            event.preventDefault();
+                                            var id = $('#id').val();
+                                             $.ajax({
+                                                type: "POST",
+                                                url: "${pageContext.request.contextPath}/deleteCustomerServlet",
+                                                data: {
+                                                    id: id
+
+                                                },
+                                                success: function (data) {
+
+                                                    alert(data);
+                                                },
+                                                error: function (resp) {
+                                                    alert("Error");
+                                                }
+                                            });
+
+
+                                        });
+
+                                    </script>
                                 </div>
                             </div>
                         </div>
@@ -462,22 +486,25 @@
             </div>
         </div>
 
-        <!-- Bootstrap core JavaScript-->
-        <script src="vendor/jquery/jquery.min.js"></script>
-        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-        <!-- Core plugin JavaScript-->
-        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!--         Bootstrap core JavaScript
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        
+                 Core plugin JavaScript
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>-->
 
         <!-- Custom scripts for all pages-->
         <script src="js/sb-admin-2.min.js"></script>
 
-        <!-- Page level plugins -->
-        <script src="vendor/datatables/jquery.dataTables.min.js"></script>
-        <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>
+        <!--         Page level plugins 
+                <script src="vendor/datatables/jquery.dataTables.min.js"></script>
+                <script src="vendor/datatables/dataTables.bootstrap4.min.js"></script>-->
 
         <!-- Page level custom scripts -->
-        <script src="js/demo/datatables-demo.js"></script>
+        <!--        <script src="js/demo/datatables-demo.js"></script>-->
+        <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>-->
+        <!--        <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>-->
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
 
     </body>
 
