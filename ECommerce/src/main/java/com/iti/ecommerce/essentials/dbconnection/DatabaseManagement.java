@@ -36,7 +36,9 @@ public class DatabaseManagement {
     PreparedStatement pstmt;
     ArrayList<Customer> customers;
     ArrayList<Product> products;
+
     Product product;
+
     ResultSet rs;
     PreparedStatement pst;
 
@@ -94,7 +96,6 @@ public class DatabaseManagement {
                 path = path.replace("WEB-INF/classes/", "");
 //                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
                 FileOutputStream out = new FileOutputStream(path+"db_images/" + id + ".jpg");
-
                 out.write(byteArray);
                 Product product = new Product(id, name, price, quantity, product_type);
                 products.add(product);
@@ -140,7 +141,9 @@ public class DatabaseManagement {
             pst.setDouble(2, p.getPrice());
             pst.setInt(3, p.getQuantity());
             pst.setString(4, p.getDescription());
+
             pst.setBinaryStream(5, fis, p.getFile().length());
+
             if (p.getProduct_type().equalsIgnoreCase("Laptop")) {
                 pst.setInt(6, 1);
             } else {
@@ -154,7 +157,8 @@ public class DatabaseManagement {
         }
     }
 
-    public void editProduct(Product p) {
+
+      public void editProduct(Product p) {
         try {
 
             pst = conn.prepareStatement("UPDATE products SET description=?, price = ?, quantity=? where id = ?");
@@ -221,6 +225,7 @@ public class DatabaseManagement {
         }
         return isAdded;
     }
+
 
     public Connection getConnection() {
         return conn;
