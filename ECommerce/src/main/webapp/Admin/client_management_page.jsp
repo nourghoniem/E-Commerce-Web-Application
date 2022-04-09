@@ -312,12 +312,67 @@
 
                     </nav>
                     <!-- End of Topbar -->
+                    <!-- Modal -->
+                    <div class="modal fade" id="deleteCustomerModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Delete Customer</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form action="" method= "POST">
+                                    <div class="modal-body">
+                                        <div>
+                                            Are you sure you want to delete this customer's data? This process cannot be undone.
+                                        </div>
 
+                                        <div class="form-group col-md-6 col-sm-6">
+
+                                            <input style="display: none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="" >
+                                        </div>
+                                    </div>
+
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                        <button type="submit" id="deleteCustomer" name="deleteCustomer" class="btn btn-danger">Delete</button>
+                                    </div>
+                                </form>
+                                <script>
+
+                                    $("#deleteCustomer").click(function (event) {
+                                        event.preventDefault();
+                                        var id = $('#id').val();
+                                        $.ajax({
+                                            type: "POST",
+                                            url: "${pageContext.request.contextPath}/deleteCustomerServlet",
+                                            data: {
+                                                id: id
+
+                                            },
+                                            success: function (data) {
+
+                                                window.open('client_management_page.jsp');
+                                            },
+                                            error: function (resp) {
+                                                alert("Error");
+                                            }
+                                        });
+
+
+
+                                    });
+
+                                </script>
+                            </div>
+                        </div>
+                    </div>
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
                         <!-- Page Heading -->
-                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>
+<!--                        <h1 class="h3 mb-2 text-gray-800">Tables</h1>-->
                         <!--                        <p class="mb-4">DataTables is a third party plugin that is used to generate the demo table below.
                                                     For more information about DataTables, please visit the <a target="_blank"
                                                                                                                href="https://datatables.net">official DataTables documentation</a>.</p>-->
@@ -342,15 +397,16 @@
                                         </thead>
 
                                         <tbody>
-                                            <%                                                for (Customer c : getCustomers) {
+                                            <%    for (Customer c : getCustomers) {
                                             %>
                                             <tr>
+<!--                                                <td><input type="hidden" value="<% c.getId(); %>" id="rows"/></td>-->
                                                 <td><% out.println(c.getFirst_name() + " " + c.getLast_name()); %> </td>
                                                 <td><% out.println(c.getEmail()); %> </td>
                                                 <td><% out.println(c.getPhone_number()); %></td>
                                                 <td><% out.println(c.getDob()); %></td>
                                                 <td><% out.println(c.getAddress()); %></td>
-                                                <td><button type="button" class="btn btn-danger"><i class="far fa-eye"></i>Delete</button></td>
+                                                <td><button type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteCustomerModal">Delete</button></td>
                                             </tr>
                                             <% }%>
                                         </tbody>

@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.net.URL;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
@@ -37,17 +38,22 @@ public class addProductServlet extends HttpServlet {
         String product_type = request.getParameter("PType");
         Double price = Double.parseDouble(request.getParameter("price"));
         Part part = request.getPart("image");
-        
-        
+        URL resource = getClass().getResource("/");
+        String path = resource.getPath();
+        path = path.replace("WEB-INF/classes/", "");
+//
+//        
         String file_name = extractFileName(part);
-        String save_path = "/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/images" + File.separator + file_name;
+//        String save_path = "/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/images" + File.separator + file_name;
+        String save_path = path+"/images" + File.separator + file_name;
+
         File fileSaveDir = new File(save_path);
         part.write(save_path + File.separator);
-        Product p  = new Product(fileSaveDir, name, price, quantity, desc, product_type);
+        Product p = new Product(fileSaveDir, name, price, quantity, desc, product_type);
         DatabaseManagement data = new DatabaseManagement();
         data.addProduct(p);
 //        
-     
+
     }
 
     public String extractFileName(Part part) {
