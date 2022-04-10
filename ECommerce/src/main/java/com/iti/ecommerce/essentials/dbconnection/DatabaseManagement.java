@@ -18,6 +18,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.time.LocalDate;
@@ -29,8 +30,7 @@ import java.time.Month;
  */
 public class DatabaseManagement {
 
-    public static String AbsolutePath = new File("").getAbsolutePath();
-
+    String filePath = new File("").getAbsolutePath();
     Connection conn;
     Statement stmt;
     PreparedStatement pstmt;
@@ -54,17 +54,18 @@ public class DatabaseManagement {
         customers = new ArrayList<Customer>();
         try {
             stmt = conn.createStatement();
-            String SQL = "SELECT first_name, last_name, dob, email, address, phone_number from users;";
+            String SQL = "SELECT id, first_name, last_name, dob, email, address, phone_number from users;";
             ResultSet rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
+                Integer id = rs.getInt("id");
                 String fname = rs.getString("first_name");
                 String lname = rs.getString("last_name");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone_number");
                 String dob = rs.getString("dob");
                 String address = rs.getString("address");
-                Customer customer = new Customer(fname, lname, email, dob, address, phone);
+                Customer customer = new Customer(id, fname, lname, email, dob, address, phone);
                 customers.add(customer);
             }
         } catch (SQLException e) {
@@ -90,7 +91,8 @@ public class DatabaseManagement {
                 InputStream image = rs.getBinaryStream("image");
                 byte byteArray[] = new byte[image.available()];
                 image.read(byteArray);
-               FileOutputStream out = new FileOutputStream("F:/webProject/newerversion/E-Commerce-Web-Application/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
+
+  //             FileOutputStream out = new FileOutputStream("F:/webProject/newerversion/E-Commerce-Web-Application/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
              // File my_URL= new File("../../../../../../webapp/db_images/" + id + ".jpg");
           //   String localDir = System.getProperty("user.dir");
           //   File my_URL = new File(localDir + "src\\main\\webapp\\db_images\\" + id + ".jpg");
@@ -98,22 +100,30 @@ public class DatabaseManagement {
            //     System.out.println(out);           
 //   FileOutputStream output = new FileOutputStream( request.getSession().getServletContext().getRealPath("WEB-INF/classes/data.json"), false);
 
-              out.write(byteArray);
+  //            out.write(byteArray);
+
+                URL resource = getClass().getResource("/");
+                String path = resource.getPath();
+                path = path.replace("WEB-INF/classes/", "");
+//                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
+                FileOutputStream out = new FileOutputStream(path+"db_images/" + id + ".jpg");
+                out.write(byteArray);
                 Product product = new Product(id, name, price, quantity, product_type);
                 products.add(product);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return products;
     }
-    
-        public Product getProductById(Integer getid) throws IOException {
-      
+
+    public Product getProductById(Integer getid) throws IOException {
+
         try {
-          
+
             stmt = conn.createStatement();
-            String SQL = "SELECT e.id, e.description, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where e.id ="+getid+";";
+            String SQL = "SELECT e.id, e.description, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where e.id =" + getid + ";";
             ResultSet rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
@@ -124,9 +134,9 @@ public class DatabaseManagement {
                 Integer quantity = rs.getInt("quantity");
                 Double price = rs.getDouble("price");
                 String product_type = rs.getString("type");
-            
-                 product = new Product(id, name, description, price, quantity, product_type);
-  
+
+                product = new Product(id, name, description, price, quantity, product_type);
+
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -142,11 +152,7 @@ public class DatabaseManagement {
             pst.setDouble(2, p.getPrice());
             pst.setInt(3, p.getQuantity());
             pst.setString(4, p.getDescription());
-//<<<<<<< HEAD
-//            FileInputStream file_in = new FileInputStream(p.getImage());
-//            pst.setBinaryStream(5, file_in);
-//            pst.execute();
-//=======
+
             pst.setBinaryStream(5, fis, p.getFile().length());
 
             if (p.getProduct_type().equalsIgnoreCase("Laptop")) {
@@ -163,10 +169,9 @@ public class DatabaseManagement {
     }
 
 
-
       public void editProduct(Product p) {
         try {
-        
+
             pst = conn.prepareStatement("UPDATE products SET description=?, price = ?, quantity=? where id = ?");
             pst.setString(1, p.getDescription());
             pst.setDouble(2, p.getPrice());
@@ -179,10 +184,10 @@ public class DatabaseManagement {
             e.getMessage();
         }
     }
-      
+
     public void deleteProduct(Integer id) {
         try {
-        
+
             pst = conn.prepareStatement("DELETE from products where id = ?");
             pst.setInt(1, id);
             int rows = pst.executeUpdate();
@@ -192,32 +197,47 @@ public class DatabaseManagement {
             e.getMessage();
         }
     }
-    
+
+    public void deleteCustomer(Integer id) {
+        try {
+
+            pst = conn.prepareStatement("DELETE from users where id = ?");
+            pst.setInt(1, id);
+            int rows = pst.executeUpdate();
+            pst.close();
+            System.out.print(rows);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
     public boolean addCustomer(String fname, String lname, String email, String Password, Date dob, String address, String phone, String interets, int creditLimit) throws SQLException {
         boolean isAdded = false;
         try {
-            String InsertStatement = "insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,intersts)"
-                    + "VALUES(?,?,?,?,?,?,?,?,?);";
+            String InsertStatement = "insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,interests)"
+                    + "VALUES(?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(InsertStatement);
             pstmt.setString(1, fname);
             pstmt.setString(2, lname);
+            pstmt.setDate(3, dob);
             pstmt.setString(4, email);
             pstmt.setString(5, Password);
-            pstmt.setDate(3, dob);
+            pstmt.setInt(6, creditLimit);
             pstmt.setString(7, address);
             pstmt.setString(8, phone);
             pstmt.setString(9, interets);
-            pstmt.setInt(6, creditLimit);
+
             int i = pstmt.executeUpdate();
             System.out.println(i + " records inserted");
             isAdded = true;
         } catch (SQLException e) {
-            System.out.println(" Exception at adding new users in data base : " + e);
-            isAdded = false;
-
+            System.out.println(" Exception at adding new users in database : " + e);
+            isAdded = true;
         }
         return isAdded;
     }
+
+
     public Connection getConnection() {
         return conn;
     }

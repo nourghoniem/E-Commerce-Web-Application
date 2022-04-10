@@ -45,8 +45,8 @@
         <servlet-class>com.iti.ecommerce.essentials.Login.Login</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>servletForImagesPath</servlet-name>
-        <servlet-class>com.iti.ecommerce.essentials.dbconnection.servletForImagesPath</servlet-class>
+        <servlet-name>deleteCustomerServlet</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.deleteCustomerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
@@ -69,8 +69,8 @@
         <url-pattern>/Login</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>servletForImagesPath</servlet-name>
-        <url-pattern>/servletForImagesPath</url-pattern>
+        <servlet-name>deleteCustomerServlet</servlet-name>
+        <url-pattern>/deleteCustomerServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -9,7 +9,8 @@ package com.iti.ecommerce.essentials.model;
  * @author nour
  */
 public class Customer {
-
+    
+    private Integer id;
     private String first_name;
     private String last_name;
     private String email;
@@ -20,13 +21,22 @@ public class Customer {
     private String phone_number;
     
     
-    public Customer(String first_name, String last_name, String email, String dob, String address, String phone_number) {
+    public Customer(Integer id, String first_name, String last_name, String email, String dob, String address, String phone_number) {
+        this.id = id;
         this.first_name = first_name;
         this.last_name = last_name;
         this.email = email;
         this.dob = dob;
         this.address = address;
         this.phone_number = phone_number;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
 
