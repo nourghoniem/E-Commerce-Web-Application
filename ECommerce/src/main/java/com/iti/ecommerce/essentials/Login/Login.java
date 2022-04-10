@@ -63,7 +63,7 @@ public class Login extends HttpServlet {
 
             if (rs.next()) {
                 session.setAttribute("email", rs.getString("email"));
-                dispatcher = request.getRequestDispatcher("store.html");
+                dispatcher = request.getRequestDispatcher("/JSPfiles/HomePage.jsp");
                 
             } else {
                 request.setAttribute("status", "failed");

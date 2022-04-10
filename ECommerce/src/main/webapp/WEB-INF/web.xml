@@ -2,11 +2,11 @@
 <web-app version="3.1" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd">
     <context-param>
         <param-name>ACCOUNT_SID</param-name>
-        <param-value>ACa6cbcb955bca23cadd8875e0a6ff1983</param-value> 
+        <param-value>ACa6cbcb955bca23cadd8875e0a6ff1983</param-value>
     </context-param>
     <context-param>
         <param-name>AUTH_TOKEN</param-name>
-        <param-value>274e48d032948ab3dfc938a39fa79bc0</param-value> 
+        <param-value></param-value>
     </context-param>
     <context-param>
         <param-name>db_URL</param-name>
@@ -29,14 +29,12 @@
         <servlet-class>com.iti.ecommerce.essentials.controller.addProductServlet</servlet-class>
     </servlet>
     <servlet>
-
         <servlet-name>editProductServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.editProductServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>deleteProductServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.deleteProductServlet</servlet-class>
-     
     </servlet>
     <servlet>
         <servlet-name>VerifyPhoneNumber</servlet-name>
@@ -45,6 +43,10 @@
     <servlet>
         <servlet-name>Login</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.Login.Login</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>servletForImagesPath</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.dbconnection.servletForImagesPath</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
@@ -65,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>Login</servlet-name>
         <url-pattern>/Login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>servletForImagesPath</servlet-name>
+        <url-pattern>/servletForImagesPath</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

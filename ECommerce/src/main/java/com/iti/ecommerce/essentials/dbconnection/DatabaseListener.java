@@ -5,6 +5,7 @@
 package com.iti.ecommerce.essentials.dbconnection;
 
 import java.io.File;
+import java.sql.Connection;
 import java.sql.SQLException;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -20,6 +21,7 @@ public class DatabaseListener implements ServletContextListener {
         String dbURL= context.getInitParameter("db_URL");
         try {
             DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
+           Connection conn= DatabaseConnection.getConnection();
             System.out.println("Connection Establised.........");
         } catch (Exception ex) {
             System.out.println("Connection not Establised.........");

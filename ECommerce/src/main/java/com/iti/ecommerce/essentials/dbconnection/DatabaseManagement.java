@@ -90,8 +90,15 @@ public class DatabaseManagement {
                 InputStream image = rs.getBinaryStream("image");
                 byte byteArray[] = new byte[image.available()];
                 image.read(byteArray);
-                FileOutputStream out = new FileOutputStream("F:/webProject/newerversion/E-Commerce-Web-Application/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
-                out.write(byteArray);
+               FileOutputStream out = new FileOutputStream("F:/webProject/newerversion/E-Commerce-Web-Application/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
+             // File my_URL= new File("../../../../../../webapp/db_images/" + id + ".jpg");
+          //   String localDir = System.getProperty("user.dir");
+          //   File my_URL = new File(localDir + "src\\main\\webapp\\db_images\\" + id + ".jpg");
+           //  FileOutputStream out = new FileOutputStream(my_URL);
+           //     System.out.println(out);           
+//   FileOutputStream output = new FileOutputStream( request.getSession().getServletContext().getRealPath("WEB-INF/classes/data.json"), false);
+
+              out.write(byteArray);
                 Product product = new Product(id, name, price, quantity, product_type);
                 products.add(product);
             }
