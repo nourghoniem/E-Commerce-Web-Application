@@ -6,7 +6,7 @@
     </context-param>
     <context-param>
         <param-name>AUTH_TOKEN</param-name>
-        <param-value>274e48d032948ab3dfc938a39fa79bc0</param-value>
+        <param-value></param-value>
     </context-param>
     <context-param>
         <param-name>db_URL</param-name>
