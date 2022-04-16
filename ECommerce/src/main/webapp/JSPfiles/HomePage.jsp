@@ -10,9 +10,9 @@
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <% DatabaseManagement DM = new DatabaseManagement();%>
 <% List<Product> products = DM.getProducts();%>
-<%  String name ,description, image_URL,product_type;
-    Double price,oldPrice;
-    Integer quantity,id ;
+<%  String name, description, image_URL, product_type;
+    Double price, oldPrice;
+    Integer quantity, id;
 %>
 <!DOCTYPE html>
 
@@ -46,12 +46,18 @@
 
         <!-- Page Title Icon -->
         <link rel="icon" href="img/web-traffic.ico" type="image/icon type">
+        <!--        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+
+
 
     </head>
     <body>
@@ -287,31 +293,38 @@
                         <div class="row">
                             <div class="products-tabs">
                                 <!-- tab -->
+
                                 <div id="tab1" class="tab-pane active">
+
                                     <div class="products-slick" data-nav="#slick-nav-1">
+                                        <!--                                        -->
                                         <!-- product -->
                                         <!-- //////////////////////////////// imp  /////////////// -->
-                                        <% for (Product product : products){
+                                        <% for (Product product : products) {
+
                                                 name = product.getProduct_name();
                                                 price = product.getPrice();
-                                                oldPrice=price +(price*.02);
+                                                oldPrice = price + (price * .02);
                                                 quantity = product.getQuantity();
                                                 description = product.getDescription();
                                                 id = product.getId();
-                                                image_URL="../db_images/"+id+".jpg";
-                                                product_type =product.getProduct_type();
-                                                
-                                        
+                                                image_URL = "../db_images/" + id + ".jpg";
+                                                product_type = product.getProduct_type();
+
+
                                         %>
                                         <div class="product">
+
                                             <div class="product-img">
-                                                <img src=<%=image_URL%>>
+                                                <img width="100px" height="250px" src=<%=image_URL%>>
                                                 <div class="product-label">
                                                     <span class="sale">-30%</span>
                                                     <span class="new">NEW</span>
                                                 </div>
                                             </div>
                                             <div class="product-body">
+                                                <!--                                                    <input type="hidden" id="id" name="id" value="">-->
+                                                <!--                                                    <p id="id" class="product-category"></p>-->
                                                 <p class="product-category"><%=product_type%></p>
                                                 <h3 class="product-name"><a href="#"><%=name%></a></h3>
                                                 <h4 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h4>
@@ -329,15 +342,43 @@
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                <button onclick="myAlert(<%=id%>);" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>                                                  
+                                                <script>
+                                                    function myAlert(my_id)
+                                                    {
+                                                        var id = my_id;
+//                                                          
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "${pageContext.request.contextPath}/addToCart",
+                                                            data: {
+                                                                id: id
+                                                            },
+
+                                                            success: function (data) {
+
+                                                                alert("id is"+data);
+                                                            },
+                                                            error: function (resp) {
+                                                                console.log(resp);
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
                                             </div>
                                         </div>
                                         <!-- /product -->
                                         <%}%>
 
+
+
+                                        <!--                                      -->
                                     </div>
+
+
                                     <div id="slick-nav-1" class="products-slick-nav"></div>
                                 </div>
+
                                 <!-- /tab -->
                             </div>
                         </div>
@@ -427,21 +468,21 @@
                                 <div id="tab2" class="tab-pane fade in active">
                                     <div class="products-slick" data-nav="#slick-nav-2">
                                         <!-- product -->
-                                        <% for (Product product : products){
+                                        <% for (Product product : products) {
                                                 name = product.getProduct_name();
                                                 price = product.getPrice();
-                                                oldPrice=price +(price*.30);
+                                                oldPrice = price + (price * .30);
                                                 quantity = product.getQuantity();
                                                 description = product.getDescription();
                                                 id = product.getId();
-                                                image_URL="../db_images/"+id+".jpg";
-                                                product_type =product.getProduct_type();
-                                                
-                                        
+                                                image_URL = "../db_images/" + id + ".jpg";
+                                                product_type = product.getProduct_type();
+
+
                                         %>
                                         <div class="product">
                                             <div class="product-img">
-                                                <img src=<%=image_URL%> >
+                                                <img width="100px" height="250px" src=<%=image_URL%> >
                                                 <div class="product-label">
                                                     <span class="sale">-30%</span>
                                                     <span class="new">NEW</span>
@@ -470,11 +511,10 @@
                                         </div>
                                         <!-- /product -->
                                         <%}%>
-                                        
 
-                                        
-                                       
                                     </div>
+
+
                                     <div id="slick-nav-2" class="products-slick-nav"></div>
                                 </div>
                                 <!-- /tab -->
@@ -487,6 +527,7 @@
             </div>
             <!-- /container -->
         </div>
+
         <!-- /SECTION -->
 
         <!-- SECTION -->
@@ -915,6 +956,9 @@
         </footer>
         <!-- /FOOTER -->
 
+
+        <!--        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+                <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>-->
         <!-- jQuery Plugins -->
         <script src="js/jquery.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
@@ -922,6 +966,7 @@
         <script src="js/nouislider.min.js"></script>
         <script src="js/jquery.zoom.min.js"></script>
         <script src="js/main.js"></script>
+
 
     </body>
 </html>
