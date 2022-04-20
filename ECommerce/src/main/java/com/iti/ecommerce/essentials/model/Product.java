@@ -21,6 +21,8 @@ public class Product {
     private Integer quantity;
     private String description;
     private String product_type;
+    
+    public Product(){}
 
     public Product(File product_image, String product_name, Double price, Integer quantity, String description, String product_type) {
         this.product_image = product_image;
