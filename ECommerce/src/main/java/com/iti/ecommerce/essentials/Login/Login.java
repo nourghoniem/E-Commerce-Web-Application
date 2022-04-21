@@ -4,6 +4,7 @@
  */
 package com.iti.ecommerce.essentials.Login;
 
+import com.iti.ecommerce.essentials.dbconnection.DatabaseConnection;
 import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -36,7 +37,7 @@ public class Login extends HttpServlet {
             throws ServletException, IOException {
         DatabaseManagement DM =new DatabaseManagement();
       
-        con = DM.getConnection();
+        con= DatabaseConnection.getConnection();
         PrintWriter pw = response.getWriter();
         String email = request.getParameter("email");
         String password = request.getParameter("password");

@@ -4,28 +4,16 @@
  */
 package com.iti.ecommerce.essentials.dbconnection;
 
-import java.io.FileInputStream;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import com.iti.ecommerce.essentials.model.Customer;
+import com.iti.ecommerce.essentials.model.Product;
+
+import java.io.*;
+import java.net.URL;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import com.iti.ecommerce.essentials.model.Product;
-import com.iti.ecommerce.essentials.model.Customer;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.sql.Date;
-import java.sql.PreparedStatement;
-import java.time.LocalDate;
-import java.time.Month;
 
 /**
- *
  * @author nour
  */
 public class DatabaseManagement {
@@ -51,11 +39,11 @@ public class DatabaseManagement {
     }
 
     public List<Customer> getCustomers() {
-        customers = new ArrayList<Customer>();
+        customers = new ArrayList<>();
         try {
             stmt = conn.createStatement();
             String SQL = "SELECT id, first_name, last_name, dob, email, address, phone_number from users;";
-            ResultSet rs = stmt.executeQuery(SQL);
+            rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
@@ -75,56 +63,25 @@ public class DatabaseManagement {
     }
 
     public List<Product> getProducts() throws IOException {
-        products = new ArrayList<Product>();
+
         try {
             stmt = conn.createStatement();
             String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id;";
-            ResultSet rs = stmt.executeQuery(SQL);
-
-            while (rs.next()) {
-                String type;
-                Integer id = rs.getInt("id");
-                String name = rs.getString("name");
-                Integer quantity = rs.getInt("quantity");
-                Double price = rs.getDouble("price");
-                String product_type = rs.getString("type");
-                InputStream image = rs.getBinaryStream("image");
-                byte byteArray[] = new byte[image.available()];
-                image.read(byteArray);
-
-  //             FileOutputStream out = new FileOutputStream("F:/webProject/newerversion/E-Commerce-Web-Application/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
-             // File my_URL= new File("../../../../../../webapp/db_images/" + id + ".jpg");
-          //   String localDir = System.getProperty("user.dir");
-          //   File my_URL = new File(localDir + "src\\main\\webapp\\db_images\\" + id + ".jpg");
-           //  FileOutputStream out = new FileOutputStream(my_URL);
-           //     System.out.println(out);           
-//   FileOutputStream output = new FileOutputStream( request.getSession().getServletContext().getRealPath("WEB-INF/classes/data.json"), false);
-
-  //            out.write(byteArray);
-
-                URL resource = getClass().getResource("/");
-                String path = resource.getPath();
-                path = path.replace("WEB-INF/classes/", "");
-//                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
-                FileOutputStream out = new FileOutputStream(path+"db_images/" + id + ".jpg");
-                out.write(byteArray);
-                Product product = new Product(id, name, price, quantity, product_type);
-                products.add(product);
-
-            }
+            rs = stmt.executeQuery(SQL);
+            products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return products;
     }
 
-    public Product getProductById(Integer getid) throws IOException {
+    public Product getProductById(Integer getid) {
 
         try {
 
             stmt = conn.createStatement();
             String SQL = "SELECT e.id, e.description, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where e.id =" + getid + ";";
-            ResultSet rs = stmt.executeQuery(SQL);
+            rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
                 String type;
@@ -142,6 +99,45 @@ public class DatabaseManagement {
             e.printStackTrace();
         }
         return product;
+    }
+
+    public String resultString(String KeyWord) throws IOException {
+        System.out.println(KeyWord);
+        String result, name, image_URL;
+        int id;
+        double Price;
+        result = "";
+        products = (ArrayList<Product>) getProductsForMainSearch(KeyWord);
+        for (Product product : products) {
+
+            name = product.getProduct_name();
+            id = product.getId();
+            Price = product.getPrice();
+            image_URL = "../db_images/" + id + ".jpg";
+            result = result + id + ":" + name + ":" + image_URL + ":" + Price + ";";
+
+        }
+        System.out.println(result);
+        result = result.substring(0, result.length() - 1);
+        System.out.println(result);
+        return result;
+    }
+
+    List<Product> getProductsForMainSearch(String KeyWord) throws IOException {
+
+        try {
+            stmt = conn.createStatement();
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price,e.description, f.type from products as e\n" + "    inner join product_type as f on e.product_type = f.id\n" + "    where UPPER(e.name) LIKE UPPER('" + KeyWord + "%') OR UPPER(description) LIKE UPPER('%" + KeyWord + "%');";
+            rs = stmt.executeQuery(SQL);
+
+            products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return products;
     }
 
     public void addProduct(Product p) {
@@ -169,7 +165,7 @@ public class DatabaseManagement {
     }
 
 
-      public void editProduct(Product p) {
+    public void editProduct(Product p) {
         try {
 
             pst = conn.prepareStatement("UPDATE products SET description=?, price = ?, quantity=? where id = ?");
@@ -214,8 +210,7 @@ public class DatabaseManagement {
     public boolean addCustomer(String fname, String lname, String email, String Password, Date dob, String address, String phone, String interets, int creditLimit) throws SQLException {
         boolean isAdded = false;
         try {
-            String InsertStatement = "insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,interests)"
-                    + "VALUES(?,?,?,?,?,?,?,?,?)";
+            String InsertStatement = "insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,interests)" + "VALUES(?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(InsertStatement);
             pstmt.setString(1, fname);
             pstmt.setString(2, lname);
@@ -237,8 +232,31 @@ public class DatabaseManagement {
         return isAdded;
     }
 
+    List<Product> loopThroughResultSetForProducts(ResultSet rs) throws SQLException, IOException {
+        products = new ArrayList<Product>();
+        while (rs.next()) {
+            String type;
+            Integer id = rs.getInt("id");
+            String name = rs.getString("name");
+            Integer quantity = rs.getInt("quantity");
+            Double price = rs.getDouble("price");
+            String product_type = rs.getString("type");
+            InputStream image = rs.getBinaryStream("image");
+            byte[] byteArray = new byte[image.available()];
+            image.read(byteArray);
 
-    public Connection getConnection() {
-        return conn;
+            URL resource = getClass().getResource("/");
+            String path = resource.getPath();
+            path = path.replace("WEB-INF/classes/", "");
+//                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
+            System.out.println(path + "db_images/" + id + ".jpg");
+            FileOutputStream out = new FileOutputStream(path + "db_images/" + id + ".jpg");
+            out.write(byteArray);
+            Product product = new Product(id, name, price, quantity, product_type);
+            products.add(product);
+
+        }
+        return products;
     }
+
 }

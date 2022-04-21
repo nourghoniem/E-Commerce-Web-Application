@@ -99,13 +99,16 @@
                         <div class="col-md-6">
                             <div class="header-search">
                                 <form>
-                                    <select class="input-select">
-                                        <option value="0">All Categories</option>
-                                        <option value="1">Category 01</option>
-                                        <option value="1">Category 02</option>
-                                    </select>
-                                    <input class="input" placeholder="Search here">
-                                    <button class="search-btn">Search</button>
+                                    <!-- Cart -->
+                                    <div class="dropdown dropDownSearch">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                            <input class="input-select input" placeholder="Search here" id="search_bar_id">
+                                        </a>
+                                        <button class="search-btn">Search</button>
+                                        <div id="search-dropdown" class="cart-dropdown">
+
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -966,7 +969,7 @@
         <script src="js/nouislider.min.js"></script>
         <script src="js/jquery.zoom.min.js"></script>
         <script src="js/main.js"></script>
-
+        <script src="js/searchScript.js"></script>
 
     </body>
 </html>
