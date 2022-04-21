@@ -74,7 +74,18 @@ public class DatabaseManagement {
         }
         return products;
     }
+    public List<Product> getProducts(String Type) throws IOException {
 
+        try {
+            stmt = conn.createStatement();
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where f.type='"+Type+"';";
+            rs = stmt.executeQuery(SQL);
+            products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
     public Product getProductById(Integer getid) {
 
         try {
@@ -100,9 +111,26 @@ public class DatabaseManagement {
         }
         return product;
     }
+    public String productTypeString(String Type) throws IOException {
+        String result, name, image_URL;
+        int id;
+        double Price;
+        result = "";
+        products = (ArrayList<Product>) getProducts(Type);
+        for (Product product : products) {
 
+            name = product.getProduct_name();
+            id = product.getId();
+            Price = product.getPrice();
+            image_URL = "../db_images/" + id + ".jpg";
+
+            result = result + id + ":" + name + ":" + image_URL + ":" + Price + ":"+Type+";";
+
+        }
+        result = result.substring(0, result.length() - 1);
+        return result;
+    }
     public String resultString(String KeyWord) throws IOException {
-        System.out.println(KeyWord);
         String result, name, image_URL;
         int id;
         double Price;
@@ -117,9 +145,7 @@ public class DatabaseManagement {
             result = result + id + ":" + name + ":" + image_URL + ":" + Price + ";";
 
         }
-        System.out.println(result);
         result = result.substring(0, result.length() - 1);
-        System.out.println(result);
         return result;
     }
 

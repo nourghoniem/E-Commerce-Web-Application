@@ -9,8 +9,8 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <% DatabaseManagement DM = new DatabaseManagement();%>
-<% List<Product> products = DM.getProducts();%>
-<%  String name, description, image_URL, product_type;
+<% List<Product> products = DM.getProducts("Laptop");%>
+<%  String name, description, image_URL, product_type,visibility,show;
     Double price, oldPrice;
     Integer quantity, id;
 %>
@@ -55,7 +55,9 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+        <style>
+            div.hide {display: none;}
+        </style>
 
 
 
@@ -281,10 +283,8 @@
                             <h3 class="title">New Products</h3>
                             <div class="section-nav">
                                 <ul class="section-tab-nav tab-nav">
-                                    <li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-                                    <li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-                                    <li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-                                    <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
+                                    <li id="Laptop_toggle_tab"  class="active"><a data-toggle="tab" href="#tab1">Laptops</a></liid>
+                                    <li id="Mobile_toggle_tab"><a data-toggle="tab" href="#tab1">Smartphones</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -299,7 +299,8 @@
 
                                 <div id="tab1" class="tab-pane active">
 
-                                    <div class="products-slick" data-nav="#slick-nav-1">
+                                    <div id="Products_slider_div" class="products-slick" data-nav="#slick-nav-1">
+                                        
                                         <!--                                        -->
                                         <!-- product -->
                                         <!-- //////////////////////////////// imp  /////////////// -->
@@ -345,7 +346,7 @@
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <button onclick="myAlert(<%=id%>);" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>                                                  
+                                                <button onclick="myAlert(<%=id%>);" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                                 <script>
                                                     function myAlert(my_id)
                                                     {
@@ -455,8 +456,6 @@
                                 <ul class="section-tab-nav tab-nav">
                                     <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
                                     <li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Cameras</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Accessories</a></li>
                                 </ul>
                             </div>
                         </div>

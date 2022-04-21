@@ -56,6 +56,10 @@
         <servlet-name>SearchForProductsServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.SearchForProductsServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>FilterProducts</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.FilterProducts</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
         <url-pattern>/addProductServlet</url-pattern>
@@ -87,6 +91,10 @@
     <servlet-mapping>
         <servlet-name>SearchForProductsServlet</servlet-name>
         <url-pattern>/SearchForProductsServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>FilterProducts</servlet-name>
+        <url-pattern>/FilterProducts</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
