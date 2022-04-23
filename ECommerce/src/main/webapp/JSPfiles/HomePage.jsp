@@ -299,7 +299,7 @@
 
                                 <div id="tab1" class="tab-pane active">
 
-                                    <div id="Products_slider_div" class="products-slick" data-nav="#slick-nav-1">
+                                    <div id="Products_slider_div" class="products-slick" data-nav="#slick-nav-1" >
                                         
                                         <!--                                        -->
                                         <!-- product -->

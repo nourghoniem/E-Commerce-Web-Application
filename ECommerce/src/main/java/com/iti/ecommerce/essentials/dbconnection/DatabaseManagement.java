@@ -78,7 +78,7 @@ public class DatabaseManagement {
 
         try {
             stmt = conn.createStatement();
-            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where f.type='"+Type+"';";
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where f.type='"+Type+"' limit 8;";
             rs = stmt.executeQuery(SQL);
             products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
         } catch (SQLException e) {

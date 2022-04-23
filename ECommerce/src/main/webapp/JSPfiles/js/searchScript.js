@@ -1,6 +1,7 @@
 let txt = "";
 let ResultDiv = document.getElementById("search-dropdown");
-let Products_slider = document.getElementById("Products_slider_div");
+//let Products_slider = document.getElementById("Products_slider_div");
+let Products_slider = document.getElementById("tab1");
 let Laptop_toggle_tab = document.getElementById("Laptop_toggle_tab");
 let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
 (function ($) {
@@ -20,7 +21,9 @@ let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
             } else {
                 var array = msg.split(";");
                 array.forEach(myFunction);
+                ResultDiv.removeAttribute("class");
                 ResultDiv.innerHTML = txt;
+                ResultDiv.classList.add("products-slick slick-initialized slick-slider");
                 //alert(msg);
             }
         });
@@ -60,21 +63,25 @@ let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
             cache: false, data: dataForm
         });
         request.done(function (msg) {
-            Products_slider.firstElementChild.firstElementChild.innerHTML = "";
+            Products_slider.innerHTML = "";
             txt = "";
             if (msg == '') {
             } else {
                 var array = msg.split(";");
                 array.forEach(myFunction2);
-          //      Products_slider.firstElementChild.firstElementChild.innerHTML = txt;
+          //     $('#Products_slider_div').html(txt);
+                var Header= `  <div id="Products_slider_div" class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1" >
+<div class="slick-list draggable"><div class="slick-track">`;
+                var trailer=`</div> </div> </div>`;
+                Products_slider.innerHTML = Header+txt+trailer;
                 //alert(msg);
             }
         });
 
         function myFunction2(value, index, array) {
             var elementArr = value.split(":");
-            Products_slider.firstElementChild.firstElementChild.innerHTML += `
-<div class="product "  >
+            txt += `
+<div class="product slick-slide" style="width: 263px;"  >
                                             <div class="product-img">
                                                 <img width="100px" height="250px" src=` + elementArr[2] + `>
                                                 <div class="product-label">
@@ -109,9 +116,12 @@ let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
         }
 
         request.fail(function (jqXHR, textStatus) {
-            Products_slider.firstElementChild.firstElementChild.innerHTML = "";
+            Products_slider.innerHTML = "";
             txt = "";
         });
     };
-
+// $(document).ajaxStop(function (){
+//     console.log("ajax has finished query");
+//     window.location.reload();
+// });
 })(jQuery);
