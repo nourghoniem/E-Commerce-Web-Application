@@ -23,8 +23,10 @@ public class FilterProducts extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String type=request.getParameter("type");
+        String Min =request.getParameter("Min");
+        String Max =request.getParameter("Max");
         DatabaseManagement DM =new DatabaseManagement();
-        String Result =DM.productTypeString(type);
+        String Result =DM.productTypeString(type,Min,Max);
         PrintWriter pw = response.getWriter();
         pw.println(Result);
     }

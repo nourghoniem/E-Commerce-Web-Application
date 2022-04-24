@@ -2192,4 +2192,10 @@ textarea.input {
     float: none;
     margin-top: 10px;
   }
+  .range-input{
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    color: #8D99AE;
+  }
+
 }

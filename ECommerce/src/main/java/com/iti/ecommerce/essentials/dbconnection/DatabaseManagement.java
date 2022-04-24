@@ -62,11 +62,11 @@ public class DatabaseManagement {
         return customers;
     }
 
-    public List<Product> getProducts() throws IOException {
+    public List<Product> getProducts(String Min ,String Max) throws IOException {
 
         try {
             stmt = conn.createStatement();
-            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id;";
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id Where e.price between " +Min+" and "+Max+" limit 8;";
             rs = stmt.executeQuery(SQL);
             products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
         } catch (SQLException e) {
@@ -74,17 +74,26 @@ public class DatabaseManagement {
         }
         return products;
     }
-    public List<Product> getProducts(String Type) throws IOException {
-
+    public List<Product> getProducts(String Type,String Min,String Max) throws IOException {
+        if (Type.equalsIgnoreCase("")){
+            return getProducts(Min, Max);
+        }
+        else{
         try {
             stmt = conn.createStatement();
-            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id where f.type='"+Type+"' limit 8;";
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type " +
+                    "from products as e " +
+                    "inner join product_type as f " +
+                    "on e.product_type = f.id " +
+                    "where f.type='"+Type+"' and " +
+                    "e.price between " +Min+" and "+Max+" limit 8;";
             rs = stmt.executeQuery(SQL);
             products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return products;
+        }
     }
     public Product getProductById(Integer getid) {
 
@@ -111,12 +120,12 @@ public class DatabaseManagement {
         }
         return product;
     }
-    public String productTypeString(String Type) throws IOException {
+    public String productTypeString(String Type,String Min ,String Max) throws IOException {
         String result, name, image_URL;
         int id;
         double Price;
         result = "";
-        products = (ArrayList<Product>) getProducts(Type);
+        products = (ArrayList<Product>) getProducts(Type,Min,Max);
         for (Product product : products) {
 
             name = product.getProduct_name();

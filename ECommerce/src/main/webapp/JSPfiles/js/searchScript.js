@@ -4,6 +4,12 @@ let ResultDiv = document.getElementById("search-dropdown");
 let Products_slider = document.getElementById("tab1");
 let Laptop_toggle_tab = document.getElementById("Laptop_toggle_tab");
 let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
+let Gtype="";
+const priceInput = document.querySelectorAll(".price-input");
+const  Min_Price_id=document.getElementById("Min_Price_id");
+const Max_Price_id=document.getElementById("Max_Price_id");
+
+let priceGap = 1000;
 (function ($) {
 
     $("#search_bar_id").keyup(function () {
@@ -50,14 +56,16 @@ let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
         });
     });
     ////////////////for mobile tab
-    $("#Mobile_toggle_tab").mousedown(function (){tabFunction("Mobile")});
-    $("#Laptop_toggle_tab").mousedown(function (){tabFunction("Laptop")});
+    $("#Mobile_toggle_tab").mousedown(function (){tabFunction("Mobile",Min_Price_id.value,Max_Price_id.value)});
+    $("#Laptop_toggle_tab").mousedown(function (){tabFunction("Laptop",Min_Price_id.value,Max_Price_id.value)});
+    $("#All_toggle_tab").mousedown(function (){tabFunction("",Min_Price_id.value,Max_Price_id.value)});
     // $("#Mobile_toggle_tab").mousedown(tabFunction("Mobile"));
     // $("#Laptop_toggle_tab").mousedown(tabFunction("Laptop"));
 
-    function tabFunction(type) {
+    function tabFunction(type,Min,Max) {
+        Gtype=type;
         console.log("pressed"+type)
-        var dataForm = "type=" + type;
+        var dataForm = "type=" + type+"&Min="+Min+"&Max="+Max;
         var request = $.ajax({
             url: '/ECommerce/FilterProducts', type: 'GET', processData: false, //contentType: "text/html",
             cache: false, data: dataForm
@@ -116,12 +124,44 @@ let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
         }
 
         request.fail(function (jqXHR, textStatus) {
-            Products_slider.innerHTML = "";
+            Products_slider.innerHTML = `<h3> sorry we couldn't find any products</h3>`;
             txt = "";
         });
     };
 // $(document).ajaxStop(function (){
 //     console.log("ajax has finished query");
-//     window.location.reload();
+//     $("tab1").contentWindow.location.reload();
 // });
+
+    Min_Price_id.addEventListener("input", e => {
+            let minPrice = parseInt(Min_Price_id.value),
+                maxPrice = parseInt(Max_Price_id.value);
+            if (minPrice > maxPrice) {
+                Min_Price_id.value = maxPrice;
+                minPrice = parseInt(Min_Price_id.value);
+                    maxPrice = parseInt(Max_Price_id.value);
+            }
+            if (isNaN(minPrice)||minPrice==0 || minPrice<0 ){
+
+                minPrice = 0;
+                maxPrice = parseInt(Max_Price_id.value);
+            }
+        tabFunction(Gtype,minPrice,maxPrice);
+        });
+    Max_Price_id.addEventListener("input", e => {
+        let minPrice = parseInt(Min_Price_id.value),
+            maxPrice = parseInt(Max_Price_id.value);
+        if (isNaN(maxPrice)||maxPrice==0 || maxPrice<0 ){
+
+            minPrice = parseInt(Min_Price_id.value);
+            maxPrice = 0;
+        }
+        if (minPrice > maxPrice) {
+
+            minPrice = parseInt(Min_Price_id.value);
+            maxPrice = minPrice;
+        }
+        tabFunction(Gtype,minPrice,maxPrice);
+    });
+
 })(jQuery);
