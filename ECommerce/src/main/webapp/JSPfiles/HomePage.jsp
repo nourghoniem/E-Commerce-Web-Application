@@ -356,11 +356,18 @@
                                                             },
 
                                                             success: function (data) {
+                                                                alert(data);
+//                                                                if(data == "exists"){
+//                                                                    alert("Product already exists");
+//                                                                }
+//                                                                else if(data == "added"){
+//                                                                    alert("Product added successfully");
+//                                                                }
 
-                                                                alert("id is"+data);
+                                                              
                                                             },
                                                             error: function (resp) {
-                                                                console.log(resp);
+                                                                alert("Error");
                                                             }
                                                         });
                                                     }
