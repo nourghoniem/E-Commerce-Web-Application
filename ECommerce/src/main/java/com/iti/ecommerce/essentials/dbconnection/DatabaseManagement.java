@@ -62,6 +62,18 @@ public class DatabaseManagement {
         return customers;
     }
 
+    public List<Product> getProducts() throws IOException {
+
+        try {
+            stmt = conn.createStatement();
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id limit 8;";
+            rs = stmt.executeQuery(SQL);
+            products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
     public List<Product> getProducts(String Min ,String Max) throws IOException {
 
         try {
