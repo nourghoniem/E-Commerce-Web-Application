@@ -9,8 +9,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <% DatabaseManagement DM = new DatabaseManagement();%>
-<% List<Product> products = DM.getProducts();%>
-<%  String name, description, image_URL, product_type;
+<% List<Product> Allproducts = DM.getProducts("0","999999");%>
+<% List<Product> Laptops = DM.getProducts("Laptop","0","999999");%>
+<% List<Product> Mobile = DM.getProducts("Mobile","0","999999");%>
+<%  String name, description, image_URL, product_type,visibility,show;
     Double price, oldPrice;
     Integer quantity, id;
 %>
@@ -55,7 +57,9 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-
+        <style>
+            div.hide {display: none;}
+        </style>
 
 
 
@@ -99,13 +103,16 @@
                         <div class="col-md-6">
                             <div class="header-search">
                                 <form>
-                                    <select class="input-select">
-                                        <option value="0">All Categories</option>
-                                        <option value="1">Category 01</option>
-                                        <option value="1">Category 02</option>
-                                    </select>
-                                    <input class="input" placeholder="Search here">
-                                    <button class="search-btn">Search</button>
+                                    <!-- Cart -->
+                                    <div class="dropdown dropDownSearch">
+                                        <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+                                            <input class="input-select input" placeholder="Search here" id="search_bar_id">
+                                        </a>
+                                        <button class="search-btn">Search</button>
+                                        <div id="search-dropdown" class="cart-dropdown">
+
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                         </div>
@@ -278,10 +285,36 @@
                             <h3 class="title">New Products</h3>
                             <div class="section-nav">
                                 <ul class="section-tab-nav tab-nav">
-                                    <li class="active"><a data-toggle="tab" href="#tab1">Laptops</a></li>
-                                    <li><a data-toggle="tab" href="#tab1">Smartphones</a></li>
-                                    <li><a data-toggle="tab" href="#tab1">Cameras</a></li>
-                                    <li><a data-toggle="tab" href="#tab1">Accessories</a></li>
+                                    <li id="All_toggle_tab" class="active"><a data-toggle="tab" href="#tab1">All products</a></li>
+                                    <li id="Laptop_toggle_tab"  class=""><a data-toggle="tab" href="#tab1">Laptops</a></li>
+                                    <li id="Mobile_toggle_tab"><a data-toggle="tab" href="#tab1">Smartphones</a></li>
+                                   <li >
+                                       <%-- <div class="wrapper">--%>
+<%--                                        <div class="price-input">--%>
+<%--                                            <div class="field">--%>
+<%--                                                <span>Min</span>--%>
+<%--                                                <input type="number" disabled class="input-min" value="2500">--%>
+<%--                                                <div class="range-input">--%>
+<%--                                                    <input type="range" class="range-min" min="0" max="10000" value="2500" step="100">--%>
+<%--                                                </div>--%>
+<%--                                                </div>--%>
+
+<%--                                            <div class="field">--%>
+<%--                                                <div class="range-input">--%>
+<%--                                                <span>Max</span>--%>
+<%--                                                <input type="number" disabled class="input-max" value="7500">--%>
+
+<%--                                                    <input type="range" class="range-max" min="0" max="10000" value="7500" step="100">--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+
+                                        <div class="range-input">
+                                            <span>Price : MIN</span> <input id="Min_Price_id" class="price-input" style="width: 80px" type="number" value="0"  step="5" min="0">
+                                            <span>Max</span><input  id="Max_Price_id" class="price-input" style="width: 80px" type="number" value="999999" step="5" min="0">
+                                        </div>
+<%--                                    </div>--%>
+                            </li>
                                 </ul>
                             </div>
                         </div>
@@ -296,11 +329,12 @@
 
                                 <div id="tab1" class="tab-pane active">
 
-                                    <div class="products-slick" data-nav="#slick-nav-1">
+                                    <div id="Products_slider_div" class="products-slick" data-nav="#slick-nav-1" >
+                                        
                                         <!--                                        -->
                                         <!-- product -->
                                         <!-- //////////////////////////////// imp  /////////////// -->
-                                        <% for (Product product : products) {
+                                        <% for (Product product : Allproducts) {
 
                                                 name = product.getProduct_name();
                                                 price = product.getPrice();
@@ -313,7 +347,7 @@
 
 
                                         %>
-                                        <div class="product">
+                                        <div class="product ">
 
                                             <div class="product-img">
                                                 <img width="100px" height="250px" src=<%=image_URL%>>
@@ -342,7 +376,7 @@
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <button onclick="myAlert(<%=id%>);" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>                                                  
+                                                <button onclick="myAlert(<%=id%>);" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                                                 <script>
                                                     function myAlert(my_id)
                                                     {
@@ -459,8 +493,6 @@
                                 <ul class="section-tab-nav tab-nav">
                                     <li class="active"><a data-toggle="tab" href="#tab2">Laptops</a></li>
                                     <li><a data-toggle="tab" href="#tab2">Smartphones</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Cameras</a></li>
-                                    <li><a data-toggle="tab" href="#tab2">Accessories</a></li>
                                 </ul>
                             </div>
                         </div>
@@ -472,54 +504,54 @@
                         <div class="row">
                             <div class="products-tabs">
                                 <!-- tab -->
-                                <div id="tab2" class="tab-pane fade in active">
-                                    <div class="products-slick" data-nav="#slick-nav-2">
-                                        <!-- product -->
-                                        <% for (Product product : products) {
-                                                name = product.getProduct_name();
-                                                price = product.getPrice();
-                                                oldPrice = price + (price * .30);
-                                                quantity = product.getQuantity();
-                                                description = product.getDescription();
-                                                id = product.getId();
-                                                image_URL = "../db_images/" + id + ".jpg";
-                                                product_type = product.getProduct_type();
+<%--                                <div id="tab2" class="tab-pane fade in active">--%>
+<%--                                    <div class="products-slick" data-nav="#slick-nav-2">--%>
+<%--                                        <!-- product -->--%>
+<%--                                        <% for (Product product : products) {--%>
+<%--                                                name = product.getProduct_name();--%>
+<%--                                                price = product.getPrice();--%>
+<%--                                                oldPrice = price + (price * .30);--%>
+<%--                                                quantity = product.getQuantity();--%>
+<%--                                                description = product.getDescription();--%>
+<%--                                                id = product.getId();--%>
+<%--                                                image_URL = "../db_images/" + id + ".jpg";--%>
+<%--                                                product_type = product.getProduct_type();--%>
 
 
-                                        %>
-                                        <div class="product">
-                                            <div class="product-img">
-                                                <img width="100px" height="250px" src=<%=image_URL%> >
-                                                <div class="product-label">
-                                                    <span class="sale">-30%</span>
-                                                    <span class="new">NEW</span>
-                                                </div>
-                                            </div>
-                                            <div class="product-body">
-                                                <p class="product-category"><%=product_type%></p>
-                                                <h3 class="product-name"><a href="#"><%=name%></a></h3>
-                                                <h4 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h4>
-                                                <div class="product-rating">
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                    <i class="fa fa-star"></i>
-                                                </div>
-                                                <div class="product-btns">
-                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                                                </div>
-                                            </div>
-                                            <div class="add-to-cart">
-                                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                                            </div>
-                                        </div>
-                                        <!-- /product -->
-                                        <%}%>
+<%--                                        %>--%>
+<%--                                        <div class="product">--%>
+<%--                                            <div class="product-img">--%>
+<%--                                                <img width="100px" height="250px" src=<%=image_URL%> >--%>
+<%--                                                <div class="product-label">--%>
+<%--                                                    <span class="sale">-30%</span>--%>
+<%--                                                    <span class="new">NEW</span>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                            <div class="product-body">--%>
+<%--                                                <p class="product-category"><%=product_type%></p>--%>
+<%--                                                <h3 class="product-name"><a href="#"><%=name%></a></h3>--%>
+<%--                                                <h4 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h4>--%>
+<%--                                                <div class="product-rating">--%>
+<%--                                                    <i class="fa fa-star"></i>--%>
+<%--                                                    <i class="fa fa-star"></i>--%>
+<%--                                                    <i class="fa fa-star"></i>--%>
+<%--                                                    <i class="fa fa-star"></i>--%>
+<%--                                                    <i class="fa fa-star"></i>--%>
+<%--                                                </div>--%>
+<%--                                                <div class="product-btns">--%>
+<%--                                                    <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>--%>
+<%--                                                    <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>--%>
+<%--                                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>--%>
+<%--                                                </div>--%>
+<%--                                            </div>--%>
+<%--                                            <div class="add-to-cart">--%>
+<%--                                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                        <!-- /product -->--%>
+<%--                                        <%}%>--%>
 
-                                    </div>
+<%--                                    </div>--%>
 
 
                                     <div id="slick-nav-2" class="products-slick-nav"></div>
@@ -973,7 +1005,7 @@
         <script src="js/nouislider.min.js"></script>
         <script src="js/jquery.zoom.min.js"></script>
         <script src="js/main.js"></script>
-
+        <script src="js/searchScript.js"></script>
 
     </body>
 </html>

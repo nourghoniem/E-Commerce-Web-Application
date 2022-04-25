@@ -6,3 +6,7 @@
 /E-Commerce/build.xml
 /ECommerce/target/
 /WebServicesExample/target/
+.idea/*
+.idea
+target/*
+target
