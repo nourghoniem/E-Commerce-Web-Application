@@ -4,6 +4,9 @@
  */
 package com.iti.ecommerce.essentials.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  *
  * @author nour
@@ -19,6 +22,8 @@ public class Cart extends Product{
     public void setUser_quantity(Integer user_quantity) {
         this.user_quantity = user_quantity;
     }
+    
+   
     
     
 }

@@ -4,6 +4,7 @@
  */
 package com.iti.ecommerce.essentials.dbconnection;
 
+import com.iti.ecommerce.essentials.model.Cart;
 import com.iti.ecommerce.essentials.model.Customer;
 import com.iti.ecommerce.essentials.model.Product;
 
@@ -74,11 +75,12 @@ public class DatabaseManagement {
         }
         return products;
     }
-    public List<Product> getProducts(String Min ,String Max) throws IOException {
+
+    public List<Product> getProducts(String Min, String Max) throws IOException {
 
         try {
             stmt = conn.createStatement();
-            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id Where e.price between " +Min+" and "+Max+" limit 8;";
+            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id Where e.price between " + Min + " and " + Max + " limit 8;";
             rs = stmt.executeQuery(SQL);
             products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
         } catch (SQLException e) {
@@ -86,27 +88,28 @@ public class DatabaseManagement {
         }
         return products;
     }
-    public List<Product> getProducts(String Type,String Min,String Max) throws IOException {
-        if (Type.equalsIgnoreCase("")){
+
+    public List<Product> getProducts(String Type, String Min, String Max) throws IOException {
+        if (Type.equalsIgnoreCase("")) {
             return getProducts(Min, Max);
-        }
-        else{
-        try {
-            stmt = conn.createStatement();
-            String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type " +
-                    "from products as e " +
-                    "inner join product_type as f " +
-                    "on e.product_type = f.id " +
-                    "where f.type='"+Type+"' and " +
-                    "e.price between " +Min+" and "+Max+" limit 8;";
-            rs = stmt.executeQuery(SQL);
-            products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return products;
+        } else {
+            try {
+                stmt = conn.createStatement();
+                String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type "
+                        + "from products as e "
+                        + "inner join product_type as f "
+                        + "on e.product_type = f.id "
+                        + "where f.type='" + Type + "' and "
+                        + "e.price between " + Min + " and " + Max + " limit 8;";
+                rs = stmt.executeQuery(SQL);
+                products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            return products;
         }
     }
+
     public Product getProductById(Integer getid) {
 
         try {
@@ -132,12 +135,13 @@ public class DatabaseManagement {
         }
         return product;
     }
-    public String productTypeString(String Type,String Min ,String Max) throws IOException {
+
+    public String productTypeString(String Type, String Min, String Max) throws IOException {
         String result, name, image_URL;
         int id;
         double Price;
         result = "";
-        products = (ArrayList<Product>) getProducts(Type,Min,Max);
+        products = (ArrayList<Product>) getProducts(Type, Min, Max);
         for (Product product : products) {
 
             name = product.getProduct_name();
@@ -145,12 +149,13 @@ public class DatabaseManagement {
             Price = product.getPrice();
             image_URL = "../db_images/" + id + ".jpg";
 
-            result = result + id + ":" + name + ":" + image_URL + ":" + Price + ":"+Type+";";
+            result = result + id + ":" + name + ":" + image_URL + ":" + Price + ":" + Type + ";";
 
         }
         result = result.substring(0, result.length() - 1);
         return result;
     }
+
     public String resultString(String KeyWord) throws IOException {
         String result, name, image_URL;
         int id;
@@ -178,7 +183,6 @@ public class DatabaseManagement {
             rs = stmt.executeQuery(SQL);
 
             products = (ArrayList<Product>) loopThroughResultSetForProducts(rs);
-
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -211,7 +215,6 @@ public class DatabaseManagement {
         }
     }
 
-
     public void editProduct(Product p) {
         try {
 
@@ -239,6 +242,32 @@ public class DatabaseManagement {
         } catch (Exception e) {
             e.getMessage();
         }
+    }
+
+    public List<Cart> getProductsFromCart(ArrayList<Cart> cart_list) {
+        ArrayList<Cart> cartList = new ArrayList<Cart>();
+        try {
+            if (!cart_list.isEmpty()) {
+                for (Cart c : cart_list) {
+                    stmt = conn.createStatement();
+                    String SQL ="SELECT name, description, price FROM products WHERE id ="+c.getId()+";";
+                    rs = stmt.executeQuery(SQL);
+                    while(rs.next()){
+                        Cart element = new Cart();
+                        element.setId(rs.getInt("id"));
+                        element.setProduct_name(rs.getString("name"));
+                        element.setDescription(rs.getString("description"));
+                        element.setPrice(rs.getDouble("price")*element.getUser_quantity());
+                        element.setUser_quantity(element.getUser_quantity());
+                        cartList.add(element);
+                    }
+                }
+
+            }
+        } catch (SQLException e) {
+        }
+        return cartList;
+
     }
 
     public void deleteCustomer(Integer id) {

@@ -21,8 +21,6 @@ import javax.servlet.http.HttpSession;
  */
 public class addToCart extends HttpServlet {
 
-    boolean exists = false;
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
@@ -37,24 +35,23 @@ public class addToCart extends HttpServlet {
         if (cart_list == null) { //cart session is empty 
             cartList.add(cart);
             session.setAttribute("cart-list", cartList);
-            out.println("session created and added");
-        } 
-        else {
+            out.println("added");
+        } else {
+            cartList = cart_list;
+            boolean exists = false;
             for (Cart c : cart_list) {
-               out.println(c.getId());
+                if (c.getId() == id) {
+                    exists = true; // already added to Cart
+                    out.println("exists");
+                }
             }
-             
-//            cartList = cart_list;
+            if (!exists) {
+                cartList.add(cart);
+                out.println("added");
+
+            }
 //            for (Cart c : cart_list) {
-//                if (c.getId() == id) {
-//                    exists = true; // already added to Cart
-//                    out.println("exists");
-//                }
-//            }
-//            if (exists == false) {
-//                cartList.add(cart);
-//                out.println("added");
-//
+//                out.println(c.getId());
 //            }
 
         }
