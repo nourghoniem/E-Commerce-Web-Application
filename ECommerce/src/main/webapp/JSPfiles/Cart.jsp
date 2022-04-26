@@ -3,7 +3,28 @@
     Created on : Apr 26, 2022, 3:16:01 AM
     Author     : nour
 --%>
+<%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
+<%@page import="java.util.List"%>
+<%@page import="com.iti.ecommerce.essentials.model.Cart"%>
+<%@page import="java.util.ArrayList"%>
+<%
+//    HttpSession sessions=request.getSession(false);  
+//    String s = request.getRequestedSessionId();
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    ArrayList<Cart> get_cart_products = null;
+    String m = "";
+    if(cart_list != null){
+       m = "not empty";
+    }
 
+    if (cart_list != null) {
+        DatabaseManagement database = new DatabaseManagement();
+        get_cart_products = database.getProductsFromCart(cart_list);
+//        request.setAttribute("cart_list", cart_list );
+    }
+
+
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -204,7 +225,42 @@
                     <div class="col-md-12">
                         <div class="row">
                             <div class="products-tabs">
+                                <div class="card-body">
+                                    <div class="table-responsive">
 
+
+                                        <table class="table" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                <tr>
+                                                    <th>Image</th>
+                                                    <th>Name</th>
+                                                    <th>Price</th>
+                                                    <th>Quantity</th>
+                                                    <th>Action</th>
+        
+                                              
+                                                </tr>
+                                            </thead>
+
+                                            <tbody>
+                                                  <%
+                                                  if(cart_list != null){
+                                                   for (Cart c : get_cart_products) {
+                                                  %>
+                                                <tr>
+                                                    <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></td>
+                                                    <td><% out.println(c.getProduct_name()); %> </td>
+                                                    <td><% out.println(c.getPrice()); %> </td>
+                                                    <td><% out.println(c.getUser_quantity()); %> </td>
+                                                   <td><button class="btn btn-danger">Delete</button></td>
+
+
+                                                </tr>
+                                            <% }}%>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
 
                                 <div id="slick-nav-2" class="products-slick-nav"></div>
                             </div>

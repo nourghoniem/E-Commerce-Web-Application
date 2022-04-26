@@ -4,6 +4,7 @@
  */
 package com.iti.ecommerce.essentials.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,9 +12,14 @@ import java.util.List;
  *
  * @author nour
  */
-public class Cart extends Product{
+public class Cart extends Product implements Serializable{
     
     private Integer user_quantity;
+    
+    public Cart(){
+      user_quantity = 1;
+    
+    }
 
     public Integer getUser_quantity() {
         return user_quantity;

@@ -25,12 +25,13 @@ public class addToCart extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse resp) throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
+        ArrayList<Cart> cartList = new ArrayList<>();
         Integer id = Integer.parseInt(request.getParameter("id"));
         Cart cart = new Cart();
         cart.setId(id);
         cart.setUser_quantity(1);
-        ArrayList<Cart> cartList = new ArrayList<>();
-        HttpSession session = request.getSession();
+      
+        HttpSession session = request.getSession(true);
         ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
         if (cart_list == null) { //cart session is empty 
             cartList.add(cart);

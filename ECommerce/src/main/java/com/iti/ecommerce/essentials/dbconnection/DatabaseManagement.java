@@ -244,30 +244,58 @@ public class DatabaseManagement {
         }
     }
 
-    public List<Cart> getProductsFromCart(ArrayList<Cart> cart_list) {
+//    public ArrayList<Cart> getProductsFromCart(ArrayList<Cart> cart_list) {
+//         ArrayList<Cart> cartList = new ArrayList<Cart>();
+//        try {
+//            if (cart_list.size()>0) {
+//                for (Cart c : cart_list) {
+//                    stmt = conn.createStatement();
+//                    String SQL ="SELECT name, description, price FROM products WHERE id ="+c.getId()+";";
+//                    rs = stmt.executeQuery(SQL);
+//                    while(rs.next()){
+//                        Cart element = new Cart();
+//                        element.setId(rs.getInt("id"));
+//                        element.setProduct_name(rs.getString("name"));
+//                        element.setDescription(rs.getString("description"));
+//                        element.setPrice(rs.getDouble("price")*element.getUser_quantity());
+//                        element.setUser_quantity(element.getUser_quantity());
+//                        cartList.add(element);
+//                    }
+//                }
+//
+//            }
+//        } catch (SQLException e) {
+//        }
+//        return cartList;
+//
+//    }
+    public ArrayList<Cart> getProductsFromCart(ArrayList<Cart> cart_list) {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         try {
             if (!cart_list.isEmpty()) {
                 for (Cart c : cart_list) {
-                    stmt = conn.createStatement();
-                    String SQL ="SELECT name, description, price FROM products WHERE id ="+c.getId()+";";
-                    rs = stmt.executeQuery(SQL);
-                    while(rs.next()){
+                    pst = conn.prepareStatement("SELECT name, description, price FROM products WHERE id = ?");
+                    pst.setInt(1, c.getId());
+                    rs = pst.executeQuery();
+
+                    while (rs.next()) {
                         Cart element = new Cart();
-                        element.setId(rs.getInt("id"));
+                        element.setId(c.getId());
                         element.setProduct_name(rs.getString("name"));
                         element.setDescription(rs.getString("description"));
-                        element.setPrice(rs.getDouble("price")*element.getUser_quantity());
-                        element.setUser_quantity(element.getUser_quantity());
+                        element.setPrice(rs.getDouble("price") * element.getUser_quantity());
                         cartList.add(element);
                     }
+
                 }
 
+            } else {
+                System.out.println("zero ");
             }
-        } catch (SQLException e) {
+
+        } catch (Exception e) {
         }
         return cartList;
-
     }
 
     public void deleteCustomer(Integer id) {
