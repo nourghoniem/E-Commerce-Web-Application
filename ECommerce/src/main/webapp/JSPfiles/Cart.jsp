@@ -13,8 +13,8 @@
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     ArrayList<Cart> get_cart_products = null;
     String m = "";
-    if(cart_list != null){
-       m = "not empty";
+    if (cart_list != null) {
+        m = "not empty";
     }
 
     if (cart_list != null) {
@@ -54,6 +54,7 @@
 
         <!-- Custom stlylesheet -->
         <link type="text/css" rel="stylesheet" href="css/style.css"/>
+        <link type="text/css" rel="stylesheet" href="css/quantity.css"/>
 
         <!-- Page Title Icon -->
         <link rel="icon" href="img/web-traffic.ico" type="image/icon type">
@@ -237,28 +238,50 @@
                                                     <th>Price</th>
                                                     <th>Quantity</th>
                                                     <th>Action</th>
-        
-                                              
+
+
                                                 </tr>
                                             </thead>
 
                                             <tbody>
-                                                  <%
-                                                  if(cart_list != null){
-                                                   for (Cart c : get_cart_products) {
-                                                  %>
+                                                <%                                                      if (cart_list != null) {
+                                                        for (Cart c : get_cart_products) {
+                                                %>
                                                 <tr>
                                                     <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></td>
                                                     <td><% out.println(c.getProduct_name()); %> </td>
                                                     <td><% out.println(c.getPrice()); %> </td>
-                                                    <td><% out.println(c.getUser_quantity()); %> </td>
-                                                   <td><button class="btn btn-danger">Delete</button></td>
-
-
+                                                    <td>
+                                                        <div class="number">
+                                                            <span id="minus" class="minus">-</span>
+                                                            <input id="quantity_text" type="text" value="1"/>
+                                                            <span id="plus" class="plus">+</span>
+                                                        </div>
+                                                    </td>
+                                                    <td><button class="btn btn-danger">Delete</button></td>
                                                 </tr>
-                                            <% }}%>
+                                                <% }
+                                                    }%>
                                             </tbody>
                                         </table>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('.minus').click(function () {
+                                                    var $input = $(this).parent().find('input');
+                                                    var count = parseInt($input.val()) - 1;
+                                                    count = count < 1 ? 1 : count;
+                                                    $input.val(count);
+                                                    $input.change();
+                                                    return false;
+                                                });
+                                                $('.plus').click(function () {
+                                                    var $input = $(this).parent().find('input');
+                                                    $input.val(parseInt($input.val()) + 1);
+                                                    $input.change();
+                                                    return false;
+                                                });
+                                            });
+                                        </script>
                                     </div>
                                 </div>
 
