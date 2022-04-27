@@ -78,7 +78,12 @@ let priceGap = 1000;
                 var array = msg.split(";");
                 array.forEach(myFunction2);
           //     $('#Products_slider_div').html(txt);
-                var Header= `  <div id="Products_slider_div" class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1" >
+                var Header= `<div id="alreadyInCart" style="display:none;" class="alert alert-danger" role="alert">
+                                        Product already exists in your cart.
+                                    </div>
+                                    <div id="addedToCart" style="display:none;" class="alert alert-success" role="alert">
+                                        Product added to your cart.
+                                    </div>  <div id="Products_slider_div" class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1" >
 <div class="slick-list draggable"><div class="slick-track">`;
                 var trailer=`</div> </div> </div>`;
                 Products_slider.innerHTML = Header+txt+trailer;
@@ -117,7 +122,46 @@ let priceGap = 1000;
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <button onclick="" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                           <button onclick="myAlert(`+elementArr[0]+`);" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                                <script>
+                                                    function myAlert(my_id)
+                                                    {
+                                                        var id = my_id;
+//                                                          
+                                                        $.ajax({
+                                                            type: "POST",
+                                                            url: "/ECommerce/addToCart",
+                                                            data: {
+                                                                id: id
+                                                            },
+
+                                                            success: function (data) {
+                                                                var result = $.trim(data);
+                                                                if (result === "exists") {
+                                                                    $("#alreadyInCart").show();
+                                                                    setTimeout(function () {
+                                                                        $("#alreadyInCart").hide();
+                                                                    }, 2000);
+
+
+                                                                } else if (result === "added") {
+                                                                    $("#addedToCart").show();
+                                                                    setTimeout(function () {
+                                                                        $("#addedToCart").hide();
+                                                                    }, 2000);
+
+                                                                }
+                                                                else{
+                                                                    alert(data);
+                                                                }
+
+                                                            },
+                                                            error: function (resp) {
+                                                                alert("Error");
+                                                            }
+                                                        });
+                                                    }
+                                                </script>
                                             </div>
                                             </div>`
             return txt;
@@ -154,7 +198,7 @@ let priceGap = 1000;
         if (isNaN(maxPrice)||maxPrice==0 || maxPrice<0 ){
 
             minPrice = parseInt(Min_Price_id.value);
-            maxPrice = 0;
+            maxPrice = 99999999;
         }
         if (minPrice > maxPrice) {
 
