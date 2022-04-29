@@ -4,16 +4,17 @@ let ResultDiv = document.getElementById("search-dropdown");
 let Products_slider = document.getElementById("tab1");
 let Laptop_toggle_tab = document.getElementById("Laptop_toggle_tab");
 let Mobile_toggle_tab = document.getElementById("Mobile_toggle_tab");
-let Gtype="";
+let Gtype = "";
 const priceInput = document.querySelectorAll(".price-input");
-const  Min_Price_id=document.getElementById("Min_Price_id");
-const Max_Price_id=document.getElementById("Max_Price_id");
+const  Min_Price_id = document.getElementById("Min_Price_id");
+const Max_Price_id = document.getElementById("Max_Price_id");
 
 let priceGap = 1000;
 (function ($) {
 
     $("#search_bar_id").keyup(function () {
-        if ($(this).val() == '') return;
+        if ($(this).val() == '')
+            return;
         console.log(`Showing Search Results for ${$(this).val()}`);
         var dataForm = "keyword=" + $(this).val();
         var request = $.ajax({
@@ -56,16 +57,22 @@ let priceGap = 1000;
         });
     });
     ////////////////for mobile tab
-    $("#Mobile_toggle_tab").mousedown(function (){tabFunction("Mobile",Min_Price_id.value,Max_Price_id.value)});
-    $("#Laptop_toggle_tab").mousedown(function (){tabFunction("Laptop",Min_Price_id.value,Max_Price_id.value)});
-    $("#All_toggle_tab").mousedown(function (){tabFunction("",Min_Price_id.value,Max_Price_id.value)});
+    $("#Mobile_toggle_tab").mousedown(function () {
+        tabFunction("Mobile", Min_Price_id.value, Max_Price_id.value)
+    });
+    $("#Laptop_toggle_tab").mousedown(function () {
+        tabFunction("Laptop", Min_Price_id.value, Max_Price_id.value)
+    });
+    $("#All_toggle_tab").mousedown(function () {
+        tabFunction("", Min_Price_id.value, Max_Price_id.value)
+    });
     // $("#Mobile_toggle_tab").mousedown(tabFunction("Mobile"));
     // $("#Laptop_toggle_tab").mousedown(tabFunction("Laptop"));
 
-    function tabFunction(type,Min,Max) {
-        Gtype=type;
-        console.log("pressed"+type)
-        var dataForm = "type=" + type+"&Min="+Min+"&Max="+Max;
+    function tabFunction(type, Min, Max) {
+        Gtype = type;
+        console.log("pressed" + type)
+        var dataForm = "type=" + type + "&Min=" + Min + "&Max=" + Max;
         var request = $.ajax({
             url: '/ECommerce/FilterProducts', type: 'GET', processData: false, //contentType: "text/html",
             cache: false, data: dataForm
@@ -77,11 +84,11 @@ let priceGap = 1000;
             } else {
                 var array = msg.split(";");
                 array.forEach(myFunction2);
-          //     $('#Products_slider_div').html(txt);
-                var Header= `  <div id="Products_slider_div" class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1" >
+                //     $('#Products_slider_div').html(txt);
+                var Header = `  <div id="Products_slider_div" class="products-slick slick-initialized slick-slider" data-nav="#slick-nav-1" >
 <div class="slick-list draggable"><div class="slick-track">`;
-                var trailer=`</div> </div> </div>`;
-                Products_slider.innerHTML = Header+txt+trailer;
+                var trailer = `</div> </div> </div>`;
+                Products_slider.innerHTML = Header + txt + trailer;
                 //alert(msg);
             }
         });
@@ -117,9 +124,12 @@ let priceGap = 1000;
                                                 </div>
                                             </div>
                                             <div class="add-to-cart">
-                                                <button onclick="" id="addCart" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                               <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>  </div>
                                             </div>
-                                            </div>`
+           `
+
+
+
             return txt;
         }
 
@@ -127,41 +137,42 @@ let priceGap = 1000;
             Products_slider.innerHTML = `<h3> sorry we couldn't find any products</h3>`;
             txt = "";
         });
-    };
+    }
+    ;
 // $(document).ajaxStop(function (){
 //     console.log("ajax has finished query");
 //     $("tab1").contentWindow.location.reload();
 // });
 
     Min_Price_id.addEventListener("input", e => {
-            let minPrice = parseInt(Min_Price_id.value),
+        let minPrice = parseInt(Min_Price_id.value),
                 maxPrice = parseInt(Max_Price_id.value);
-            if (minPrice > maxPrice) {
-                Min_Price_id.value = maxPrice;
-                minPrice = parseInt(Min_Price_id.value);
-                    maxPrice = parseInt(Max_Price_id.value);
-            }
-            if (isNaN(minPrice)||minPrice==0 || minPrice<0 ){
+        if (minPrice > maxPrice) {
+            Min_Price_id.value = maxPrice;
+            minPrice = parseInt(Min_Price_id.value);
+            maxPrice = parseInt(Max_Price_id.value);
+        }
+        if (isNaN(minPrice) || minPrice == 0 || minPrice < 0) {
 
-                minPrice = 0;
-                maxPrice = parseInt(Max_Price_id.value);
-            }
-        tabFunction(Gtype,minPrice,maxPrice);
-        });
+            minPrice = 0;
+            maxPrice = parseInt(Max_Price_id.value);
+        }
+        tabFunction(Gtype, minPrice, maxPrice);
+    });
     Max_Price_id.addEventListener("input", e => {
         let minPrice = parseInt(Min_Price_id.value),
-            maxPrice = parseInt(Max_Price_id.value);
-        if (isNaN(maxPrice)||maxPrice==0 || maxPrice<0 ){
+                maxPrice = parseInt(Max_Price_id.value);
+        if (isNaN(maxPrice) || maxPrice == 0 || maxPrice < 0) {
 
             minPrice = parseInt(Min_Price_id.value);
-            maxPrice = 0;
+            maxPrice = 9999999999;
         }
         if (minPrice > maxPrice) {
 
             minPrice = parseInt(Min_Price_id.value);
             maxPrice = minPrice;
         }
-        tabFunction(Gtype,minPrice,maxPrice);
+        tabFunction(Gtype, minPrice, maxPrice);
     });
 
 })(jQuery);

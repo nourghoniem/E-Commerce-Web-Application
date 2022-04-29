@@ -352,7 +352,6 @@ public class DatabaseManagement {
             URL resource = getClass().getResource("/");
             String path = resource.getPath();
             path = path.replace("WEB-INF/classes/", "");
-//                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
             System.out.println(path + "db_images/" + id + ".jpg");
             FileOutputStream out = new FileOutputStream(path + "db_images/" + id + ".jpg");
             out.write(byteArray);
