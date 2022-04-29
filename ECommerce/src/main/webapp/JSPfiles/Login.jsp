@@ -6,6 +6,4 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
- 
-  <%@ include file="../HTMLPages/Login.html" %>
-  
+<%@ include file="../HTMLPages/Login.html" %>
