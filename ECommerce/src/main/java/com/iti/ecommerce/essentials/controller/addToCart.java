@@ -31,29 +31,31 @@ public class addToCart extends HttpServlet {
         cart.setId(id);
         cart.setUser_quantity(1);
       
-        HttpSession session = request.getSession(true);
+        HttpSession session = request.getSession();
         ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
         if (cart_list == null) { //cart session is empty 
-//            cartList.add(cart);
-//            session.setAttribute("cart-list", cartList);
-//            out.println("added");
-              out.println("no");
+            cartList.add(cart);
+            session.setAttribute("cart-list", cartList);
+            out.println("added");
+//              out.println("no");
         } else {
             String s = request.getRequestedSessionId();
-//            cartList = cart_list;
-//            boolean exists = false;
-//            for (Cart c : cart_list) {
-//                if (c.getId() == id) {
-//                    exists = true; // already added to Cart
-//                    out.println("exists");
-//                }
-//            }
-//            if (!exists) {
-//                cartList.add(cart);
-//                out.println("added");
-//
-//            }
-           out.println(s);
+            cartList = cart_list;
+            boolean exists = false;
+            for (Cart c : cart_list) {
+                if (c.getId() == id) {
+                    exists = true; // already added to Cart
+                    out.println("exists");
+                }
+            }
+            if (!exists) {
+                cartList.add(cart);
+                out.println("added");
+                
+
+            }
+//           out.println(s);
         }
+     
     }
 }

@@ -77,7 +77,6 @@ public class DatabaseManagement {
     }
 
     public List<Product> getProducts(String Min, String Max) throws IOException {
-
         try {
             stmt = conn.createStatement();
             String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id Where e.price between " + Min + " and " + Max + " limit 8;";

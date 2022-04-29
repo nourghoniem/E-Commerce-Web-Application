@@ -9,17 +9,17 @@
 <%@page import="java.util.ArrayList"%>
 <%
 
-//    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
-//    ArrayList<Cart> get_cart_products = null;
-//    String m = "";
-//    if (cart_list != null) {
-//        m = "not empty";
-//    }
-//
-//    if (cart_list != null) {
-//        DatabaseManagement database = new DatabaseManagement();
-//        get_cart_products = database.getProductsFromCart(cart_list);
-//    }
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    ArrayList<Cart> get_cart_products = null;
+    String m = "";
+    if (cart_list != null) {
+        m = "not empty";
+    }
+
+    if (cart_list != null) {
+        DatabaseManagement database = new DatabaseManagement();
+        get_cart_products = database.getProductsFromCart(cart_list);
+    }
 
 
 %>
@@ -242,10 +242,29 @@
                                             </thead>
 
                                             <tbody>
-                                               
+                                                <%                                                      if (cart_list != null) {
+                                                        for (Cart c : get_cart_products) {
+                                                %>
+                                                <tr>
+                                                    <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></td>
+                                                    <td><% out.println(c.getProduct_name()); %> </td>
+                                                    <td><% out.println(c.getPrice()); %> </td>
+                                                    <td>
+                                                        <div class="number">
+                                                            <span id="minus" class="minus">-</span>
+                                                            <input id="quantity_text" type="text" value="1"/>
+                                                            <span id="plus" class="plus">+</span>
+                                                        </div>
+                                                    </td>
+                                                    <td><button class="btn btn-danger">Delete</button></td>
+                                                </tr>
+                                                <% }
+                                                    }%>
+
+
                                             </tbody>
                                         </table>
-<!--                                        <script>
+                                        <script>
                                             $(document).ready(function () {
                                                 $('.minus').click(function () {
                                                     var $input = $(this).parent().find('input');
@@ -262,7 +281,7 @@
                                                     return false;
                                                 });
                                             });
-                                        </script>-->
+                                        </script>
                                     </div>
                                 </div>
 

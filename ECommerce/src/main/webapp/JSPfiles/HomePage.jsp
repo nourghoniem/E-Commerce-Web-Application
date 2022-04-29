@@ -412,10 +412,6 @@
                                                                     }, 2000);
 
                                                                 }
-                                                                else if (result === "no"){
-                                                                    
-                                                                    alert("no");
-                                                                }
                                                                 else{
                                                                     alert(data);
                                                                 }
