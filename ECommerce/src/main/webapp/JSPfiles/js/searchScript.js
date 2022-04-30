@@ -134,7 +134,6 @@ let priceGap = 1000;
                                                             data: {
                                                                 id: id
                                                             },
-
                                                             success: function (data) {
                                                                 var result = $.trim(data);
                                                                 if (result === "exists") {
@@ -142,19 +141,15 @@ let priceGap = 1000;
                                                                     setTimeout(function () {
                                                                         $("#alreadyInCart").hide();
                                                                     }, 2000);
-
-
                                                                 } else if (result === "added") {
                                                                     $("#addedToCart").show();
                                                                     setTimeout(function () {
                                                                         $("#addedToCart").hide();
                                                                     }, 2000);
-
                                                                 }
                                                                 else{
                                                                     alert(data);
                                                                 }
-
                                                             },
                                                             error: function (resp) {
                                                                 alert("Error");

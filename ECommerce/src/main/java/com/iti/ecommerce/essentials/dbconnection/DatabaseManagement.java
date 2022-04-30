@@ -85,7 +85,6 @@ public class DatabaseManagement {
     }
 
     public List<Product> getProducts(String Min, String Max) throws IOException {
-
         try {
             stmt = conn.createStatement();
             String SQL = "SELECT e.id, e.image, e.name, e.quantity, e.price, f.type from products as e inner join product_type as f on e.product_type = f.id Where e.price between " + Min + " and " + Max + " limit 8;";
@@ -360,7 +359,6 @@ public class DatabaseManagement {
             URL resource = getClass().getResource("/");
             String path = resource.getPath();
             path = path.replace("WEB-INF/classes/", "");
-//                FileOutputStream out = new FileOutputStream("/home/nour/NetBeansProjects/Web_Development/ECommerce/src/main/webapp/db_images/" + id + ".jpg");
             System.out.println(path + "db_images/" + id + ".jpg");
             FileOutputStream out = new FileOutputStream(path + "db_images/" + id + ".jpg");
             out.write(byteArray);

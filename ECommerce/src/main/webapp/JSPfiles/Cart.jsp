@@ -8,8 +8,7 @@
 <%@page import="com.iti.ecommerce.essentials.model.Cart"%>
 <%@page import="java.util.ArrayList"%>
 <%
-//    HttpSession sessions=request.getSession(false);  
-//    String s = request.getRequestedSessionId();
+
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     ArrayList<Cart> get_cart_products = null;
     String m = "";
@@ -20,7 +19,6 @@
     if (cart_list != null) {
         DatabaseManagement database = new DatabaseManagement();
         get_cart_products = database.getProductsFromCart(cart_list);
-//        request.setAttribute("cart_list", cart_list );
     }
 
 
@@ -262,6 +260,8 @@
                                                 </tr>
                                                 <% }
                                                     }%>
+
+
                                             </tbody>
                                         </table>
                                         <script>
