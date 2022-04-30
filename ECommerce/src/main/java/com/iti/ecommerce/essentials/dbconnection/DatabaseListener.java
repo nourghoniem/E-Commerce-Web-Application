@@ -4,6 +4,8 @@
  */
 package com.iti.ecommerce.essentials.dbconnection;
 
+import com.mongodb.client.MongoDatabase;
+
 import java.io.File;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -18,7 +20,12 @@ public class DatabaseListener implements ServletContextListener {
         ServletContext context = sce.getServletContext();
         String dbusername = context.getInitParameter("db_username");
         String dbpassword = context.getInitParameter("db_password");
+        String Mongodbusername = context.getInitParameter("Mongodb_username");
+        String Mongodbpassword = context.getInitParameter("Mongodb_password");
+        String MongoURI = context.getInitParameter("Mongodb_URI");
+        String MongoDBName = context.getInitParameter("MongodbName");
         String dbURL= context.getInitParameter("db_URL");
+        String MongodbURL= context.getInitParameter("Mongodb_URL");
         try {
             DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
            Connection conn= DatabaseConnection.getConnection();
@@ -26,10 +33,18 @@ public class DatabaseListener implements ServletContextListener {
         } catch (Exception ex) {
             System.out.println("Connection not Establised.........");
         }
+        try {
+            DatabaseConnection.createMongoConnection(MongoURI,MongoDBName);
+            MongoDatabase Mongoconn= DatabaseConnection.getMongoDataBase();
+            System.out.println("Mongo Connection Establised.........");
+        } catch (Exception ex) {
+            System.out.println("Mongo Connection not Establised.........");
+        }
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
         DatabaseConnection.closeConnection();
+        DatabaseConnection.closeMongoConnection();
     }
 }

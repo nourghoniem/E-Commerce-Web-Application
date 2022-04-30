@@ -4,6 +4,10 @@
  */
 package com.iti.ecommerce.essentials.dbconnection;
 
+import com.mongodb.client.MongoClient;
+import com.mongodb.client.MongoClients;
+import com.mongodb.client.MongoDatabase;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -15,6 +19,8 @@ import java.sql.SQLException;
 public class DatabaseConnection {
 
     private static Connection con;
+    private static MongoDatabase mongodatabase;
+    private static  MongoClient client;
 
     public static void createConnection(String dbURL, String dbusername, String dbPassword) {
         try {
@@ -28,7 +34,21 @@ public class DatabaseConnection {
             System.out.println("exception at database connection" + ex);
         }
     }
-
+    public static void createMongoConnection(String MongoURI, String DBname) {
+        try {
+             client = MongoClients.create(MongoURI);
+            mongodatabase = client.getDatabase(DBname);
+            System.out.println("database connected");
+        } catch (Exception ex) {
+            System.out.println("exception at database connection" + ex);
+        }
+        }
+        public static MongoDatabase getMongoDataBase (){
+        return mongodatabase;
+        }
+    public static MongoClient getMongoClient (){
+        return client;
+    }
     public static Connection getConnection() {
         return con;
     }
@@ -40,6 +60,12 @@ public class DatabaseConnection {
             } catch (SQLException ex) {
                 ex.printStackTrace();
             }
+        }
+
+    }
+    public static void closeMongoConnection() {
+        if (client != null) {
+            client.close();
         }
 
     }

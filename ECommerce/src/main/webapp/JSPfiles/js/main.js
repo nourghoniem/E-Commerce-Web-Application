@@ -129,11 +129,13 @@
 			priceInputMin = document.getElementById('price-min');
 
 	priceInputMax.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
+		updatePriceSlider($(this).parent() , this.value);
+		console.log('we want it here');
 	});
 
 	priceInputMin.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
+		updatePriceSlider($(this).parent() , this.value);
+		console.log('we want it here');
 	});
 
 	function updatePriceSlider(elem , value) {
@@ -152,10 +154,10 @@
 		noUiSlider.create(priceSlider, {
 			start: [1, 999],
 			connect: true,
-			step: 1,
+			step: 10,
 			range: {
 				'min': 1,
-				'max': 999
+				'max': 99999
 			}
 		});
 

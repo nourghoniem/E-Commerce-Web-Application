@@ -7,6 +7,8 @@ package com.iti.ecommerce.essentials.dbconnection;
 import com.iti.ecommerce.essentials.model.Cart;
 import com.iti.ecommerce.essentials.model.Customer;
 import com.iti.ecommerce.essentials.model.Product;
+import com.iti.ecommerce.essentials.model.Review;
+import com.mongodb.client.MongoDatabase;
 
 import java.io.*;
 import java.net.URL;
@@ -21,6 +23,7 @@ public class DatabaseManagement {
 
     String filePath = new File("").getAbsolutePath();
     Connection conn;
+    MongoDatabase mongoDatabase;
     Statement stmt;
     PreparedStatement pstmt;
     ArrayList<Customer> customers;
@@ -36,7 +39,12 @@ public class DatabaseManagement {
         if (conn == null) {
             System.out.println("database connection is null");
         }
-
+        mongoDatabase =DatabaseConnection.getMongoDataBase();
+        if (mongoDatabase == null) {
+            System.out.println("Mongo database connection is null");
+        }else {
+            System.out.println("MongoDb is Ready");
+        }
     }
 
     public List<Customer> getCustomers() {
@@ -362,5 +370,32 @@ public class DatabaseManagement {
         }
         return products;
     }
+    public boolean IsAMongo(int Product_id){
+        Boolean condition=false;
 
+
+        return condition;
+    }
+
+    public void updateADocument(Review review){
+
+    }
+    public void addProductMongoRating(Review review){
+
+    }
+    public Integer getProductRating (int Product_id ){
+        Integer AvgRating =3 ;
+
+
+        return AvgRating;
+    }
+    public List<Review> getProductReview (int Product_id){
+        List<Review> Result =null;
+
+
+        return Result;
+    }
+    public void CalculateTheAverageRating(int[] rateArr){
+
+    }
 }

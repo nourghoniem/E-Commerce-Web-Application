@@ -13,12 +13,32 @@
         <param-value>jdbc:postgresql://bfibxulveprmogqgrhkm-postgresql.services.clever-cloud.com:5432/bfibxulveprmogqgrhkm</param-value>
     </context-param>
     <context-param>
+        <param-name>Mongodb_URL</param-name>
+        <param-value>mongodb://bdvogjkzi2h067j-mongodb.services.clever-cloud.com:27017/bdvogjkzi2h067j</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Mongodb_URI</param-name>
+        <param-value>mongodb://uf8pin6twfbolqqubkik:ysLD9Oca5hzSfMuAx6GD@bdvogjkzi2h067j-mongodb.services.clever-cloud.com:27017/bdvogjkzi2h067j</param-value>
+    </context-param>
+    <context-param>
+        <param-name>MongodbName</param-name>
+        <param-value>bdvogjkzi2h067j</param-value>
+    </context-param>
+    <context-param>
         <param-name>db_username</param-name>
         <param-value>usljypeo3cubvrf850oh</param-value>
     </context-param>
     <context-param>
         <param-name>db_password</param-name>
         <param-value>bdgWsraFaLT8rDiZglxB</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Mongodb_username</param-name>
+        <param-value>uf8pin6twfbolqqubkik</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Mongodb_password</param-name>
+        <param-value>ysLD9Oca5hzSfMuAx6GD</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>

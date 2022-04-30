@@ -12,7 +12,7 @@
 <% List<Product> Allproducts = DM.getProducts("0", "999999");%>
 <% List<Product> Laptops = DM.getProducts("Laptop", "0", "999999");%>
 <% List<Product> Mobile = DM.getProducts("Mobile", "0", "999999");%>
-<%  String name, description, image_URL, product_type, visibility, show;
+<%  String name, description, image_URL, product_type;
     Double price, oldPrice;
     Integer quantity, id;
 %>
@@ -370,6 +370,7 @@
                                                 <h3 class="product-name"><a href="#"><%=name%></a></h3>
                                                 <h4 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h4>
                                                 <div class="product-rating">
+
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
                                                     <i class="fa fa-star"></i>
