@@ -1,5 +1,6 @@
 <%@ page import="com.iti.ecommerce.essentials.model.Product" %>
-<%@ page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement" %><%--
+<%@ page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement" %>
+<%@ page import="java.util.List" %><%--
   Created by IntelliJ IDEA.
   User: pc
   Date: 4/29/2022
@@ -10,6 +11,7 @@
 
 <%  int id=Integer.parseInt(request.getParameter("ID"));
     DatabaseManagement DM=new DatabaseManagement();
+    List<Product> products=DM.getProducts();
     Product product=DM.getProductById(id);
     String name, description, image_URL, product_type;
     Double price, oldPrice;
@@ -108,7 +110,7 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form>
+                        <form method="get" action="home.jsp">
                             <!-- Cart -->
                             <div class="dropdown dropDownSearch">
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
@@ -208,6 +210,12 @@
         <div class="row">
             <!-- Product main img -->
             <div class="col-md-5 col-md-push-2">
+                <div id="alreadyInCart" style="display:none;" class="alert alert-danger" role="alert">
+                    Product already exists in your cart.
+                </div>
+                <div id="addedToCart" style="display:none;" class="alert alert-success" role="alert">
+                    Product added to your cart.
+                </div>
                 <div id="product-main-img">
                     <div class="product-preview">
                         <img src="<%=image_URL%>" alt="">
@@ -229,7 +237,7 @@
             <!-- Product details -->
             <div class="col-md-5">
                 <div class="product-details">
-                    <h2 class="product-name"><%=name%>></h2>
+                    <h2 class="product-name"><%=name%></h2>
                     <div>
                         <div class="product-rating">
                             <% int i =rating;
@@ -244,7 +252,7 @@
                         <a class="review-link" href="#"><%=reviews_Count%> Review(s)</a>
                     </div>
                     <div>
-                        <h3 class="product-price">$<%=price%>> <del class="product-old-price">$<%=oldPrice%>></del></h3>
+                        <h3 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h3>
                         <% if (inStock){%>
                         <span class="product-available">In Stock</span>
                         <%}else{%>
@@ -263,7 +271,7 @@
                                 <span class="qty-down">-</span>
                             </div>
                         </div>
-                        <button onclick="myAlert(<%=id%>" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        <button onclick="myAlert(<%=id%>);" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                     </div>
 
                     <ul class="product-btns">
@@ -296,7 +304,7 @@
                     <ul class="tab-nav">
                         <li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
                         <li><a data-toggle="tab" href="#tab2">Details</a></li>
-                        <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li>
+                        <li><a data-toggle="tab" href="#tab3">Reviews (<%=reviews_Count%>)</a></li>
                     </ul>
                     <!-- /product tab nav -->
 
@@ -306,7 +314,7 @@
                         <div id="tab1" class="tab-pane fade in active">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                    <p> <%=description%></p>
                                 </div>
                             </div>
                         </div>
@@ -316,7 +324,7 @@
                         <div id="tab2" class="tab-pane fade in">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p><%=description%></p>
                                 </div>
                             </div>
                         </div>
@@ -329,13 +337,16 @@
                                 <div class="col-md-3">
                                     <div id="rating">
                                         <div class="rating-avg">
-                                            <span>4.5</span>
+                                            <span><%=rating%></span>
                                             <div class="rating-stars">
+                                                <% i =rating;
+                                                    while (i !=0){ %>
                                                 <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
-                                                <i class="fa fa-star"></i>
+                                                <%i--;}%>
+                                                <% j = 5-rating;
+                                                    while (j != 0){ %>
                                                 <i class="fa fa-star-o"></i>
+                                                <%j--;}%>
                                             </div>
                                         </div>
                                         <ul class="rating">
@@ -350,7 +361,7 @@
                                                 <div class="rating-progress">
                                                     <div style="width: 80%;"></div>
                                                 </div>
-                                                <span class="sum">3</span>
+
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -363,7 +374,7 @@
                                                 <div class="rating-progress">
                                                     <div style="width: 60%;"></div>
                                                 </div>
-                                                <span class="sum">2</span>
+
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -376,7 +387,7 @@
                                                 <div class="rating-progress">
                                                     <div></div>
                                                 </div>
-                                                <span class="sum">0</span>
+
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -389,7 +400,7 @@
                                                 <div class="rating-progress">
                                                     <div></div>
                                                 </div>
-                                                <span class="sum">0</span>
+
                                             </li>
                                             <li>
                                                 <div class="rating-stars">
@@ -402,7 +413,7 @@
                                                 <div class="rating-progress">
                                                     <div></div>
                                                 </div>
-                                                <span class="sum">0</span>
+
                                             </li>
                                         </ul>
                                     </div>
@@ -522,124 +533,47 @@
                     <h3 class="title">Related Products</h3>
                 </div>
             </div>
+            <% for (Product product2 : products) {
 
+                name = product2.getProduct_name();
+                price = product2.getPrice();
+                oldPrice = price + (price * .02);
+                quantity = product2.getQuantity();
+                description = product2.getDescription();
+                id = product2.getId();
+                image_URL = "../db_images/" + id + ".jpg";
+                product_type = product2.getProduct_type();
+
+
+            %>
             <!-- product -->
             <div class="col-md-3 col-xs-6">
                 <div class="product">
                     <div class="product-img">
-                        <img src="./img/product01.png" alt="">
+                        <img src="<%=image_URL%>" alt="">
                         <div class="product-label">
                             <span class="sale">-30%</span>
                         </div>
                     </div>
                     <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+                        <p class="product-category"><%=product_type%></p>
+                        <h3 class="product-name"><a href="#"><%=name%></a></h3>
+                        <h4 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h4>
                         <div class="product-rating">
                         </div>
                         <div class="product-btns">
                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                             <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                            <button  onclick="location.href = '<%=request.getContextPath() %>'+'/JSPfiles/ProductPage.jsp?ID=<%=id%>'" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                         </div>
                     </div>
                     <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                        <button onclick="myAlert(<%=id%>);" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                     </div>
                 </div>
             </div>
             <!-- /product -->
-
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="./img/product02.png" alt="">
-                        <div class="product-label">
-                            <span class="new">NEW</span>
-                        </div>
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
-
-            <div class="clearfix visible-sm visible-xs"></div>
-
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="./img/product03.png" alt="">
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
-
-            <!-- product -->
-            <div class="col-md-3 col-xs-6">
-                <div class="product">
-                    <div class="product-img">
-                        <img src="./img/product04.png" alt="">
-                    </div>
-                    <div class="product-body">
-                        <p class="product-category">Category</p>
-                        <h3 class="product-name"><a href="#">product name goes here</a></h3>
-                        <h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-                        <div class="product-rating">
-                        </div>
-                        <div class="product-btns">
-                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-                        </div>
-                    </div>
-                    <div class="add-to-cart">
-                        <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-                    </div>
-                </div>
-            </div>
-            <!-- /product -->
+            <%}%>
 
         </div>
         <!-- /row -->
@@ -781,12 +715,52 @@
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
+
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
 <script src="js/slick.min.js"></script>
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
-<script src="js/newSearchScript.js"/>
+<script src="js/newSearchScript.js"></script>
+<script>
+    function myAlert(my_id)
+    {
+        var id = my_id;
+//
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/addToCart",
+            data: {
+                id: id
+            },
+
+            success: function (data) {
+                var result = $.trim(data);
+                if (result === "exists") {
+                    $("#alreadyInCart").show();
+                    setTimeout(function () {
+                        $("#alreadyInCart").hide();
+                    }, 2000);
+
+
+                } else if (result === "added") {
+                    $("#addedToCart").show();
+                    setTimeout(function () {
+                        $("#addedToCart").hide();
+                    }, 2000);
+
+                }
+                else{
+                    alert(data);
+                }
+
+            },
+            error: function (resp) {
+                alert("Error");
+            }
+        });
+    }
+</script>
 </body>
 </html>

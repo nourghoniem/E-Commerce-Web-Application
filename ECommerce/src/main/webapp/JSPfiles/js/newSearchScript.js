@@ -38,7 +38,7 @@ var Max_Price_id=document.getElementById("price-max");
                                                         <img src="` + elementArr[2] + `" alt="">
                                                     </div>
                                                     <div class="product-body">
-                                                        <h3 class="product-name"><a href="#">` + elementArr[1] + `</a></h3>
+                                                        <h3 class="product-name"><a href="../JSPfiles/ProductPage.jsp?ID=`+elementArr[0]+`">` + elementArr[1] + `</a></h3>
                                                    		<h4 class="product-price">` + elementArr[3] + `</h4>
                                                     </div>
                                                 </div>

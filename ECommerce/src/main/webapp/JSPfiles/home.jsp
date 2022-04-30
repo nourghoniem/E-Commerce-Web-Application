@@ -274,6 +274,12 @@
             <div id="store" class="col-md-9">
                 <!-- store products -->
                 <div id ="ProductsDivId" class="row">
+                    <div id="alreadyInCart" style="display:none;" class="alert alert-danger" role="alert">
+                        Product already exists in your cart.
+                    </div>
+                    <div id="addedToCart" style="display:none;" class="alert alert-success" role="alert">
+                        Product added to your cart.
+                    </div>
                     <!-- product -->
 
                         <% for (Product product : Allproducts) {
@@ -312,11 +318,11 @@
                                 <div class="product-btns">
                                     <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                                     <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                                    <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                    <button  onclick="location.href = '<%=request.getContextPath() %>'+'/JSPfiles/ProductPage.jsp?ID=<%=id%>'" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                <button onclick="myAlert(<%=id%>);" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
                             </div>
                         </div>
                     </div>
