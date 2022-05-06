@@ -11,6 +11,7 @@
 
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     ArrayList<Cart> get_cart_products = null;
+    double total = 0.0;
     String m = "";
     if (cart_list != null) {
         m = "not empty";
@@ -19,6 +20,8 @@
     if (cart_list != null) {
         DatabaseManagement database = new DatabaseManagement();
         get_cart_products = database.getProductsFromCart(cart_list);
+        total = database.getTotalPriceCart(cart_list);
+        request.setAttribute("total_price", total);
     }
 
 
@@ -39,6 +42,7 @@
 
         <!-- Bootstrap -->
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
         <!-- Slick -->
         <link type="text/css" rel="stylesheet" href="css/slick.css"/>
@@ -65,6 +69,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <style>
             div.hide {
                 display: none;
@@ -136,7 +141,7 @@
                                     <a href="#">
                                         <i class="fa fa-heart-o"></i>
                                         <span>Your Wishlist</span>
-                                        <div class="qty">2</div>
+                                        <div style="display:none;" class="qty">2</div>
                                     </a>
                                 </div>
                                 <!-- /Wishlist -->
@@ -146,7 +151,7 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                         <i class="fa fa-shopping-cart"></i>
                                         <span>Your Cart</span>
-                                        <div class="qty">3</div>
+                                        <div class="qty"><%out.println(get_cart_products.size());%></div>
                                     </a>
                                     <div class="cart-dropdown">
                                         <div class="cart-list">
@@ -264,6 +269,7 @@
 
                                             </tbody>
                                         </table>
+                                        <hr size="8" width="90%" color="red">  
                                         <script>
                                             $(document).ready(function () {
                                                 $('.minus').click(function () {
@@ -285,7 +291,9 @@
                                     </div>
                                 </div>
 
-                                <div id="slick-nav-2" class="products-slick-nav"></div>
+                                <div style="background: blue;" id="slick-nav-2" class="products-slick-nav"></div>
+                                <h5>Total: <%out.println(total);%></h5>
+                                <a href="#" class="link-info">Proceed to Checkout</a>
                             </div>
                             <!-- /tab -->
                         </div>
@@ -872,6 +880,7 @@
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/searchScript.js"></script>
+  
 
 </body>
 </html>

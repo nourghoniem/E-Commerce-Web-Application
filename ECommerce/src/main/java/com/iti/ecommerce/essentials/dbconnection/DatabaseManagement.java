@@ -39,10 +39,10 @@ public class DatabaseManagement {
         if (conn == null) {
             System.out.println("database connection is null");
         }
-        mongoDatabase =DatabaseConnection.getMongoDataBase();
+        mongoDatabase = DatabaseConnection.getMongoDataBase();
         if (mongoDatabase == null) {
             System.out.println("Mongo database connection is null");
-        }else {
+        } else {
             System.out.println("MongoDb is Ready");
         }
     }
@@ -251,31 +251,6 @@ public class DatabaseManagement {
         }
     }
 
-//    public ArrayList<Cart> getProductsFromCart(ArrayList<Cart> cart_list) {
-//         ArrayList<Cart> cartList = new ArrayList<Cart>();
-//        try {
-//            if (cart_list.size()>0) {
-//                for (Cart c : cart_list) {
-//                    stmt = conn.createStatement();
-//                    String SQL ="SELECT name, description, price FROM products WHERE id ="+c.getId()+";";
-//                    rs = stmt.executeQuery(SQL);
-//                    while(rs.next()){
-//                        Cart element = new Cart();
-//                        element.setId(rs.getInt("id"));
-//                        element.setProduct_name(rs.getString("name"));
-//                        element.setDescription(rs.getString("description"));
-//                        element.setPrice(rs.getDouble("price")*element.getUser_quantity());
-//                        element.setUser_quantity(element.getUser_quantity());
-//                        cartList.add(element);
-//                    }
-//                }
-//
-//            }
-//        } catch (SQLException e) {
-//        }
-//        return cartList;
-//
-//    }
     public ArrayList<Cart> getProductsFromCart(ArrayList<Cart> cart_list) {
         ArrayList<Cart> cartList = new ArrayList<Cart>();
         try {
@@ -303,6 +278,30 @@ public class DatabaseManagement {
         } catch (Exception e) {
         }
         return cartList;
+    }
+
+    public double getTotalPriceCart(ArrayList<Cart> cart_list) {
+        double total_price = 0;
+        try {
+            if (!cart_list.isEmpty()) {
+                for (Cart c : cart_list) {
+                    pst = conn.prepareStatement("SELECT price FROM products WHERE id = ?");
+                    pst.setInt(1, c.getId());
+                    rs = pst.executeQuery();
+
+                    while (rs.next()) {
+                        total_price += (rs.getDouble("price") * c.getUser_quantity());
+                    }
+
+                }
+
+            } else {
+                System.out.println("zero ");
+            }
+
+        } catch (Exception e) {
+        }
+        return total_price;
     }
 
     public void deleteCustomer(Integer id) {
@@ -368,32 +367,34 @@ public class DatabaseManagement {
         }
         return products;
     }
-    public boolean IsAMongo(int Product_id){
-        Boolean condition=false;
 
+    public boolean IsAMongo(int Product_id) {
+        Boolean condition = false;
 
         return condition;
     }
 
-    public void updateADocument(Review review){
+    public void updateADocument(Review review) {
 
     }
-    public void addProductMongoRating(Review review){
+
+    public void addProductMongoRating(Review review) {
 
     }
-    public Integer getProductRating (int Product_id ){
-        Integer AvgRating =3 ;
 
+    public Integer getProductRating(int Product_id) {
+        Integer AvgRating = 3;
 
         return AvgRating;
     }
-    public List<Review> getProductReview (int Product_id){
-        List<Review> Result =null;
 
+    public List<Review> getProductReview(int Product_id) {
+        List<Review> Result = null;
 
         return Result;
     }
-    public void CalculateTheAverageRating(int[] rateArr){
+
+    public void CalculateTheAverageRating(int[] rateArr) {
 
     }
 }
