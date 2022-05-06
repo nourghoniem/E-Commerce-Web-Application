@@ -265,7 +265,8 @@ public class DatabaseManagement {
                         element.setId(c.getId());
                         element.setProduct_name(rs.getString("name"));
                         element.setDescription(rs.getString("description"));
-                        element.setPrice(rs.getDouble("price") * element.getUser_quantity());
+                        element.setPrice(rs.getDouble("price") * c.getUser_quantity());
+                        element.setUser_quantity(c.getUser_quantity());
                         cartList.add(element);
                     }
 

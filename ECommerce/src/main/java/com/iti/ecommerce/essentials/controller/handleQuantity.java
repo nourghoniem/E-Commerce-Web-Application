@@ -26,20 +26,28 @@ public class handleQuantity extends HttpServlet {
         Integer id = Integer.parseInt(request.getParameter("id"));
         String action = request.getParameter("action");
         ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
-        if(cart_list != null){
-            if(action.equals("minus")){
-            
-            }else{
-            
-            
+        if (cart_list != null) {
+            if (action.equals("minus")) {
+                for (Cart c : cart_list) {
+                    if (c.getId() == id) {
+                        int quantity = c.getUser_quantity();
+                        quantity--;
+                        c.setUser_quantity(quantity);
+                        out.println(c.getUser_quantity());
+
+                    }
+                }
+
+            } else {
+                  for (Cart c : cart_list) {
+                    if (c.getId() == id) {
+                        int quantity = c.getUser_quantity();
+                        quantity++;
+                        c.setUser_quantity(quantity);
+                        out.println(c.getUser_quantity());
+                    }
+                }
             }
-            
-            
-        
         }
-        out.println(id);
-        out.println(action);
-
     }
-
 }

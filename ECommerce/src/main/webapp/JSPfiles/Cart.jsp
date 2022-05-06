@@ -258,7 +258,7 @@
                                                     <td>
                                                         <div class="number">
                                                             <span onclick="handleQuantity(<%=c.getId()%>, 'minus');" id="minus" class="minus">-</span>
-                                                            <input id="quantity_text" type="text" value="1"/>
+                                                            <input id="quantity_texttt" type="text" value=""/>
                                                             <span onclick="handleQuantity(<%=c.getId()%>, 'plus');" id="plus" class="plus">+</span>
                                                         </div>
                                                     </td>
@@ -285,13 +285,18 @@
                                                     },
 
                                                     success: function (data) {
-                                                        alert(data);
-                                                      
+//                                                        $("#quantity_texttt").val(data);
+//                                                          alert(data);
+
+
                                                     },
                                                     error: function (resp) {
                                                         alert("Error");
                                                     }
 
+                                                });
+                                                $(document).ajaxStop(function () {
+                                                    window.location.reload();
                                                 });
 
 
