@@ -22,6 +22,7 @@
         get_cart_products = database.getProductsFromCart(cart_list);
         total = database.getTotalPriceCart(cart_list);
         request.setAttribute("total_price", total);
+        request.setAttribute("cart_list", cart_list);
     }
 
 
@@ -42,7 +43,7 @@
 
         <!-- Bootstrap -->
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
-         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
         <!-- Slick -->
         <link type="text/css" rel="stylesheet" href="css/slick.css"/>
@@ -253,12 +254,12 @@
                                                 <tr>
                                                     <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></td>
                                                     <td><% out.println(c.getProduct_name()); %> </td>
-                                                    <td><% out.println(c.getPrice()); %> </td>
+                                                    <td><% out.println(c.getPrice());%> </td>
                                                     <td>
                                                         <div class="number">
-                                                            <span id="minus" class="minus">-</span>
+                                                            <span onclick="handleQuantity(<%=c.getId()%>, 'minus');" id="minus" class="minus">-</span>
                                                             <input id="quantity_text" type="text" value="1"/>
-                                                            <span id="plus" class="plus">+</span>
+                                                            <span onclick="handleQuantity(<%=c.getId()%>, 'plus');" id="plus" class="plus">+</span>
                                                         </div>
                                                     </td>
                                                     <td><button class="btn btn-danger">Delete</button></td>
@@ -271,28 +272,53 @@
                                         </table>
                                         <hr size="8" width="90%" color="red">  
                                         <script>
-                                            $(document).ready(function () {
-                                                $('.minus').click(function () {
-                                                    var $input = $(this).parent().find('input');
-                                                    var count = parseInt($input.val()) - 1;
-                                                    count = count < 1 ? 1 : count;
-                                                    $input.val(count);
-                                                    $input.change();
-                                                    return false;
+                                            function handleQuantity(id, action) {
+                                                var id = id;
+                                                var action = action;
+
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "${pageContext.request.contextPath}/handleQuantity",
+                                                    data: {
+                                                        id: id,
+                                                        action: action
+                                                    },
+
+                                                    success: function (data) {
+                                                        alert(data);
+                                                      
+                                                    },
+                                                    error: function (resp) {
+                                                        alert("Error");
+                                                    }
+
                                                 });
-                                                $('.plus').click(function () {
-                                                    var $input = $(this).parent().find('input');
-                                                    $input.val(parseInt($input.val()) + 1);
-                                                    $input.change();
-                                                    return false;
-                                                });
-                                            });
+
+
+                                            }
+//                                            $(document).ready(function () {
+//                                                
+//                                                $('.minus').click(function () {
+//                                                    var $input = $(this).parent().find('input');
+//                                                    var count = parseInt($input.val()) - 1;
+//                                                    count = count < 1 ? 1 : count;
+//                                                    $input.val(count);
+//                                                    $input.change();
+//                                                    return false;
+//                                                });
+//                                                $('.plus').click(function () {
+//                                                    var $input = $(this).parent().find('input');
+//                                                    $input.val(parseInt($input.val()) + 1);
+//                                                    $input.change();
+//                                                    return false;
+//                                                });
+//                                            });
                                         </script>
                                     </div>
                                 </div>
 
                                 <div style="background: blue;" id="slick-nav-2" class="products-slick-nav"></div>
-                                <h5>Total: <%out.println(total);%></h5>
+                                <h5>Total: <%out.println(total);%>LE</h5>
                                 <a href="#" class="link-info">Proceed to Checkout</a>
                             </div>
                             <!-- /tab -->
@@ -880,7 +906,7 @@
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/searchScript.js"></script>
-  
+
 
 </body>
 </html>
