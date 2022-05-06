@@ -4,8 +4,10 @@
  */
 package com.iti.ecommerce.essentials.controller;
 
+import com.iti.ecommerce.essentials.model.Cart;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +25,18 @@ public class handleQuantity extends HttpServlet {
         PrintWriter out = resp.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
         String action = request.getParameter("action");
+        ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
+        if(cart_list != null){
+            if(action.equals("minus")){
+            
+            }else{
+            
+            
+            }
+            
+            
+        
+        }
         out.println(id);
         out.println(action);
 
