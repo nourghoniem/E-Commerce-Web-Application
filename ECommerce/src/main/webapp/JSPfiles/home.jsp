@@ -534,7 +534,7 @@
                                                     if(results[1] > 0){
                                                         $('#qty').html(results[1]);
                                                         $("#qty").show();
-                                                    }
+                                                    }0
 
                                             },
                                             error: function (resp) {

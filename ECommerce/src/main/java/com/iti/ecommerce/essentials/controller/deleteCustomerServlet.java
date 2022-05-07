@@ -22,9 +22,9 @@ public class deleteCustomerServlet extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
-        out.println(id);
-//        DatabaseManagement data = new DatabaseManagement();
-//        data.deleteCustomer(id);
+      
+        DatabaseManagement data = new DatabaseManagement();
+        data.deleteCustomer(id);
     }
 
   
