@@ -536,10 +536,6 @@
                                                         $("#qty").show();
                                                     }
 
-
-
-
-
                                             },
                                             error: function (resp) {
                                                 alert("Error");
