@@ -12,6 +12,7 @@
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     ArrayList<Cart> get_cart_products = null;
     double total = 0.0;
+    Integer getting_id = 0;
     String m = "";
     if (cart_list != null) {
         m = "not empty";
@@ -226,6 +227,7 @@
                     </div>
                     <!-- /section title -->
 
+
                     <!-- Products tab & slick -->
                     <div class="col-md-12">
                         <div class="row">
@@ -258,24 +260,33 @@
                                                     <td>
                                                         <div class="number">
                                                             <span onclick="handleQuantity(<%=c.getId()%>, 'minus');" id="minus" class="minus">-</span>
-                                                            <input id="quantity_texttt" type="text" value=""/>
+                                                            <input id="quantity_texttt" type="text" value="<%out.println(c.getUser_quantity());%>"/>
                                                             <span onclick="handleQuantity(<%=c.getId()%>, 'plus');" id="plus" class="plus">+</span>
                                                         </div>
                                                     </td>
-                                                    <td><button class="btn btn-danger">Delete</button></td>
-                                                </tr>
-                                                <% }
-                                                    }%>
+
+                                                    <td><button onclick="clickHandler();" data-toggle="modal" data-target="#deleteStaffModal" id="removefromcart" class="btn btn-danger">Delete</button></td>
+                                            <script>
+                                                function clickHandler() {
+                                                <%getting_id = c.getId();%>
+                                                 
+                                                }
+
+                                            </script>
+                                            </tr>
+
+
+                                            <% }
+                                                }%>
 
 
                                             </tbody>
                                         </table>
-                                        <hr size="8" width="90%" color="red">  
+
                                         <script>
                                             function handleQuantity(id, action) {
                                                 var id = id;
                                                 var action = action;
-
                                                 $.ajax({
                                                     type: "POST",
                                                     url: "${pageContext.request.contextPath}/handleQuantity",
@@ -283,12 +294,8 @@
                                                         id: id,
                                                         action: action
                                                     },
-
                                                     success: function (data) {
-//                                                        $("#quantity_texttt").val(data);
-//                                                          alert(data);
-
-
+//                                                    
                                                     },
                                                     error: function (resp) {
                                                         alert("Error");
@@ -298,26 +305,9 @@
                                                 $(document).ajaxStop(function () {
                                                     window.location.reload();
                                                 });
-
-
                                             }
-//                                            $(document).ready(function () {
-//                                                
-//                                                $('.minus').click(function () {
-//                                                    var $input = $(this).parent().find('input');
-//                                                    var count = parseInt($input.val()) - 1;
-//                                                    count = count < 1 ? 1 : count;
-//                                                    $input.val(count);
-//                                                    $input.change();
-//                                                    return false;
-//                                                });
-//                                                $('.plus').click(function () {
-//                                                    var $input = $(this).parent().find('input');
-//                                                    $input.val(parseInt($input.val()) + 1);
-//                                                    $input.change();
-//                                                    return false;
-//                                                });
-//                                            });
+
+
                                         </script>
                                     </div>
                                 </div>
@@ -379,6 +369,57 @@
                 <!-- /row -->
             </div>
             <!-- /container -->
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteStaffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Remove Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="" method= "POST">
+                        <div class="modal-body">
+                            <div>
+                                Are you sure you want to remove this product from your cart?
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-6">
+
+                                <input style="display:none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<%=getting_id%>" >
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="deleteProduct" name="deleteProduct" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                    <script>
+                        $("#deleteProduct").click(function (event) {
+                            event.preventDefault();
+                            var id = $('#id').val();
+                            alert(id);
+//                                        $.ajax({
+//                                            type: "POST",
+//                                            url: "${pageContext.request.contextPath}/removeFromCart",
+//                                            data: {
+//                                                id: id,
+//                                            },
+//                                            success: function (data) {
+//                                                alert(data);
+//                                            },
+//                                            error: function (resp) {
+//                                                alert("Error");
+//                                            }
+//
+//                                        });
+                        });
+                    </script>
+                </div>
+            </div>
         </div>
 
         <!-- /HOT DEAL SECTION -->

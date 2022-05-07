@@ -42,9 +42,7 @@ public class DatabaseManagement {
         mongoDatabase = DatabaseConnection.getMongoDataBase();
         if (mongoDatabase == null) {
             System.out.println("Mongo database connection is null");
-        } else {
-            System.out.println("MongoDb is Ready");
-        }
+        } 
     }
 
     public List<Customer> getCustomers() {

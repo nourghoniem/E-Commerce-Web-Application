@@ -84,6 +84,10 @@
         <servlet-name>handleQuantity</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.handleQuantity</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>removeFromCart</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.removeFromCart</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
         <url-pattern>/addProductServlet</url-pattern>
@@ -123,6 +127,10 @@
     <servlet-mapping>
         <servlet-name>handleQuantity</servlet-name>
         <url-pattern>/handleQuantity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>removeFromCart</servlet-name>
+        <url-pattern>/removeFromCart</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

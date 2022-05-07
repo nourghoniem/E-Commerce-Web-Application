@@ -29,18 +29,22 @@ public class handleQuantity extends HttpServlet {
         if (cart_list != null) {
             if (action.equals("minus")) {
                 for (Cart c : cart_list) {
-                    if (c.getId() == id) {
+                    if (c.getId() == id && c.getUser_quantity() >= 1) {
                         int quantity = c.getUser_quantity();
-                        quantity--;
-                        c.setUser_quantity(quantity);
-                        out.println(c.getUser_quantity());
+                           if(quantity > 1){
+                            quantity--;
+                           }
+                            c.setUser_quantity(quantity);
+                            out.println(c.getUser_quantity());
+                       
+                   
 
                     }
                 }
 
             } else {
-                  for (Cart c : cart_list) {
-                    if (c.getId() == id) {
+                for (Cart c : cart_list) {
+                    if (c.getId() == id && c.getUser_quantity() >= 1) {
                         int quantity = c.getUser_quantity();
                         quantity++;
                         c.setUser_quantity(quantity);
