@@ -348,8 +348,8 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Phone Number</th>
-                                                <th>Address</th>
                                                 <th>DOB</th>
+                                                <th>Address</th>
                                                 <th>Action</th>
                                             </tr>
                                         </thead>

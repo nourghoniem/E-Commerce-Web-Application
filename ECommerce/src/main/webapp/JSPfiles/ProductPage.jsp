@@ -26,7 +26,7 @@
     image_URL = "../db_images/" + id + ".jpg";
     product_type = product.getProduct_type();
     rating = DM.getProductRating(id);
-    //reviews_Count=DM.getProductReview(id).size();
+   
     reviews_Count=5;
     if (quantity > 0){
         inStock=true;

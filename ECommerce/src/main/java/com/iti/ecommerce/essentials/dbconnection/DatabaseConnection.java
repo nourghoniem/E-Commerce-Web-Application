@@ -20,7 +20,7 @@ public class DatabaseConnection {
 
     private static Connection con;
     private static MongoDatabase mongodatabase;
-    private static  MongoClient client;
+    private static MongoClient client;
 
     public static void createConnection(String dbURL, String dbusername, String dbPassword) {
         try {
@@ -34,21 +34,25 @@ public class DatabaseConnection {
             System.out.println("exception at database connection" + ex);
         }
     }
+
     public static void createMongoConnection(String MongoURI, String DBname) {
         try {
-             client = MongoClients.create(MongoURI);
+            client = MongoClients.create(MongoURI);
             mongodatabase = client.getDatabase(DBname);
             System.out.println("database connected");
         } catch (Exception ex) {
             System.out.println("exception at database connection" + ex);
         }
-        }
-        public static MongoDatabase getMongoDataBase (){
+    }
+
+    public static MongoDatabase getMongoDataBase() {
         return mongodatabase;
-        }
-    public static MongoClient getMongoClient (){
+    }
+
+    public static MongoClient getMongoClient() {
         return client;
     }
+
     public static Connection getConnection() {
         return con;
     }
@@ -63,6 +67,7 @@ public class DatabaseConnection {
         }
 
     }
+
     public static void closeMongoConnection() {
         if (client != null) {
             client.close();

@@ -24,18 +24,18 @@ public class DatabaseListener implements ServletContextListener {
         String Mongodbpassword = context.getInitParameter("Mongodb_password");
         String MongoURI = context.getInitParameter("Mongodb_URI");
         String MongoDBName = context.getInitParameter("MongodbName");
-        String dbURL= context.getInitParameter("db_URL");
-        String MongodbURL= context.getInitParameter("Mongodb_URL");
+        String dbURL = context.getInitParameter("db_URL");
+        String MongodbURL = context.getInitParameter("Mongodb_URL");
         try {
-            DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
-           Connection conn= DatabaseConnection.getConnection();
+            DatabaseConnection.createConnection(dbURL, dbusername, dbpassword);
+            Connection conn = DatabaseConnection.getConnection();
             System.out.println("Connection Establised.........");
         } catch (Exception ex) {
             System.out.println("Connection not Establised.........");
         }
         try {
-            DatabaseConnection.createMongoConnection(MongoURI,MongoDBName);
-            MongoDatabase Mongoconn= DatabaseConnection.getMongoDataBase();
+            DatabaseConnection.createMongoConnection(MongoURI, MongoDBName);
+            MongoDatabase Mongoconn = DatabaseConnection.getMongoDataBase();
             System.out.println("Mongo Connection Establised.........");
         } catch (Exception ex) {
             System.out.println("Mongo Connection not Establised.........");
@@ -44,6 +44,7 @@ public class DatabaseListener implements ServletContextListener {
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
+        System.out.println("STOP");
         DatabaseConnection.closeConnection();
         DatabaseConnection.closeMongoConnection();
     }

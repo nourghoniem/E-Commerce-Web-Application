@@ -11,6 +11,8 @@
 
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     ArrayList<Cart> get_cart_products = null;
+    double total = 0.0;
+    Integer getting_id = 0;
     String m = "";
     if (cart_list != null) {
         m = "not empty";
@@ -19,6 +21,9 @@
     if (cart_list != null) {
         DatabaseManagement database = new DatabaseManagement();
         get_cart_products = database.getProductsFromCart(cart_list);
+        total = database.getTotalPriceCart(cart_list);
+        request.setAttribute("total_price", total);
+        request.setAttribute("cart_list", cart_list);
     }
 
 
@@ -39,6 +44,7 @@
 
         <!-- Bootstrap -->
         <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 
         <!-- Slick -->
         <link type="text/css" rel="stylesheet" href="css/slick.css"/>
@@ -65,6 +71,7 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
         <style>
             div.hide {
                 display: none;
@@ -136,7 +143,7 @@
                                     <a href="#">
                                         <i class="fa fa-heart-o"></i>
                                         <span>Your Wishlist</span>
-                                        <div class="qty">2</div>
+                                        <div style="display:none;" class="qty">2</div>
                                     </a>
                                 </div>
                                 <!-- /Wishlist -->
@@ -146,7 +153,7 @@
                                     <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                         <i class="fa fa-shopping-cart"></i>
                                         <span>Your Cart</span>
-                                        <div class="qty">3</div>
+                                        <div class="qty"><%out.println(get_cart_products.size());%></div>
                                     </a>
                                     <div class="cart-dropdown">
                                         <div class="cart-list">
@@ -220,6 +227,7 @@
                     </div>
                     <!-- /section title -->
 
+
                     <!-- Products tab & slick -->
                     <div class="col-md-12">
                         <div class="row">
@@ -248,44 +256,65 @@
                                                 <tr>
                                                     <td><img src="${pageContext.request.contextPath}/db_images/<% out.println(c.getId()); %>.jpg" alt="" border=3 height=100 width=100></td>
                                                     <td><% out.println(c.getProduct_name()); %> </td>
-                                                    <td><% out.println(c.getPrice()); %> </td>
+                                                    <td><% out.println(c.getPrice());%> </td>
                                                     <td>
                                                         <div class="number">
-                                                            <span id="minus" class="minus">-</span>
-                                                            <input id="quantity_text" type="text" value="1"/>
-                                                            <span id="plus" class="plus">+</span>
+                                                            <span onclick="handleQuantity(<%=c.getId()%>, 'minus');" id="minus" class="minus">-</span>
+                                                            <input id="quantity_texttt" type="text" value="<%out.println(c.getUser_quantity());%>"/>
+                                                            <span onclick="handleQuantity(<%=c.getId()%>, 'plus');" id="plus" class="plus">+</span>
                                                         </div>
                                                     </td>
-                                                    <td><button class="btn btn-danger">Delete</button></td>
-                                                </tr>
-                                                <% }
-                                                    }%>
+
+                                                    <td><button onclick="clickHandler();" data-toggle="modal" data-target="#deleteStaffModal" id="removefromcart" class="btn btn-danger">Delete</button></td>
+                                            <script>
+                                                function clickHandler() {
+                                                <%getting_id = c.getId();%>
+                                                 
+                                                }
+
+                                            </script>
+                                            </tr>
+
+
+                                            <% }
+                                                }%>
 
 
                                             </tbody>
                                         </table>
+
                                         <script>
-                                            $(document).ready(function () {
-                                                $('.minus').click(function () {
-                                                    var $input = $(this).parent().find('input');
-                                                    var count = parseInt($input.val()) - 1;
-                                                    count = count < 1 ? 1 : count;
-                                                    $input.val(count);
-                                                    $input.change();
-                                                    return false;
+                                            function handleQuantity(id, action) {
+                                                var id = id;
+                                                var action = action;
+                                                $.ajax({
+                                                    type: "POST",
+                                                    url: "${pageContext.request.contextPath}/handleQuantity",
+                                                    data: {
+                                                        id: id,
+                                                        action: action
+                                                    },
+                                                    success: function (data) {
+//                                                    
+                                                    },
+                                                    error: function (resp) {
+                                                        alert("Error");
+                                                    }
+
                                                 });
-                                                $('.plus').click(function () {
-                                                    var $input = $(this).parent().find('input');
-                                                    $input.val(parseInt($input.val()) + 1);
-                                                    $input.change();
-                                                    return false;
+                                                $(document).ajaxStop(function () {
+                                                    window.location.reload();
                                                 });
-                                            });
+                                            }
+
+
                                         </script>
                                     </div>
                                 </div>
 
-                                <div id="slick-nav-2" class="products-slick-nav"></div>
+                                <div style="background: blue;" id="slick-nav-2" class="products-slick-nav"></div>
+                                <h5>Total: <%out.println(total);%>LE</h5>
+                                <a href="#" class="link-info">Proceed to Checkout</a>
                             </div>
                             <!-- /tab -->
                         </div>
@@ -340,6 +369,57 @@
                 <!-- /row -->
             </div>
             <!-- /container -->
+        </div>
+        <!-- Modal -->
+        <div class="modal fade" id="deleteStaffModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Remove Product</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <form action="" method= "POST">
+                        <div class="modal-body">
+                            <div>
+                                Are you sure you want to remove this product from your cart?
+                            </div>
+
+                            <div class="form-group col-md-6 col-sm-6">
+
+                                <input style="display:none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<%=getting_id%>" >
+                            </div>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                            <button type="submit" id="deleteProduct" name="deleteProduct" class="btn btn-danger">Delete</button>
+                        </div>
+                    </form>
+                    <script>
+                        $("#deleteProduct").click(function (event) {
+                            event.preventDefault();
+                            var id = $('#id').val();
+                            alert(id);
+//                                        $.ajax({
+//                                            type: "POST",
+//                                            url: "${pageContext.request.contextPath}/removeFromCart",
+//                                            data: {
+//                                                id: id,
+//                                            },
+//                                            success: function (data) {
+//                                                alert(data);
+//                                            },
+//                                            error: function (resp) {
+//                                                alert("Error");
+//                                            }
+//
+//                                        });
+                        });
+                    </script>
+                </div>
+            </div>
         </div>
 
         <!-- /HOT DEAL SECTION -->
@@ -872,6 +952,7 @@
     <script src="js/jquery.zoom.min.js"></script>
     <script src="js/main.js"></script>
     <script src="js/searchScript.js"></script>
+
 
 </body>
 </html>
