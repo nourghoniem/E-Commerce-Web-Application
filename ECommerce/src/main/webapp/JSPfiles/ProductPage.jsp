@@ -487,7 +487,7 @@
                                 <!-- Review Form -->
                                 <div class="col-md-3">
                                     <div id="review-form">
-                                        <form class="review-form">
+<%--                                        <form class="review-form">--%>
                                             <input class="input" type="text" placeholder="Your Name">
                                             <input class="input" type="email" placeholder="Your Email">
                                             <textarea class="input" placeholder="Your Review"></textarea>
@@ -501,8 +501,8 @@
                                                     <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
                                             </div>
-                                            <button class="primary-btn">Submit</button>
-                                        </form>
+                                            <button onclick="" class="primary-btn">Submit</button>
+<%--                                        </form>--%>
                                     </div>
                                 </div>
                                 <!-- /Review Form -->
@@ -725,6 +725,45 @@
 <script src="js/newSearchScript.js"></script>
 <script>
     function myAlert(my_id)
+    {
+        var id = my_id;
+//
+        $.ajax({
+            type: "POST",
+            url: "${pageContext.request.contextPath}/addToCart",
+            data: {
+                id: id
+            },
+
+            success: function (data) {
+                var result = $.trim(data);
+                if (result === "exists") {
+                    $("#alreadyInCart").show();
+                    setTimeout(function () {
+                        $("#alreadyInCart").hide();
+                    }, 2000);
+
+
+                } else if (result === "added") {
+                    $("#addedToCart").show();
+                    setTimeout(function () {
+                        $("#addedToCart").hide();
+                    }, 2000);
+
+                }
+                else{
+                    alert(data);
+                }
+
+            },
+            error: function (resp) {
+                alert("Error");
+            }
+        });
+    }
+</script>
+<script>
+    function Review(my_id)
     {
         var id = my_id;
 //
