@@ -4,9 +4,10 @@
  */
 package com.iti.ecommerce.essentials.dbconnection;
 
-import com.mongodb.client.MongoClient;
-import com.mongodb.client.MongoClients;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientURI;
 import com.mongodb.client.MongoDatabase;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,14 +35,14 @@ public class DatabaseConnection {
             System.out.println("exception at database connection" + ex);
         }
     }
-
     public static void createMongoConnection(String MongoURI, String DBname) {
         try {
-            client = MongoClients.create(MongoURI);
+         //   client = MongoClients.create(MongoURI);
+            client = new MongoClient(new MongoClientURI(MongoURI));
             mongodatabase = client.getDatabase(DBname);
-            System.out.println("database connected");
+            System.out.println("Mongo database connected");
         } catch (Exception ex) {
-            System.out.println("exception at database connection" + ex);
+            System.out.println("exception at database connection " + ex);
         }
     }
 

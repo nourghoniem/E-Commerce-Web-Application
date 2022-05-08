@@ -23,40 +23,40 @@
  		<link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
 
  		<!-- Slick -->
- 		<link type="text/css" rel="stylesheet" href="css/slick.css"/>
- 		<link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+ 		<link type="text/css" rel="stylesheet" href="/ECommerce/JSPfiles/css/slick.css"/>
+ 		<link type="text/css" rel="stylesheet" href="/ECommerce/JSPfiles/css/slick-theme.css"/>
 
  		<!-- nouislider -->
- 		<link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+ 		<link type="text/css" rel="stylesheet" href="/ECommerce/JSPfiles/css/nouislider.min.css"/>
 
  		<!-- Font Awesome Icon -->
- 		<link rel="stylesheet" href="css/font-awesome.min.css">
+ 		<link rel="stylesheet" href="/ECommerce/JSPfiles/css/font-awesome.min.css">
 
  		<!-- Custom stlylesheet -->
- 		<link type="text/css" rel="stylesheet" href="css/style.css"/>
+ 		<link type="text/css" rel="stylesheet" href="/ECommerce/JSPfiles/css/style.css"/>
                 
-                <link rel="stylesheet" href="alert/dist/sweetalert.css">
+                <link rel="stylesheet" href="alert/dist/sweetalert.css"/>
 
-	         <link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+	         <link rel="icon" type="image/png" href="/ECommerce/JSPfiles/img/icons/favicon.ico"/>
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/vendor/bootstrap/css/bootstrap.min.css">
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/fonts/font-awesome-4.7.0/css/font-awesome.min.css">
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/vendor/animate/animate.css">
 		 <!--===============================================================================================-->	
-			 <link rel="stylesheet" type="text/css" href="vendor/css-hamburgers/hamburgers.min.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/vendor/css-hamburgers/hamburgers.min.css">
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="vendor/animsition/css/animsition.min.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/vendor/animsition/css/animsition.min.css">
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/vendor/select2/select2.min.css">
 		 <!--===============================================================================================-->	
-			 <link rel="stylesheet" type="text/css" href="vendor/daterangepicker/daterangepicker.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/vendor/daterangepicker/daterangepicker.css">
 		 <!--===============================================================================================-->
-			 <link rel="stylesheet" type="text/css" href="css/util.css">
-			 <link rel="stylesheet" type="text/css" href="css/main.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/css/util.css">
+			 <link rel="stylesheet" type="text/css" href="/ECommerce/JSPfiles/css/main.css">
 		 <!--===============================================================================================-->
  		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
  		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -140,7 +140,7 @@
 			<!-- /container -->
 		</nav>
 		<!-- /NAVIGATION -->
-                <input type="hidden" id="status" value="<%=request.getAttribute("status")%>">
+                <input type="hidden" id="status" value="<%=request.getParameter("status")%>">
 		<!-- BREADCRUMB -->
 		<div id="breadcrumb" class="section">
 			<!-- container -->
@@ -149,7 +149,7 @@
 				<div class="limiter">
 					<div class="container-login100">
 						<div class="wrap-login100 p-t-50 p-b-90">
-							<form class="login100-form validate-form flex-sb flex-w" method="post" action="Login"  >
+							<form class="login100-form validate-form flex-sb flex-w" method="post" action="/ECommerce/Login"  >
 								<span class="login100-form-title p-b-51">
 									Login
 								</span>
@@ -300,32 +300,33 @@
 		<!-- /FOOTER -->
 
 		<!-- jQuery Plugins -->
-		<script src="js/jquery.min.js"></script>
-		<script src="js/bootstrap.min.js"></script>
-		<script src="js/slick.min.js"></script>
-		<script src="js/nouislider.min.js"></script>
-		<script src="js/jquery.zoom.min.js"></script>
-		<script src="js/main.js"></script>
+		<script src="/ECommerce/JSPfiles/js/jquery.min.js"></script>
+		<script src="/ECommerce/JSPfiles/js/bootstrap.min.js"></script>
+		<script src="/ECommerce/JSPfiles/js/slick.min.js"></script>
+		<script src="/ECommerce/JSPfiles/js/nouislider.min.js"></script>
+		<script src="/ECommerce/JSPfiles/js/jquery.zoom.min.js"></script>
+		<script src="/ECommerce/JSPfiles/js/main.js"></script>
 		<!--===============================================================================================-->
-	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+	<script src="/ECommerce/JSPfiles/vendor/jquery/jquery-3.2.1.min.js"></script>
 	<!--===============================================================================================-->
-		<script src="vendor/animsition/js/animsition.min.js"></script>
+		<script src="/ECommerce/JSPfiles/vendor/animsition/js/animsition.min.js"></script>
 	<!--===============================================================================================-->
-		<script src="vendor/bootstrap/js/popper.js"></script>
-		<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+		<script src="/ECommerce/JSPfiles/vendor/bootstrap/js/popper.js"></script>
+		<script src="/ECommerce/JSPfiles/vendor/bootstrap/js/bootstrap.min.js"></script>
 	<!--===============================================================================================-->
-		<script src="vendor/select2/select2.min.js"></script>
+		<script src="/ECommerce/JSPfiles/vendor/select2/select2.min.js"></script>
 	<!--===============================================================================================-->
-		<script src="vendor/daterangepicker/moment.min.js"></script>
-		<script src="vendor/daterangepicker/daterangepicker.js"></script>
+		<script src="/ECommerce/JSPfiles/vendor/daterangepicker/moment.min.js"></script>
+		<script src="/ECommerce/JSPfiles/vendor/daterangepicker/daterangepicker.js"></script>
 	<!--===============================================================================================-->
 		<script src="vendor/countdowntime/countdowntime.js"></script>
 	<!--===============================================================================================-->
-		<script src="js/main2.js"></script>
+		<script src="/ECommerce/JSPfiles/js/main2.js"></script>
         <!--===============================================================================================-->
                 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
                 <script type="text/javascript">
                     var status = document.getElementById("status").value;
+					console.log(status);
                     if (status === "failed"){
                        swal({
                            title: "Failed to Login",

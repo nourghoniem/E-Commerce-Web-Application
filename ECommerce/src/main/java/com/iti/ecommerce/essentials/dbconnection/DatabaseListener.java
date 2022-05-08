@@ -27,16 +27,15 @@ public class DatabaseListener implements ServletContextListener {
         String dbURL = context.getInitParameter("db_URL");
         String MongodbURL = context.getInitParameter("Mongodb_URL");
         try {
-            DatabaseConnection.createConnection(dbURL, dbusername, dbpassword);
-            Connection conn = DatabaseConnection.getConnection();
+            DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
+           Connection conn = DatabaseConnection.getConnection();
             System.out.println("Connection Establised.........");
         } catch (Exception ex) {
             System.out.println("Connection not Establised.........");
         }
         try {
-            DatabaseConnection.createMongoConnection(MongoURI, MongoDBName);
-            MongoDatabase Mongoconn = DatabaseConnection.getMongoDataBase();
-            System.out.println("Mongo Connection Establised.........");
+           DatabaseConnection.createMongoConnection(MongoURI, MongoDBName);
+           System.out.println("Mongo Connection Establised.........");
         } catch (Exception ex) {
             System.out.println("Mongo Connection not Establised.........");
         }

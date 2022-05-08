@@ -14,7 +14,7 @@
     </context-param>
     <context-param>
         <param-name>Mongodb_URL</param-name>
-        <param-value>mongodb://bdvogjkzi2h067j-mongodb.services.clever-cloud.com:27017/bdvogjkzi2h067j</param-value>
+        <param-value>mongodb://bdvogjkzi2h067j-mongodb.services.clever-cloud.com:27017</param-value>
     </context-param>
     <context-param>
         <param-name>Mongodb_URI</param-name>
@@ -137,4 +137,38 @@
            30
         </session-timeout>
     </session-config>
+    <error-page>
+        <!-- Missing login -->
+        <error-code>401</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Missing resource -->
+        <error-code>404</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Uncaught exception -->
+        <error-code>500</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Unsupported servlet method -->
+        <error-code>503</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <filter>
+        <filter-name> LoggingFilter </filter-name>
+        <filter-class> com.iti.ecommerce.essentials.filters.LoggingFilter </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggingFilter</filter-name>
+        <url-pattern>/Admin/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
