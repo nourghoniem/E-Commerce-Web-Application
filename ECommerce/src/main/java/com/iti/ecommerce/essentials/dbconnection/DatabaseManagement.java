@@ -34,7 +34,7 @@ public class DatabaseManagement {
     ArrayList<Product> products;
 
     Product product;
-
+    Customer customer;
     ResultSet rs;
     PreparedStatement pst;
 
@@ -234,6 +234,32 @@ public class DatabaseManagement {
 
         return products;
     }
+    
+    public Customer getCustomerById(Integer getid) {
+
+        try {
+
+            stmt = conn.createStatement();
+            String SQL = "SELECT address,phone_number,email,credit_limit from customer where id =" + getid + ";";
+            rs = stmt.executeQuery(SQL);
+
+            while (rs.next()) {
+               
+                Integer id = rs.getInt("id");
+                String address = rs.getString("address");
+                String phone_number = rs.getString("phone_number");
+                String email = rs.getString("email");
+//                Double price = rs.getDouble("price");
+                Integer credit_limit = rs.getInt("credit_limit");
+
+                customer = new Customer(id, address, phone_number,email,credit_limit);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customer;
+    }
 
     public void addProduct(Product p) {
         try {
@@ -274,6 +300,23 @@ public class DatabaseManagement {
             e.getMessage();
         }
     }
+    
+     public void editCustomer(Customer c) {
+        try {
+
+            pst = conn.prepareStatement("UPDATE Customer SET address=?, phone_number = ?,email=?,credit_limit=? where id = ?");
+            pst.setString(1, c.getAddress());
+            pst.setString(2, c.getPhone_number());
+            pst.setString(3, c.getEmail());
+            pst.setInt(4, c.getCredit_limit());
+            int rows = pst.executeUpdate();
+            pst.close();
+            System.out.print(rows);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+    
 
     public void deleteProduct(Integer id) {
         try {
