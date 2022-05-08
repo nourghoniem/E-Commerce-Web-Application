@@ -21,6 +21,7 @@ public class Customer {
     private String phone_number;
     
     
+<<<<<<< HEAD
     public Customer(Integer id,String address,String phone_number,String email,Integer credit_limit){
         this.id = id;
         this.email = email;
@@ -28,6 +29,16 @@ public class Customer {
         this.phone_number = phone_number;
         this.credit_limit = credit_limit;
         
+=======
+    public Customer(){}
+
+    public Customer(Integer id, String email, int credit_limit, String address, String phone_number) {
+        this.id = id;
+        this.email = email;
+        this.credit_limit = credit_limit;
+        this.address = address;
+        this.phone_number = phone_number;
+>>>>>>> c85eb380b02871a23d48d35a6fb2bce3a0d9f19a
     }
     
     public Customer(Integer id, String first_name, String last_name, String email, String dob, String address, String phone_number) {

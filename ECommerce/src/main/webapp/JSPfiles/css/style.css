@@ -1515,6 +1515,14 @@ textarea.input {
   margin-left: 30px;
   color: #00C3CC;
 }
+.product-details .product-unavailable {
+   font-size: 12px;
+   text-transform: uppercase;
+   font-weight: 700;
+   margin-left: 30px;
+   color: #cc0058;
+ }
+
 
 .product-details .product-options {
   margin-top: 30px;

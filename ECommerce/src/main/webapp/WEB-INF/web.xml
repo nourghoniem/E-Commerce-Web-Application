@@ -13,12 +13,32 @@
         <param-value>jdbc:postgresql://bfibxulveprmogqgrhkm-postgresql.services.clever-cloud.com:5432/bfibxulveprmogqgrhkm</param-value>
     </context-param>
     <context-param>
+        <param-name>Mongodb_URL</param-name>
+        <param-value>mongodb://bdvogjkzi2h067j-mongodb.services.clever-cloud.com:27017</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Mongodb_URI</param-name>
+        <param-value>mongodb://uf8pin6twfbolqqubkik:ysLD9Oca5hzSfMuAx6GD@bdvogjkzi2h067j-mongodb.services.clever-cloud.com:27017/bdvogjkzi2h067j</param-value>
+    </context-param>
+    <context-param>
+        <param-name>MongodbName</param-name>
+        <param-value>bdvogjkzi2h067j</param-value>
+    </context-param>
+    <context-param>
         <param-name>db_username</param-name>
         <param-value>usljypeo3cubvrf850oh</param-value>
     </context-param>
     <context-param>
         <param-name>db_password</param-name>
         <param-value>bdgWsraFaLT8rDiZglxB</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Mongodb_username</param-name>
+        <param-value>uf8pin6twfbolqqubkik</param-value>
+    </context-param>
+    <context-param>
+        <param-name>Mongodb_password</param-name>
+        <param-value>ysLD9Oca5hzSfMuAx6GD</param-value>
     </context-param>
     <listener>
         <description>ServletContextListener</description>
@@ -60,6 +80,14 @@
         <servlet-name>FilterProducts</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.FilterProducts</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>handleQuantity</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.handleQuantity</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>removeFromCart</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.removeFromCart</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
         <url-pattern>/addProductServlet</url-pattern>
@@ -96,9 +124,42 @@
         <servlet-name>FilterProducts</servlet-name>
         <url-pattern>/FilterProducts</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>handleQuantity</servlet-name>
+        <url-pattern>/handleQuantity</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>removeFromCart</servlet-name>
+        <url-pattern>/removeFromCart</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
-           1
+           30
         </session-timeout>
     </session-config>
+    <error-page>
+        <!-- Missing login -->
+        <error-code>401</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Forbidden directory listing -->
+        <error-code>403</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Missing resource -->
+        <error-code>404</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Uncaught exception -->
+        <error-code>500</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
+    <error-page>
+        <!-- Unsupported servlet method -->
+        <error-code>503</error-code>
+        <location>/JSPfiles/error.jsp</location>
+    </error-page>
 </web-app>

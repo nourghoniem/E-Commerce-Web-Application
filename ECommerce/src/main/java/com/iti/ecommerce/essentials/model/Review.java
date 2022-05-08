@@ -1,0 +1,105 @@
+package com.iti.ecommerce.essentials.model;
+
+public class Review {
+    int Product_id;
+    int Customer_id;
+    String Review;
+    int year,month,day,hours,minutes;
+    int Rating;
+
+    public Review() {
+        Product_id = 0;
+        Customer_id = 0;
+        Review = "";
+        this.year = 0;
+        this.month = 0;
+        this.day = 0;
+        this.hours = 0;
+        this.minutes = 0;
+        Rating = 0;
+    }
+
+    public Review(int product_id, int customer_id, String review, int year, int month, int day, int hours, int minutes, int rating) {
+        Product_id = product_id;
+        Customer_id = customer_id;
+        Review = review;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.hours = hours;
+        this.minutes = minutes;
+        Rating = rating;
+    }
+
+    public void setProduct_id(int product_id) {
+        Product_id = product_id;
+    }
+
+    public void setCustomer_id(int customer_id) {
+        Customer_id = customer_id;
+    }
+
+    public void setReview(String review) {
+        Review = review;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
+    }
+
+    public void setMinutes(int minutes) {
+        this.minutes = minutes;
+    }
+
+    public void setRating(int rating) {
+        Rating = rating;
+    }
+
+    public int getProduct_id() {
+        return Product_id;
+    }
+
+    public int getCustomer_id() {
+        return Customer_id;
+    }
+
+    public String getReview() {
+        return Review;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public int getMinutes() {
+        return minutes;
+    }
+
+    public int getRating() {
+        return Rating;
+    }
+}

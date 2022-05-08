@@ -21,6 +21,8 @@ public class Product {
     private Integer quantity;
     private String description;
     private String product_type;
+
+
     
     public Product(){}
 
