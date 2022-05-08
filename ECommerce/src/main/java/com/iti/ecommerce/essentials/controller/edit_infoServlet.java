@@ -35,7 +35,7 @@ public class edit_infoServlet extends HttpServlet {
         String email = request.getParameter("email");
         Integer credit_limit = Integer.parseInt(request.getParameter("credit_limit"));
         
-        Customer c = new Customer(id, address, phone_number,email,credit_limit);
+        Customer c = new Customer(id, address,credit_limit,email, phone_number);
         DatabaseManagement data = new DatabaseManagement();
         data.editCustomer(c);
     }

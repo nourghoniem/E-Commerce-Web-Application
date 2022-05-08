@@ -252,7 +252,7 @@ public class DatabaseManagement {
 //                Double price = rs.getDouble("price");
                 Integer credit_limit = rs.getInt("credit_limit");
 
-                customer = new Customer(id, address, phone_number,email,credit_limit);
+                customer = new Customer(id, address,credit_limit,email,phone_number);
 
             }
         } catch (SQLException e) {

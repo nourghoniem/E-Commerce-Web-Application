@@ -292,7 +292,11 @@ textarea.input {
 /*----------------------------*\
 	Section
 \*----------------------------*/
+.regformsec{
+  background-image: url("/ECommerce/JSPfiles/img/RegBackground.jpg") ;
+  background-size: cover;
 
+}
 .section {
   padding-top: 30px;
   padding-bottom: 30px;
