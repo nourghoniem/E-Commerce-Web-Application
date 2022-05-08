@@ -25,15 +25,15 @@ public class removeFromCart extends HttpServlet {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
-        out.println(id);
-//        ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
-//        if (cart_list != null) {
-//            for (Cart c : cart_list) {
-//                if (c.getId() == id) {
-//                    cart_list.remove(c);
-//                    break;
-//                }
-//            }
-//        }
+//        out.println(id);
+        ArrayList<Cart> cart_list = (ArrayList<Cart>) request.getSession().getAttribute("cart-list");
+        if (cart_list != null) {
+            for (Cart c : cart_list) {
+                if (c.getId() == id) {
+                    cart_list.remove(c);
+                    break;
+                }
+            }
+        }
     }
 }

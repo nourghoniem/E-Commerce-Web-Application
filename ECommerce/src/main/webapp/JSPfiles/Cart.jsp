@@ -226,7 +226,7 @@
                         </div>
                     </div>
                     <!-- /section title -->
-
+                    <div id="passing_id" style="display:none;"></div>
 
                     <!-- Products tab & slick -->
                     <div class="col-md-12">
@@ -265,11 +265,10 @@
                                                         </div>
                                                     </td>
 
-                                                    <td><button onclick="clickHandler();" data-toggle="modal" data-target="#deleteStaffModal" id="removefromcart" class="btn btn-danger">Delete</button></td>
+                                                    <td><button onclick="clickHandler(<%=c.getId()%>);" data-toggle="modal" data-target="#deleteStaffModal" id="removefromcart" class="btn btn-danger">Delete</button></td>
                                             <script>
-                                                function clickHandler() {
-                                                <%getting_id = c.getId();%>
-                                                 
+                                                function clickHandler(id) {
+                                                    $("#passing_id").html(id);
                                                 }
 
                                             </script>
@@ -400,22 +399,26 @@
                     <script>
                         $("#deleteProduct").click(function (event) {
                             event.preventDefault();
-                            var id = $('#id').val();
-                            alert(id);
-//                                        $.ajax({
-//                                            type: "POST",
-//                                            url: "${pageContext.request.contextPath}/removeFromCart",
-//                                            data: {
-//                                                id: id,
-//                                            },
-//                                            success: function (data) {
+                            var id = $('#passing_id').html();
+//                            alert(id);
+                            $.ajax({
+                                type: "POST",
+                                url: "${pageContext.request.contextPath}/removeFromCart",
+                                data: {
+                                    id: id,
+                                },
+                                success: function (data) {
 //                                                alert(data);
-//                                            },
-//                                            error: function (resp) {
-//                                                alert("Error");
-//                                            }
-//
-//                                        });
+                                },
+                                error: function (resp) {
+                                    alert("Error");
+                                }
+
+                            });
+                            $(document).ajaxStop(function () {
+                                window.location.reload();
+                            });
+
                         });
                     </script>
                 </div>

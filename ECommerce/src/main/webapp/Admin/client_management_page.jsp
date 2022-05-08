@@ -10,7 +10,7 @@
 <%
     DatabaseManagement data = new DatabaseManagement();
     List<Customer> getCustomers = data.getCustomers();
-    Integer getting_id = 0;
+
 
 %>
 
@@ -323,7 +323,7 @@
                     </nav>
                     <!-- End of Topbar -->
 
-
+                    <div id="passing_id" style="display:none;"></div>
                     <!-- Begin Page Content -->
                     <div class="container-fluid">
 
@@ -364,14 +364,12 @@
                                                 <td><% out.println(c.getPhone_number()); %></td>
                                                 <td><% out.println(c.getDob()); %></td>
                                                 <td><% out.println(c.getAddress()); %></td>
-                                                <td><button onclick="clickHandler()" type="button" id="deletebtn" class="btn btn-danger" data-toggle="modal" data-target="#deleteStaffModal">Delete</button></td>
+                                                <td><button onclick="clickHandler(<%=c.getId()%>)" type="button" id="deletebtn" class="btn btn-danger" data-toggle="modal" data-target="#deleteStaffModal">Delete</button></td>
                                             </tr>
                                         <script>
-                                            function clickHandler() {
+                                            function clickHandler(id) {
 
-                                            <%getting_id = c.getId();
-                                            
-                                            %>
+                                               $("#passing_id").html(id);
 
                                             }
 
@@ -398,11 +396,6 @@
                                             <div>
                                                 Are you sure you want to delete this user's data? This process cannot be undone.
                                             </div>
-
-                                            <div class="form-group col-md-6 col-sm-6">
-
-                                                <input style="display: none;" type="text" class="form-control input-sm" required="" id="id" name="id"  placeholder="" value="<%out.println(getting_id);%>" >
-                                            </div>
                                         </div>
 
                                         <div class="modal-footer">
@@ -414,7 +407,7 @@
 
                                         $("#deleteProduct").click(function (event) {
                                             event.preventDefault();
-                                            var id = $('#id').val();
+                                             var id = $('#passing_id').html();
                                              $.ajax({
                                                 type: "POST",
                                                 url: "${pageContext.request.contextPath}/deleteCustomerServlet",
@@ -424,7 +417,7 @@
                                                 },
                                                 success: function (data) {
 
-                                                    alert(data);
+                                               
                                                 },
                                                 error: function (resp) {
                                                     alert("Error");
