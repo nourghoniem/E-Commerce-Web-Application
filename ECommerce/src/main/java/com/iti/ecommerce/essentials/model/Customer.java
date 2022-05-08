@@ -21,6 +21,15 @@ public class Customer {
     private String phone_number;
     
     
+    public Customer(Integer id,String address,String phone_number,String email,Integer credit_limit){
+        this.id = id;
+        this.email = email;
+        this.address = address;
+        this.phone_number = phone_number;
+        this.credit_limit = credit_limit;
+        
+    }
+    
     public Customer(Integer id, String first_name, String last_name, String email, String dob, String address, String phone_number) {
         this.id = id;
         this.first_name = first_name;
