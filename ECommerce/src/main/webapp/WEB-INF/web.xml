@@ -162,4 +162,13 @@
         <error-code>503</error-code>
         <location>/JSPfiles/error.jsp</location>
     </error-page>
+    <filter>
+        <filter-name> LoggingFilter </filter-name>
+        <filter-class> com.iti.ecommerce.essentials.filters.LoggingFilter </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>LoggingFilter</filter-name>
+        <url-pattern>/Admin/*</url-pattern>
+    </filter-mapping>
+
 </web-app>
