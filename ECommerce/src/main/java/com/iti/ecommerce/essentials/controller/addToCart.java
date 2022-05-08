@@ -4,7 +4,6 @@
  */
 package com.iti.ecommerce.essentials.controller;
 
-import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
 import com.iti.ecommerce.essentials.model.Cart;
 import java.io.IOException;
 import java.io.PrintWriter;

@@ -17,6 +17,14 @@
 <%  String name, description, image_URL, product_type, visibility, show;
     Double price, oldPrice;
     Integer quantity, id, Rating;
+    ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+    String check;
+    if (cart_list != null) {
+        check = "notnull";
+    } else {
+        check = "null";
+    }
+
 %>
 
 
@@ -75,7 +83,7 @@
                 </div>
             </div>
             <!-- /TOP HEADER -->
-
+            <div id="checkifnull" style="display:none;"><%=check%></div>
             <!-- MAIN HEADER -->
             <div id="header">
                 <!-- container -->
@@ -513,7 +521,7 @@
                                             },
 
                                             success: function (data) {
-                                               
+
                                                 var results = data.split(',');
                                                 var result = $.trim(results[0]);
                                                 if (result === "exists") {
@@ -529,12 +537,16 @@
                                                         $("#addedToCart").hide();
                                                     }, 2000);
 
-                                                } 
-                                               
-                                                    if(results[1] > 0){
-                                                        $('#qty').html(results[1]);
-                                                        $("#qty").show();
-                                                    }0
+                                                }
+
+
+                                                if (results[1] > 0) {
+                                                    $('#qty').html(results[1]);
+                                                    $("#qty").show();
+                                                }
+
+
+
 
                                             },
                                             error: function (resp) {
