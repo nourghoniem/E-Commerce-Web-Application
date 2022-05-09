@@ -12,6 +12,7 @@
 
 <%  int id=Integer.parseInt(request.getParameter("ID"));
     int CID=-1;
+    System.out.println("session attribute id :"+session.getAttribute("id"));
     if (session.getAttribute("id")!=null){
         CID= (int)session.getAttribute("id");}
     DatabaseManagement DM=new DatabaseManagement();
@@ -482,58 +483,35 @@
                                     </div>
                                 </div>
                                 <!-- /Reviews -->
-                                <% if (canReview){%>
+                                <% String condition=""; String style="style=\"display:none;\"";%>
+                                <% if (!canReview){  condition="disabled";  style="";}%>
                                 <!-- Review Form -->
                                 <div class="col-md-3">
                                     <div id="addedReview" style="display:none;" class="alert alert-success" role="alert">
                                         Product Review is submitted.
                                     </div>
-                                    <div id="review-form">
-<%--                                        <form class="review-form">--%>
-                                            <input id="" class="input" type="text" placeholder="Your Name">
-                                            <input class="input" type="email" placeholder="Your Email">
-                                            <textarea id="review_id" class="input" placeholder="Your Review"></textarea>
-                                            <div class="input-rating">
-                                                <span>Your Rating: </span>
-                                                <div class="stars">
-                                                    <input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
-                                                    <input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
-                                                    <input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
-                                                    <input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
-                                                    <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
-                                                </div>
-                                            </div>
-                                            <button onclick="Review(<%=id%>, <%=CID%>);" class="primary-btn">Submit</button>
-<%--                                        </form>--%>
-                                    </div>
-                                </div>
-                                <%}else{%>
-                                <!-- Review Form -->
-                                <div class="col-md-3">
-                                    <div   class="alert alert-danger" role="alert">
+                                    <div <%=style%>  class="alert alert-danger" role="alert">
                                         You should Sign in and buy the product to be able to submit a review.
                                     </div>
                                     <div id="review-form">
-                                        <%--                                        <form class="review-form">--%>
-                                        <input disabled class="input" type="text" placeholder="Your Name">
-                                        <input disabled class="input" type="email" placeholder="Your Email">
-                                        <textarea disabled class="input" placeholder="Your Review"></textarea>
-                                        <div class="input-rating">
-                                            <span>Your Rating: </span>
-                                            <div class="stars">
-                                                <input disabled  name="rating" value="5" type="radio"><label for="star5"></label>
-                                                <input disabled  name="rating" value="4" type="radio"><label for="star4"></label>
-                                                <input disabled  name="rating" value="3" type="radio"><label for="star3"></label>
-                                                <input disabled  name="rating" value="2" type="radio"><label for="star2"></label>
-                                                <input disabled  name="rating" value="1" type="radio"><label for="star1"></label>
+                                        <form class="review-form">
+                                            <input <%=condition%> id="" class="input" type="text" placeholder="Your Name">
+                                            <input <%=condition%> class="input" type="email" placeholder="Your Email">
+                                            <textarea <%=condition%> id="review_id" class="input" placeholder="Your Review"></textarea>
+                                            <div class="input-rating">
+                                                <span>Your Rating: </span>
+                                                <div class="stars">
+                                                    <input <%=condition%> id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+                                                    <input <%=condition%> id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+                                                    <input <%=condition%> id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+                                                    <input <%=condition%> id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+                                                    <input <%=condition%> id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <button onclick="" class="primary-btn">Submit</button>
-                                        <%--                                        </form>--%>
+                                            <button <%=condition%> onclick="Review(<%=id%>, <%=CID%>);" class="primary-btn" type="button">Submit</button>
+                                        </form>
                                     </div>
                                 </div>
-                                <%}%>
-                                <!-- /Review Form -->
                             </div>
                         </div>
                         <!-- /tab3  -->

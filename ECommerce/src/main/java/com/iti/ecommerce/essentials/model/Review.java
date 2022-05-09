@@ -27,7 +27,7 @@ public class Review {
         Product_id = product_id;
         Customer_id = customer_id;
         Review = review;
-        Customer_name=getName(product_id);
+        Customer_name=getName(customer_id);
         this.year = year;
         this.month = month;
         this.day = day;
@@ -42,6 +42,7 @@ public class Review {
 
     public void setCustomer_id(int customer_id) {
         Customer_id = customer_id;
+        setCustomer_name(getName(customer_id));
     }
 
     public void setReview(String review) {
@@ -118,7 +119,19 @@ public class Review {
     private String getName(int customer_id){
         String Name;
         DatabaseManagement DM =new DatabaseManagement();
-       Name= DM.getCustomer(customer_id).getFirst_name();
+        Name= DM.getCustomer(customer_id).getFirst_name();
         return Name;
+    }
+    public void PrintReview(){
+        System.out.print("Product_id : "+this.Product_id);
+        System.out.print("  Customer_id : "+this.Customer_id);
+        System.out.print("  Review : "+this.Review);
+        System.out.print("  Customer_name : "+this.Customer_name);
+        System.out.print("  year  : "+this.year);
+        System.out.print("  month : "+this.month);
+        System.out.print("  day : "+this.day);
+        System.out.print("  hours : "+this.hours);
+        System.out.print("  minutes : "+this.minutes);
+        System.out.println("  Rating : "+ this.Rating);
     }
 }
