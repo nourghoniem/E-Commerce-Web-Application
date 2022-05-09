@@ -40,6 +40,14 @@
         <param-name>Mongodb_password</param-name>
         <param-value>ysLD9Oca5hzSfMuAx6GD</param-value>
     </context-param>
+    <filter-mapping>
+        <filter-name>LoggingFilter</filter-name>
+        <url-pattern>/Admin/*</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>editCustomerFilter</filter-name>
+        <url-pattern>/JSPfiles/edit_user.jsp</url-pattern>
+    </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
         <listener-class>com.iti.ecommerce.essentials.dbconnection.DatabaseListener</listener-class>
@@ -182,16 +190,8 @@
         <filter-name> LoggingFilter </filter-name>
         <filter-class> com.iti.ecommerce.essentials.filters.LoggingFilter </filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>LoggingFilter</filter-name>
-        <url-pattern>/Admin/*</url-pattern>
-    </filter-mapping>
     <filter>
         <filter-name> editCustomerFilter </filter-name>
         <filter-class> com.iti.ecommerce.essentials.filters.editCustomerFilter </filter-class>
     </filter>
-    <filter-mapping>
-        <filter-name>editCustomerFilter</filter-name>
-        <url-pattern>/JSPfiles/edit_user.jsp</url-pattern>
-    </filter-mapping>
 </web-app>

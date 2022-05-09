@@ -22,8 +22,10 @@
         DatabaseManagement database = new DatabaseManagement();
         get_cart_products = database.getProductsFromCart(cart_list);
         total = database.getTotalPriceCart(cart_list);
-        request.setAttribute("total_price", total);
+        session.setAttribute("total_price", total);
         request.setAttribute("cart_list", cart_list);
+        request.setAttribute("cart_size", cart_list.size());
+        
     }
 
 
@@ -313,7 +315,7 @@
 
                                 <div style="background: blue;" id="slick-nav-2" class="products-slick-nav"></div>
                                 <h5>Total: <%out.println(total);%>LE</h5>
-                                <a href="#" class="link-info">Proceed to Checkout</a>
+                                <a href="checkout.jsp" class="link-info">Proceed to Checkout</a>
                             </div>
                             <!-- /tab -->
                         </div>
