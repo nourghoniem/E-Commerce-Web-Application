@@ -92,9 +92,17 @@
         <servlet-name>removeFromCart</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.removeFromCart</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>edit_infoServlet</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.edit_infoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SubmitAReview</servlet-name>
         <url-pattern>/SubmitAReview</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>edit_infoServlet</servlet-name>
+        <url-pattern>/edit_infoServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>addProductServlet</servlet-name>
@@ -178,5 +186,12 @@
         <filter-name>LoggingFilter</filter-name>
         <url-pattern>/Admin/*</url-pattern>
     </filter-mapping>
-
+    <filter>
+        <filter-name> editCustomerFilter </filter-name>
+        <filter-class> com.iti.ecommerce.essentials.filters.editCustomerFilter </filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>editCustomerFilter</filter-name>
+        <url-pattern>/JSPfiles/edit_user.jsp</url-pattern>
+    </filter-mapping>
 </web-app>

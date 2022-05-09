@@ -10,9 +10,26 @@
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 
 <%
-    Integer id = Integer.parseInt(request.getParameter("id"));
-    DatabaseManagement data = new DatabaseManagement();
-    Customer getCustomer = data.getCustomerById(id);
+  //  Integer id = Integer.parseInt(request.getParameter("id"));
+    String email ="",address="",phone_number="",first_name="",last_name="",dob="";
+    int credit_limit=0 ;
+    Integer id =-1;
+    if (session.getAttribute("id")!= null) {
+        id = (int) session.getAttribute("id");
+    }
+    if (id!=-1) {
+        DatabaseManagement data = new DatabaseManagement();
+        Customer customer = data.getCustomer(id);
+        email= customer.getEmail();
+        address=customer.getAddress();
+        phone_number=customer.getPhone_number();
+        credit_limit=customer.getCredit_limit();
+        first_name = customer.getFirst_name();
+        last_name = customer.getLast_name();
+    }
+
+
+
 %>
 
 <!DOCTYPE html>
@@ -25,33 +42,35 @@
                                         <div class="col-md-12 col-sm-12">
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="name"> Product Name  </label>
-                                                <input type="text" class="form-control input-sm" id="form-name" required="" name="address" value="<% out.println(getCustomer.getEmail()); %>" placeholder="">
+                                                <label for="fname">  first Name  </label>
+                                                <input type="text" class="form-control input-sm" id="fname" required="" value="<%=first_name%>" placeholder="">
                                             </div>
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="description">Description</label>
-                                                <input type="text" class="form-control input-sm" id="form-description" required="" name="phone_number" value="<% out.println(getCustomer.getCredit_limit()); %>" placeholder="" >
+                                                <label for="lname">last name</label>
+                                                <input type="text" class="form-control input-sm" id="lname" required="" value="<%= last_name%>" placeholder="" >
                                             </div>
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="quantity"> Quantity </label>
-                                                <input type="text" class="form-control input-sm" id="form-quantity" required="" name="email" value="<% out.println(getCustomer.getPhone_number()); %>
+                                                <label for="email">email</label>
+                                                <input type="text" class="form-control input-sm" id="email" required="" value="<%= email%>" placeholder="" >
+                                            </div>
+                                            <div class="form-group col-md-6 col-sm-6">
+                                                <label for="address"> address </label>
+                                                <input type="text" class="form-control input-sm" id="address" required="" value="<%=address %>
                                                        " placeholder="" >
                                             </div>
 
                                             <div class="form-group col-md-6 col-sm-6">
-                                                <label for="price"> Price </label>
-                                                <input type="text" class="form-control input-sm" id="form-price" required="" name="credit_limit" value="<% out.println(getCustomer.getAddress()); %>">
+                                                <label for="credit_limit"> credit limit </label>
+                                                <input type="text" class="form-control input-sm" id="credit_limit" required=""  value="<%=credit_limit%>">
                                             </div>
                                             <div class="col-md-12 col-sm-12">
                                                 <div class="form-group col-md-3 col-sm-3 pull-right" >
-                                                    <button type="button" class="btn btn-primary">
+                                                    <button onclick="editUserFn(<%=id%>);" type="button"  class="btn btn-primary">
                                                         Edit
                                                     </button>
-                                                    <button type="button" class="btn btn-danger">
-                                                        Delete
-                                                    </button>
+
                                                 </div>
                                             </div>
 
@@ -61,52 +80,52 @@
                                 </div>
                                 
                                 <script>
-                                    $(document).ready(function () {
-                                        $("#edit_user_submit").click(function (event) {
-                                            event.preventDefault();
-                                            var regex = /^(\+|-)?(\d*\.?\d*)$/;
-                                            var id = $('#id').val();
-                                            var address = $('#address').val();
-                                            var phone_number = $('#phone_number').val();
-                                            var email = $('#email').val();
-                                            var credit_limit = $('#credit_limit').val();
-                                            
+
+                                       function editUserFn(ID){
+                                           var id = ID;
+                                           var address = $('#address').val();
+                                            var fname =$('#fname').val();
+                                           var lname =$('#lname').val();
+                                           var email = $('#email').val();
+                                           var credit_limit = $('#credit_limit').val();
+                                            console.log($('#credit_limit'));
+                                           console.log($('#credit_limit').val());
                                               $.ajax({
                                                     type: "POST",
                                                     url: "${pageContext.request.contextPath}/edit_infoServlet",
                                                     data: {
-                                                        id: id,
-                                                        address:address,
-                                                        phone_number: phone_number,
-                                                        email: email,
-                                                        credit_limit: credit_limit
+                                                       id: id,
+                                                       address:address,
+                                                       email: email,
+                                                      credit_limit: credit_limit,
+                                                        fname:fname,
+                                                        lname:lname
                                                     },
                                                     success: function (data) {
-                                                        $('#success-message').show();
-                                                        $("#edit_user_submit").prop("disabled", true);
-                                                        setTimeout(function () {
-
-                                                            $('#editStaffModal.modal.fade.show').hide();
-                                                            $('body').removeClass('modal-open');
-                                                            $('.modal-backdrop').remove();
-                                                        }, 2000);
+                                                       alert("success");
+                                                       //  $('#success-message').show();
+                                                       //  $("#edit_user_submit").prop("disabled", true);
+                                                       //  setTimeout(function () {
+                                                       //
+                                                       //      $('#editStaffModal.modal.fade.show').hide();
+                                                       //      $('body').removeClass('modal-open');
+                                                       //      $('.modal-backdrop').remove();
+                                                       //  }, 2000);
                                                     },
                                                     error: function (resp) {
-                                                        console.log(resp);
+                                                        alert("error");
                                                     }
                                                 });
-                                            }
-                                        });
-                                        $(document).ajaxStop(function () {
-                                            window.location.reload();
-                                        });
+
+                                        }
+                                        // $(document).ajaxStop(function () {
+                                        //     window.location.reload();
+                                        // });
 
 
 
-                                    }
-                                    );
 
-                                    );
+
 
                                 </script>
                                             

@@ -31,11 +31,12 @@ public class edit_infoServlet extends HttpServlet {
         PrintWriter out = resp.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
         String address = request.getParameter("address");
-        String phone_number =request.getParameter("phone_number");
+         String fname = request.getParameter("fname");
+         String lname = request.getParameter("lname");
         String email = request.getParameter("email");
         Integer credit_limit = Integer.parseInt(request.getParameter("credit_limit"));
-        
-        Customer c = new Customer(id, address,credit_limit,email, phone_number);
+
+        Customer c = new Customer(id, fname,lname,email,credit_limit,address);
         DatabaseManagement data = new DatabaseManagement();
         data.editCustomer(c);
     }
