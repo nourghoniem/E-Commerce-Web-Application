@@ -1,8 +1,11 @@
 package com.iti.ecommerce.essentials.model;
 
+import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
+
 public class Review {
     int Product_id;
     int Customer_id;
+    String Customer_name;
     String Review;
     int year,month,day,hours,minutes;
     int Rating;
@@ -11,6 +14,7 @@ public class Review {
         Product_id = 0;
         Customer_id = 0;
         Review = "";
+        Customer_name="";
         this.year = 0;
         this.month = 0;
         this.day = 0;
@@ -23,6 +27,7 @@ public class Review {
         Product_id = product_id;
         Customer_id = customer_id;
         Review = review;
+        Customer_name=getName(product_id);
         this.year = year;
         this.month = month;
         this.day = day;
@@ -41,6 +46,14 @@ public class Review {
 
     public void setReview(String review) {
         Review = review;
+    }
+
+    public String getCustomer_name() {
+        return Customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        Customer_name = customer_name;
     }
 
     public void setYear(int year) {
@@ -101,5 +114,11 @@ public class Review {
 
     public int getRating() {
         return Rating;
+    }
+    private String getName(int customer_id){
+        String Name;
+        DatabaseManagement DM =new DatabaseManagement();
+       Name= DM.getCustomer(customer_id).getFirst_name();
+        return Name;
     }
 }

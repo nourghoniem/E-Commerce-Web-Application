@@ -1,6 +1,7 @@
 <%@ page import="com.iti.ecommerce.essentials.model.Product" %>
 <%@ page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement" %>
-<%@ page import="java.util.List" %><%--
+<%@ page import="java.util.List" %>
+<%@ page import="com.iti.ecommerce.essentials.model.Review" %><%--
   Created by IntelliJ IDEA.
   User: pc
   Date: 4/29/2022
@@ -10,9 +11,15 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%  int id=Integer.parseInt(request.getParameter("ID"));
+    int CID=-1;
+    if (session.getAttribute("id")!=null){
+        CID= (int)session.getAttribute("id");}
     DatabaseManagement DM=new DatabaseManagement();
     List<Product> products=DM.getProducts();
     Product product=DM.getProductById(id);
+    List<Review> reviewList = DM.getProductRRList(id);
+    int Product_id,Customer_id,year,month,day,hours,minutes,oneProductRating;
+    String ReviewBody,Customer_name;
     String name, description, image_URL, product_type;
     Double price, oldPrice;
     Integer quantity,rating,reviews_Count;
@@ -26,7 +33,8 @@
     image_URL = "/ECommerce/db_images/" + id + ".jpg";
     product_type = product.getProduct_type();
     rating = DM.getProductRating(id);
-   
+    boolean canReview=DM.canReview(id,CID);
+    //boolean canReview=true;
     reviews_Count=5;
     if (quantity > 0){
         inStock=true;
@@ -424,55 +432,45 @@
                                 <div class="col-md-6">
                                     <div id="reviews">
                                         <ul class="reviews">
+                                            <% i =reviews_Count;
+                                            if (reviewList != null){
+                                                for (Review review : reviewList){
+                                                            Product_id=review.getProduct_id();
+                                                            Customer_id=review.getCustomer_id();
+                                                            Customer_name=review.getCustomer_name();
+                                                            year=review.getYear();
+                                                            month=review.getMonth();
+                                                            day=review.getDay();
+                                                            hours=review.getHours();
+                                                            minutes=review.getMinutes();
+                                                            oneProductRating=review.getRating();
+                                                            ReviewBody=review.getReview();
+                                            %>
+                                            <li>
+                                                <div class="review-heading">
+                                                    <h5 class="name"><%=Customer_name%></h5>
+                                                    <p class="date"><%=year%> <%=month%> <%=day%>, <%=hours%>:<%=minutes%></p>
+                                                    <div class="review-rating">
+                                                        <% i = oneProductRating;
+                                                            while (i!=0){
+                                                        %>
+                                                        <i class="fa fa-star"></i>
+                                                        <%i--;}%>
+                                                        <% i = 5 - oneProductRating;
+                                                            while (i!=0){
+                                                        %>
+                                                        <i class="fa fa-star-o empty"></i>
+                                                        <%i--;}%>
+                                                    </div>
+                                                </div>
+                                                <div class="review-body">
+                                                    <p><%=ReviewBody%></p>
+                                                </div>
+                                            </li>
+                                            <%
+                                                }}
+                                            %>
 
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
-                                            <li>
-                                                <div class="review-heading">
-                                                    <h5 class="name">John</h5>
-                                                    <p class="date">27 DEC 2018, 8:0 PM</p>
-                                                    <div class="review-rating">
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star"></i>
-                                                        <i class="fa fa-star-o empty"></i>
-                                                    </div>
-                                                </div>
-                                                <div class="review-body">
-                                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
-                                                </div>
-                                            </li>
                                         </ul>
                                         <ul class="reviews-pagination">
                                             <li class="active">1</li>
@@ -484,14 +482,17 @@
                                     </div>
                                 </div>
                                 <!-- /Reviews -->
-
+                                <% if (canReview){%>
                                 <!-- Review Form -->
                                 <div class="col-md-3">
+                                    <div id="addedReview" style="display:none;" class="alert alert-success" role="alert">
+                                        Product Review is submitted.
+                                    </div>
                                     <div id="review-form">
 <%--                                        <form class="review-form">--%>
-                                            <input class="input" type="text" placeholder="Your Name">
+                                            <input id="" class="input" type="text" placeholder="Your Name">
                                             <input class="input" type="email" placeholder="Your Email">
-                                            <textarea class="input" placeholder="Your Review"></textarea>
+                                            <textarea id="review_id" class="input" placeholder="Your Review"></textarea>
                                             <div class="input-rating">
                                                 <span>Your Rating: </span>
                                                 <div class="stars">
@@ -502,10 +503,36 @@
                                                     <input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
                                                 </div>
                                             </div>
-                                            <button onclick="" class="primary-btn">Submit</button>
+                                            <button onclick="Review(<%=id%>, <%=CID%>);" class="primary-btn">Submit</button>
 <%--                                        </form>--%>
                                     </div>
                                 </div>
+                                <%}else{%>
+                                <!-- Review Form -->
+                                <div class="col-md-3">
+                                    <div   class="alert alert-danger" role="alert">
+                                        You should Sign in and buy the product to be able to submit a review.
+                                    </div>
+                                    <div id="review-form">
+                                        <%--                                        <form class="review-form">--%>
+                                        <input disabled class="input" type="text" placeholder="Your Name">
+                                        <input disabled class="input" type="email" placeholder="Your Email">
+                                        <textarea disabled class="input" placeholder="Your Review"></textarea>
+                                        <div class="input-rating">
+                                            <span>Your Rating: </span>
+                                            <div class="stars">
+                                                <input disabled  name="rating" value="5" type="radio"><label for="star5"></label>
+                                                <input disabled  name="rating" value="4" type="radio"><label for="star4"></label>
+                                                <input disabled  name="rating" value="3" type="radio"><label for="star3"></label>
+                                                <input disabled  name="rating" value="2" type="radio"><label for="star2"></label>
+                                                <input disabled  name="rating" value="1" type="radio"><label for="star1"></label>
+                                            </div>
+                                        </div>
+                                        <button onclick="" class="primary-btn">Submit</button>
+                                        <%--                                        </form>--%>
+                                    </div>
+                                </div>
+                                <%}%>
                                 <!-- /Review Form -->
                             </div>
                         </div>
@@ -764,30 +791,41 @@
     }
 </script>
 <script>
-    function Review(my_id)
+    function Review(Pid,  Cid)
     {
-        var id = my_id;
-//
+        var product_id=Pid;
+        var customer_id=Cid;
+        var review=document.getElementById("review_id").value;
+
+        var year=new Date().getFullYear();
+        var month=new Date().getMonth();
+        var day= new Date().getDay();
+        var hours=new Date().getHours();
+        var minutes=new Date().getMinutes();
+        var rating=document.querySelector('input[name="rating"]:checked').value ;
+        console.log(review);
+        if (review != ""){
         $.ajax({
             type: "POST",
-            url: "${pageContext.request.contextPath}/addToCart",
+            url: "${pageContext.request.contextPath}/SubmitAReview",
             data: {
-                id: id
+                product_id:product_id,
+                customer_id:customer_id,
+                review:review,
+                year:year,
+                month:month,
+                day: day,
+                hours:hours ,
+                minutes: minutes,
+                rating:rating
             },
 
             success: function (data) {
                 var result = $.trim(data);
-                if (result === "exists") {
-                    $("#alreadyInCart").show();
+                if (result === "added") {
+                    $("#addedReview").show();
                     setTimeout(function () {
-                        $("#alreadyInCart").hide();
-                    }, 2000);
-
-
-                } else if (result === "added") {
-                    $("#addedToCart").show();
-                    setTimeout(function () {
-                        $("#addedToCart").hide();
+                        $("#addedReview").hide();
                     }, 2000);
 
                 }
@@ -799,7 +837,7 @@
             error: function (resp) {
                 alert("Error");
             }
-        });
+        });}
     }
 </script>
 </body>
