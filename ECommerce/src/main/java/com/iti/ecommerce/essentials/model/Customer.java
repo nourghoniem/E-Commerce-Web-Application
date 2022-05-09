@@ -19,8 +19,7 @@ public class Customer {
     private int credit_limit;
     private String address;
     private String phone_number;
-    
-    
+        
 
     public Customer(Integer id,String address,String phone_number,String email,Integer credit_limit){
         this.id = id;
@@ -29,6 +28,7 @@ public class Customer {
         this.phone_number = phone_number;
         this.credit_limit = credit_limit;
     }
+
     public Customer(){}
 
     public Customer(Integer id, String email, int credit_limit, String address, String phone_number) {
@@ -48,6 +48,26 @@ public class Customer {
         this.dob = dob;
         this.address = address;
         this.phone_number = phone_number;
+    }
+
+    public Customer(Integer id, String first_name, String last_name, String email, String dob, int credit_limit, String address, String phone_number) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.dob = dob;
+        this.credit_limit = credit_limit;
+        this.address = address;
+        this.phone_number = phone_number;
+    }
+
+    public Customer(Integer id, String first_name, String last_name, String email, int credit_limit, String address) {
+        this.id = id;
+        this.first_name = first_name;
+        this.last_name = last_name;
+        this.email = email;
+        this.credit_limit = credit_limit;
+        this.address = address;
     }
 
     public Integer getId() {

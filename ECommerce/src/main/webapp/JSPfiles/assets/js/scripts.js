@@ -72,7 +72,7 @@ jQuery(document).ready(function() {
     		}
             });
         parent_fieldset.find(' #form-password').each(function() {
-          if($(this).val().length() < 7){
+          if($(this).val().length< 7){
     			$(this).addClass('input-error');
     			next_step = false;
     		}
