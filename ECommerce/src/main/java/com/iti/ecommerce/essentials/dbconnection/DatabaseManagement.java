@@ -501,6 +501,14 @@ public class DatabaseManagement {
     public int getProductRating(int product_id) {
         return CalculateTheAverageRating(product_id);
     }
+    public int getReviewCount(int product_id){
+        int RatingCount=0;
+        if (getProductRRList(product_id) != null){
+            for (Review rev : getProductRRList(product_id)){
+                RatingCount++;
+            }}
+        return RatingCount;
+    }
      public int CalculateTheAverageRating(int product_id){
         int RatingTotal=0,RatingCount=0;
         double Avg;

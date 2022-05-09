@@ -36,7 +36,7 @@
     rating = DM.getProductRating(id);
     boolean canReview=DM.canReview(id,CID);
     //boolean canReview=true;
-    reviews_Count=5;
+    reviews_Count=DM.getReviewCount(id);
     if (quantity > 0){
         inStock=true;
     }
