@@ -24,7 +24,6 @@ import javax.servlet.http.HttpSession;
  */
 public class handleOrders extends HttpServlet {
 
-    private static Integer order_number = 0;
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp)
@@ -43,9 +42,8 @@ public class handleOrders extends HttpServlet {
         Double new_credit;
         String new_address = request.getParameter("address");
         String order_note = request.getParameter("notes");
-//        ArrayList<Integer> array = null;
         if (total < credit_limit) {
-            order_number++;
+           
             new_credit = credit_limit - total;
             database.editCreditLimit(new_credit, id);
             if (cart_list != null) {
@@ -58,9 +56,9 @@ public class handleOrders extends HttpServlet {
                     order_note = "none";
                 }
                 Date now = new Date();
-                Order order = new Order(order_number, id, get_cart_products, total, new_address, order_note, now);
-                
+                Order order = new Order(id, get_cart_products, total, new_address, order_note, now);
                 database.addOrder(order);
+                cart_list.clear();
 
             } else {
                 System.out.println("cart_list is empty");

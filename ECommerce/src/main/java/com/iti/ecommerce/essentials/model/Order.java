@@ -12,7 +12,7 @@ import java.util.ArrayList;
  * @author nour
  */
 public class Order {
-    private Integer order_id;
+    private static Integer order_id = 0;
     private Integer user_id;
     private ArrayList<Cart> products;
     private Double total_price;
@@ -22,8 +22,8 @@ public class Order {
     
     public Order(){}
 
-    public Order(Integer order_id, Integer user_id, ArrayList<Cart> products, Double total_price, String delivery_address, String order_notes, Date creation_date) {
-        this.order_id = order_id;
+    public Order(Integer user_id, ArrayList<Cart> products, Double total_price, String delivery_address, String order_notes, Date creation_date) {
+        order_id++;
         this.user_id = user_id;
         this.products = products;
         this.total_price = total_price;
