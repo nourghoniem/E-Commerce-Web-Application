@@ -248,19 +248,7 @@
                                 <div class="caption">
 
                                     <div class="form-group">
-                                        <input class="input" type="text" name="address" placeholder="Address">
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="input" type="text" name="city" placeholder="City">
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="input" type="text" name="country" placeholder="Country">
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-                                    </div>
-                                    <div class="form-group">
-                                        <input class="input" type="tel" name="tel" placeholder="Telephone">
+                                        <input class="input" id="new_address" type="text" name="address" placeholder="Address">
                                     </div>
                                 </div>
                             </div>
@@ -269,7 +257,7 @@
 
                         <!-- Order notes -->
                         <div class="order-notes">
-                            <textarea class="input" placeholder="Order Notes"></textarea>
+                            <textarea class="input" id="order_notes" placeholder="Order Notes"></textarea>
                         </div>
                         <!-- /Order notes -->
                     </div>
@@ -291,15 +279,9 @@
                                     <div><%= c.getUser_quantity()%>x <%=c.getProduct_name()%></div>
                                     <div><%=c.getPrice()%></div>
 
-                                    <!--                                <div class="order-col">
-                                                                        <div>1x Product Name Goes Here</div>
-                                                                        <div>$980.00</div>
-                                                                    </div>
-                                                                    <div class="order-col">
-                                                                        <div>2x Product Name Goes Here</div>
-                                                                        <div>$980.00</div>
-                                    -->                                </div>
-                                    <%}%>
+
+                                </div>
+                                <%}%>
                             </div>
                             <div class="order-col">
                                 <div>Shipping</div>
@@ -314,14 +296,27 @@
                         <script>
                             function handleOrder(total) {
                                 var total = total;
+                                var address = $("#new_address").val();
+                                var notes;
+                                if(address.length === 0){
+                                    address = "no-address";
+                                }
+                                if (!$.trim($("#order_notes").val())) {
+                                    notes = "no-notes";
+                                }else{
+                                    notes = $("#order_notes").val();
+                                }
+                               
                                 $.ajax({
                                     type: "POST",
                                     url: "${pageContext.request.contextPath}/handleOrders",
                                     data: {
                                         total: total,
+                                        address: address,
+                                        notes: notes
                                     },
                                     success: function (data) {
-                                        alert(data);
+//                                        alert(data);
                                     },
                                     error: function (resp) {
                                         alert("Error");

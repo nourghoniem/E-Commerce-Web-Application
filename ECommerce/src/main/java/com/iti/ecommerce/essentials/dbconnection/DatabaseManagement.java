@@ -16,12 +16,15 @@ import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import org.bson.*;
 import com.google.gson.*;
+import com.iti.ecommerce.essentials.model.Order;
+import com.mongodb.BasicDBList;
 
 import javax.xml.namespace.QName;
 import java.io.*;
 import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -308,11 +311,11 @@ public class DatabaseManagement {
         }
     }
 
-    public void editCreditLimit(int credit_limit, int id) {
+    public void editCreditLimit(Double credit_limit, int id) {
         try {
             pst = conn.prepareStatement("UPDATE users SET credit_limit=? where id = ?");
-            pst.setInt(1, credit_limit);
-            pst.setDouble(2, id);
+            pst.setDouble(1, credit_limit);
+            pst.setInt(2, id);
             int rows = pst.executeUpdate();
             pst.close();
             System.out.print(rows);
@@ -485,6 +488,28 @@ public class DatabaseManagement {
 
         }
         return products;
+    }
+
+    public void addOrder(Order order) {
+        Document order_object = new Document();
+        Document product_object = new Document();
+        ArrayList<Cart> cart_list = order.getProducts();
+        List<BasicDBObject> products = new ArrayList<>();
+        order_object.put("order_id", order.getOrder_id());
+        order_object.put("user_id", order.getUser_id());
+        order_object.put("total_price", order.getTotal_price());
+        order_object.put("delivery_address", order.getDelivery_address());
+        order_object.put("creation_date", order.getCreation_date());
+        for(Cart c: cart_list ){
+          products.add(new BasicDBObject("product_id",c.getId()));
+          products.add(new BasicDBObject("product_name",c.getProduct_name()));
+          products.add(new BasicDBObject("quantity", c.getUser_quantity()));
+          products.add(new BasicDBObject("price",c.getPrice()));
+        }
+        order_object.put("products", products);
+
+        mongoDatabase.getCollection("orders").insertOne(order_object);
+
     }
 
     public void addMongoReview(Review review) {
