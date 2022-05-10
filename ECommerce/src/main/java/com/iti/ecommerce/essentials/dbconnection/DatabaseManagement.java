@@ -26,6 +26,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import static java.util.Arrays.asList;
 import java.util.Collections;
 import java.util.List;
 
@@ -501,7 +502,7 @@ public class DatabaseManagement {
         Document order_object = new Document();
         
         ArrayList<Cart> cart_list = order.getProducts();
-        List<Document> doc_list = new ArrayList<Document>();
+        List<Document> doc_list = new ArrayList<Document>(); 
         order_object.append("order_id", order.getOrder_id());
         order_object.append("user_id", order.getUser_id());
         order_object.append("total_price", order.getTotal_price());

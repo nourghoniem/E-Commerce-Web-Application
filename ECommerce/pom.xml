@@ -15,7 +15,7 @@
     </properties>
     
     <dependencies>
-<!--____________________________dependencies for rest api________________________________________-->
+        <!--____________________________dependencies for rest api________________________________________-->
         <dependency>
             <groupId>com.sun.jersey</groupId>
             <artifactId>jersey-bundle</artifactId>
@@ -36,7 +36,7 @@
             <artifactId>jersey-core</artifactId>
             <version>1.19.4</version>
         </dependency>
-<!--____________________________end of dependencies for rest api________________________________________-->
+        <!--____________________________end of dependencies for rest api________________________________________-->
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-simple</artifactId>
@@ -47,21 +47,26 @@
             <artifactId>gson</artifactId>
             <version>2.9.0</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>org.mongodb</groupId>-->
-<!--            <artifactId>bson</artifactId>-->
-<!--            <version>4.6.0</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>org.mongodb</groupId>-->
-<!--            <artifactId>mongo-java-driver</artifactId>-->
-<!--            <version>3.12.11</version>-->
-<!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mongodb</groupId>-->
+        <!--            <artifactId>bson</artifactId>-->
+        <!--            <version>4.6.0</version>-->
+        <!--        </dependency>-->
+        <!--        <dependency>-->
+        <!--            <groupId>org.mongodb</groupId>-->
+        <!--            <artifactId>mongo-java-driver</artifactId>-->
+        <!--            <version>3.12.11</version>-->
+        <!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.mongodb/mongo-java-driver -->
-        <dependency>
+        <!--        <dependency>
             <groupId>org.mongodb</groupId>
             <artifactId>bson</artifactId>
             <version>4.6.0</version>
+        </dependency>-->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongo-java-driver</artifactId>
+            <version>3.4.3</version>
         </dependency>
 
         <dependency>
@@ -82,17 +87,17 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-	    <groupId>com.relevantcodes</groupId>
-	    <artifactId>extentreports</artifactId>
-	    <version>2.41.1</version>
+            <groupId>com.relevantcodes</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>2.41.1</version>
         </dependency>	
-	<!-- TestNG dependency -->
-	<dependency>
-	    <groupId>org.testng</groupId>
-	    <artifactId>testng</artifactId>
-	    <version>6.9.4</version>
-	    <scope>test</scope>
-	</dependency>
+        <!-- TestNG dependency -->
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <version>6.9.4</version>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
     
     <build>
