@@ -497,11 +497,11 @@ public class DatabaseManagement {
     }
 
     public void addOrder(Order order) {
-        mongoDatabase.createCollection("orders");
+       
         Document order_object = new Document();
-        Document product_object = new Document();
-        ArrayList<Cart> cart_list = order.getProducts();
         
+        ArrayList<Cart> cart_list = order.getProducts();
+        List<Document> doc_list = new ArrayList<Document>();
         order_object.append("order_id", order.getOrder_id());
         order_object.append("user_id", order.getUser_id());
         order_object.append("total_price", order.getTotal_price());
@@ -510,12 +510,14 @@ public class DatabaseManagement {
         order_object.append("order_notes", order.getOrder_notes());
 
         for (Cart c : cart_list) {
+            Document product_object = new Document();
             product_object.append("product_id", c.getId());
             product_object.append("product_name", c.getProduct_name());
             product_object.append("quantity", c.getUser_quantity());
             product_object.append("price", c.getPrice());
+            doc_list.add(product_object);
         }
-        order_object.append("products", Collections.unmodifiableList(Arrays.asList(product_object)));
+        order_object.append("products", doc_list);
         mongoDatabase.getCollection("orders").insertOne(order_object);
     }
 
