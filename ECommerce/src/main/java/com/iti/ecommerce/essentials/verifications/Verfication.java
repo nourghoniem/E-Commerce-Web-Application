@@ -22,7 +22,7 @@ import java.util.Random;
  * <Abdelrahman Mostafa at Information Technology Institute>
  */
 public class Verfication {
-
+   static String ACCOUNT_SID , AUTH_TOKEN;
     //methods to verfiy user inputs at the server 
     public static boolean RegistrationVerfied (String fname,String lname,String email,String Password,Date Dob,String address,String phone,String interets,int creditLimit)
     {
@@ -122,4 +122,16 @@ public class Verfication {
          }
         return isAuth;
      }
+
+     public static void sendSMSAfterCheckout(String phone,String smsbody){
+         Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
+         Message message = Message.creator(
+                 new com.twilio.type.PhoneNumber("+2"+phone),
+                 new com.twilio.type.PhoneNumber("+15139404907"),
+                  smsbody).create();
+     }
+    public static void setTwillioParams(String SID ,String TOKEN){
+        ACCOUNT_SID =SID;
+       AUTH_TOKEN =TOKEN;
+    }
 }

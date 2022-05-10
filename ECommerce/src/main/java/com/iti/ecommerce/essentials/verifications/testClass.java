@@ -28,18 +28,19 @@ import java.sql.SQLException;
 public class testClass {
   // Find your Account Sid and Token at twilio.com/user/account
   public static final String ACCOUNT_SID = "ACa6cbcb955bca23cadd8875e0a6ff1983";
-  public static final String AUTH_TOKEN = "274e48d032948ab3dfc938a39fa79bc0";
+  public static final String AUTH_TOKEN = "dc01fd994ad4c120'Delete this quotes'e7857c6499951a67";
 
   public static void main(String[] args) {
-      DatabaseManagement DM =null;
-      Date d=new Date(12,5,2011);
-        try {
-             boolean cond= DM.addCustomer("aaa", "bbb", "www", "ddd", d, "aaa", "aaa", "aaa", 1111);
-System.out.println("success,"+cond);
-        } catch (SQLException e) {
-               System.out.println("exception at end of verfication"+e);
-        }catch (NullPointerException ne) {
-                System.out.println("null exception at end of verfication"+ne);
+//      DatabaseManagement DM =null;
+//      Date d=new Date(12,5,2011);
+//        try {
+//             boolean cond= DM.addCustomer("aaa", "bbb", "www", "ddd", d, "aaa", "aaa", "aaa", 1111);
+//System.out.println("success,"+cond);
+//        } catch (SQLException e) {
+//               System.out.println("exception at end of verfication"+e);
+//        }catch (NullPointerException ne) {
+//                System.out.println("null exception at end of verfication"+ne);
+      //////////////////////////////////////////////////////////////////////////////////////////
   //  Twilio.init(ACCOUNT_SID, AUTH_TOKEN);
 
    // Message message = Message.creator(new PhoneNumber("+201147964655"),
@@ -65,6 +66,6 @@ System.out.println("success,"+cond);
 //                new com.twilio.type.Twiml("<Response><Say loop=\"3\">your code is 5 4 3 2</Say></Response>")).create();
 //
 //        System.out.println(call.getSid());
+     // Verfication.sendSMSAfterCheckout("01147964655","love it!",ACCOUNT_SID,AUTH_TOKEN);
   }
-}
 }
