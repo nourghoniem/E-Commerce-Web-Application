@@ -21,7 +21,7 @@
     </context-param>
     <context-param>
         <param-name>AUTH_TOKEN</param-name>
-        <param-value/>
+        <param-value>dc01fd994ad4c120"Delete this quotes"e7857c6499951a67</param-value>
     </context-param>
     <context-param>
         <param-name>db_URL</param-name>

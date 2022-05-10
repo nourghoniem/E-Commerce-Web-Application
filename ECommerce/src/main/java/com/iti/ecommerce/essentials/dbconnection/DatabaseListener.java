@@ -4,6 +4,7 @@
  */
 package com.iti.ecommerce.essentials.dbconnection;
 
+import com.iti.ecommerce.essentials.verifications.Verfication;
 import com.mongodb.client.MongoDatabase;
 
 import java.io.File;
@@ -26,6 +27,9 @@ public class DatabaseListener implements ServletContextListener {
         String MongoDBName = context.getInitParameter("MongodbName");
         String dbURL = context.getInitParameter("db_URL");
         String MongodbURL = context.getInitParameter("Mongodb_URL");
+        String  ACCOUNT_SID = context.getInitParameter("ACCOUNT_SID"),
+                AUTH_TOKEN= context.getInitParameter("AUTH_TOKEN");
+        Verfication.setTwillioParams(ACCOUNT_SID ,AUTH_TOKEN);
         try {
             DatabaseConnection.createConnection(dbURL,dbusername, dbpassword);
            Connection conn = DatabaseConnection.getConnection();
@@ -39,6 +43,7 @@ public class DatabaseListener implements ServletContextListener {
         } catch (Exception ex) {
             System.out.println("Mongo Connection not Establised.........");
         }
+
     }
 
     @Override
