@@ -59,25 +59,9 @@ public class handleOrders extends HttpServlet {
                 }
                 Date now = new Date();
                 Order order = new Order(order_number, id, get_cart_products, total, new_address, order_note, now);
-//                System.out.println(order.getOrder_id());
-//                System.out.println(order.getUser_id());
-//                System.out.println(order.getDelivery_address());
-//                System.out.println(order.getTotal_price());
-//                System.out.println(order.getCreation_date());
-//                System.out.println(order.getOrder_notes());
-//                for(Cart c: order.getProducts()){
-//                    System.out.println(c.getProduct_name());
-//                    System.out.println(c.getId());
-//                    System.out.println(c.getUser_quantity());
-//                    System.out.println(c.getPrice());
-//                
-//                }
                 
                 database.addOrder(order);
 
-//                for(Integer i: array){
-//                  System.out.println(i);
-//                }
             } else {
                 System.out.println("cart_list is empty");
             }
