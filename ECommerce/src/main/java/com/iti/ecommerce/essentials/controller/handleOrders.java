@@ -5,8 +5,10 @@
 package com.iti.ecommerce.essentials.controller;
 
 import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
+import com.iti.ecommerce.essentials.model.Cart;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -29,16 +31,15 @@ public class handleOrders extends HttpServlet {
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("id");
         Integer credit_limit = (Integer) session.getAttribute("credit_limit");
+        ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
         Integer new_credit;
         if(total < credit_limit ){
            new_credit = credit_limit - total;
            //update credit-limit
            database.editCreditLimit(new_credit, id);
            //decrease quantity of product
-//           editProductQuantity
-           
-          
-           //decrease quantity of product
+           database.editProductQuantity(cart_list);
+ 
            //check if another address is placed
            //get note if left
            //insert into mongodb

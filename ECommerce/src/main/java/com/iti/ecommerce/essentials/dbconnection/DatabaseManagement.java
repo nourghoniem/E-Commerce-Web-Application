@@ -320,15 +320,19 @@ public class DatabaseManagement {
             e.getMessage();
         }
     }
-    
-     public void editProductQuantity(int quantity, int id) {
+
+    public void editProductQuantity(ArrayList<Cart> cart_list) {
         try {
-            pst = conn.prepareStatement("UPDATE users SET quantity=? where id = ?");
-            pst.setInt(1, quantity);
-            pst.setDouble(2, id);
-            int rows = pst.executeUpdate();
-            pst.close();
-            System.out.print(rows);
+            if (cart_list != null) {
+                for (Cart c : cart_list) {
+                    pst = conn.prepareStatement("UPDATE products SET quantity = quantity - ? where id = ?");
+                    pst.setInt(1, c.getUser_quantity());
+                    pst.setInt(2, c.getId());
+                    int rows = pst.executeUpdate();
+                    pst.close();
+                    System.out.print(rows);
+                }
+            }
         } catch (Exception e) {
             e.getMessage();
         }
