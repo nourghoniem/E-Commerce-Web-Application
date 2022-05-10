@@ -104,6 +104,10 @@
         <servlet-name>edit_infoServlet</servlet-name>
         <servlet-class>com.iti.ecommerce.essentials.controller.edit_infoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>handleOrders</servlet-name>
+        <servlet-class>com.iti.ecommerce.essentials.controller.handleOrders</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>SubmitAReview</servlet-name>
         <url-pattern>/SubmitAReview</url-pattern>
@@ -155,6 +159,10 @@
     <servlet-mapping>
         <servlet-name>removeFromCart</servlet-name>
         <url-pattern>/removeFromCart</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>handleOrders</servlet-name>
+        <url-pattern>/handleOrders</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

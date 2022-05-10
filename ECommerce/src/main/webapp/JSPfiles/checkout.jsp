@@ -285,21 +285,21 @@
                                 <div><strong>TOTAL</strong></div>
                             </div>
                             <div class="order-products">
-                             <!--///-->
-                             <%for(Cart c: get_cart_products){%>
-                                 <div class="order-col">
-                                   <div><%= c.getUser_quantity()%>x <%=c.getProduct_name()%></div>
-                                   <div><%=c.getPrice()%></div>
-                               
-<!--                                <div class="order-col">
-                                    <div>1x Product Name Goes Here</div>
-                                    <div>$980.00</div>
-                                </div>
+                                <!--///-->
+                                <%for (Cart c : get_cart_products) {%>
                                 <div class="order-col">
-                                    <div>2x Product Name Goes Here</div>
-                                    <div>$980.00</div>
--->                                </div>
-                                  <%}%>
+                                    <div><%= c.getUser_quantity()%>x <%=c.getProduct_name()%></div>
+                                    <div><%=c.getPrice()%></div>
+
+                                    <!--                                <div class="order-col">
+                                                                        <div>1x Product Name Goes Here</div>
+                                                                        <div>$980.00</div>
+                                                                    </div>
+                                                                    <div class="order-col">
+                                                                        <div>2x Product Name Goes Here</div>
+                                                                        <div>$980.00</div>
+                                    -->                                </div>
+                                    <%}%>
                             </div>
                             <div class="order-col">
                                 <div>Shipping</div>
@@ -310,46 +310,28 @@
                                 <div><strong class="order-total"><%=total%></strong></div>
                             </div>
                         </div>
-                        <div class="payment-method">
-                            <div class="input-radio">
-                                <input type="radio" name="payment" id="payment-1">
-                                <label for="payment-1">
-                                    <span></span>
-                                    Direct Bank Transfer
-                                </label>
-                                <div class="caption">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                            <div class="input-radio">
-                                <input type="radio" name="payment" id="payment-2">
-                                <label for="payment-2">
-                                    <span></span>
-                                    Cheque Payment
-                                </label>
-                                <div class="caption">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                            <div class="input-radio">
-                                <input type="radio" name="payment" id="payment-3">
-                                <label for="payment-3">
-                                    <span></span>
-                                    Paypal System
-                                </label>
-                                <div class="caption">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="input-checkbox">
-                            <input type="checkbox" id="terms">
-                            <label for="terms">
-                                <span></span>
-                                I've read and accept the <a href="#">terms & conditions</a>
-                            </label>
-                        </div>
-                        <a href="#" class="primary-btn order-submit">Place order</a>
+                        <a onclick="handleOrder(<%=total%>);" href="#" class="primary-btn order-submit">Place order</a>
+                        <script>
+                            function handleOrder(total) {
+                                var total = total;
+                                $.ajax({
+                                    type: "POST",
+                                    url: "${pageContext.request.contextPath}/handleOrders",
+                                    data: {
+                                        total: total,
+                                    },
+                                    success: function (data) {
+                                        alert(data);
+                                    },
+                                    error: function (resp) {
+                                        alert("Error");
+                                    }
+
+                                });
+                            }
+
+
+                        </script>
                     </div>
                     <!-- /Order Details -->
                 </div>

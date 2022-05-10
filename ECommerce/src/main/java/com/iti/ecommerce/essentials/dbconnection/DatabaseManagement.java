@@ -17,7 +17,6 @@ import com.mongodb.client.MongoDatabase;
 import org.bson.*;
 import com.google.gson.*;
 
-
 import javax.xml.namespace.QName;
 import java.io.*;
 import java.net.URL;
@@ -52,7 +51,7 @@ public class DatabaseManagement {
         mongoDatabase = DatabaseConnection.getMongoDataBase();
         if (mongoDatabase == null) {
             System.out.println("Mongo database connection is null");
-        }else {
+        } else {
             System.out.println("MongoDb is Ready");
         }
     }
@@ -80,32 +79,34 @@ public class DatabaseManagement {
         }
         return customers;
     }
+
     public Customer getCustomer(int customer_id) {
         try {
             stmt = conn.createStatement();
-            String SQL = "SELECT id, first_name, last_name, dob, email, address, phone_number, credit_limit from users where id ="+customer_id+";";
+            String SQL = "SELECT id, first_name, last_name, dob, email, address, phone_number, credit_limit from users where id =" + customer_id + ";";
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
                 Integer id = rs.getInt("id");
-                int credit_limit =rs.getInt("credit_limit");
+                int credit_limit = rs.getInt("credit_limit");
                 String fname = rs.getString("first_name");
                 String lname = rs.getString("last_name");
                 String email = rs.getString("email");
                 String phone = rs.getString("phone_number");
                 String dob = rs.getString("dob");
                 String address = rs.getString("address");
-                customer = new Customer(id, fname, lname, email, dob,credit_limit, address, phone);
+                customer = new Customer(id, fname, lname, email, dob, credit_limit, address, phone);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         return customer;
     }
-    public int getUserType (int customer_id) throws SQLException {
-        int type=0;
+
+    public int getUserType(int customer_id) throws SQLException {
+        int type = 0;
         stmt = conn.createStatement();
-        String SQL = "SELECT usertype_id from users where id="+customer_id+";";
+        String SQL = "SELECT usertype_id from users where id=" + customer_id + ";";
         rs = stmt.executeQuery(SQL);
 
         while (rs.next()) {
@@ -113,6 +114,7 @@ public class DatabaseManagement {
         }
         return type;
     }
+
     public List<Product> getProducts() throws IOException {
 
         try {
@@ -239,7 +241,7 @@ public class DatabaseManagement {
 
         return products;
     }
-    
+
     public Customer getCustomerById(Integer getid) {
 
         try {
@@ -249,7 +251,7 @@ public class DatabaseManagement {
             rs = stmt.executeQuery(SQL);
 
             while (rs.next()) {
-               
+
                 Integer id = rs.getInt("id");
                 String address = rs.getString("address");
                 String phone_number = rs.getString("phone_number");
@@ -257,7 +259,7 @@ public class DatabaseManagement {
 //                Double price = rs.getDouble("price");
                 Integer credit_limit = rs.getInt("credit_limit");
 
-                customer = new Customer(id, address,credit_limit,email,phone_number);
+                customer = new Customer(id, address, credit_limit, email, phone_number);
 
             }
         } catch (SQLException e) {
@@ -305,16 +307,42 @@ public class DatabaseManagement {
             e.getMessage();
         }
     }
+
+    public void editCreditLimit(int credit_limit, int id) {
+        try {
+            pst = conn.prepareStatement("UPDATE users SET credit_limit=? where id = ?");
+            pst.setInt(1, credit_limit);
+            pst.setDouble(2, id);
+            int rows = pst.executeUpdate();
+            pst.close();
+            System.out.print(rows);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
     
-     public void editCustomer(Customer customer) {
+     public void editProductQuantity(int quantity, int id) {
+        try {
+            pst = conn.prepareStatement("UPDATE users SET quantity=? where id = ?");
+            pst.setInt(1, quantity);
+            pst.setDouble(2, id);
+            int rows = pst.executeUpdate();
+            pst.close();
+            System.out.print(rows);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    public void editCustomer(Customer customer) {
         try {
             pst = conn.prepareStatement("UPDATE users SET first_name = ? ,last_name = ? ,email = ? ,credit_limit = ? ,address = ? where id = ?");
             pst.setString(1, customer.getFirst_name());
             pst.setString(2, customer.getLast_name());
             pst.setString(3, customer.getEmail());
             pst.setInt(4, customer.getCredit_limit());
-            pst.setString(5,customer.getAddress());
-            pst.setInt(6,customer.getId());
+            pst.setString(5, customer.getAddress());
+            pst.setInt(6, customer.getId());
             int rows = pst.executeUpdate();
             System.out.println("update data base");
             pst.close();
@@ -323,7 +351,6 @@ public class DatabaseManagement {
             e.getMessage();
         }
     }
-    
 
     public void deleteProduct(Integer id) {
         try {
@@ -456,30 +483,31 @@ public class DatabaseManagement {
         return products;
     }
 
-    public void addMongoReview(Review review){
+    public void addMongoReview(Review review) {
 
         Document document = new Document();
         document.append("product_id", review.getProduct_id());
         document.append("customer_id", review.getCustomer_id());
         document.append("review", review.getReview());
-        document.append("review_date", review.getYear()+"/"+review.getMonth()+"/"+review.getDay()+";"+review.getHours()+":"+review.getMinutes());
-        document.append("rating",review.getRating());
+        document.append("review_date", review.getYear() + "/" + review.getMonth() + "/" + review.getDay() + ";" + review.getHours() + ":" + review.getMinutes());
+        document.append("rating", review.getRating());
 
         mongoDatabase.getCollection("productsRR").insertOne(document);
 
     }
+
     public List<Review> getProductRRList(int Product_id) {
-    int counter =0;
+        int counter = 0;
         List<Review> Result = new ArrayList<Review>();
-        mongoCollection=mongoDatabase.getCollection("productsRR");
+        mongoCollection = mongoDatabase.getCollection("productsRR");
         Document doc;
-        Document query =new Document();
-        query.append("product_id",Product_id);
-      //  FindIterable findIterable =mongoCollection.
-       MongoCursor<Document> cursor =mongoCollection.find(query).iterator();
+        Document query = new Document();
+        query.append("product_id", Product_id);
+        //  FindIterable findIterable =mongoCollection.
+        MongoCursor<Document> cursor = mongoCollection.find(query).iterator();
         while (cursor.hasNext()) {
-            doc=cursor.next();
-            Review review=new Review();
+            doc = cursor.next();
+            Review review = new Review();
             String[] arrOfStr = doc.getString("review_date").split(";");
             review.setProduct_id(doc.getInteger("product_id"));
             review.setCustomer_id(doc.getInteger("customer_id"));
@@ -495,50 +523,60 @@ public class DatabaseManagement {
 
         }
 
-            return Result;
+        return Result;
 
     }
+
     public int getProductRating(int product_id) {
         return CalculateTheAverageRating(product_id);
     }
-    public int getReviewCount(int product_id){
-        int RatingCount=0;
-        if (getProductRRList(product_id) != null){
-            for (Review rev : getProductRRList(product_id)){
+
+    public int getReviewCount(int product_id) {
+        int RatingCount = 0;
+        if (getProductRRList(product_id) != null) {
+            for (Review rev : getProductRRList(product_id)) {
                 RatingCount++;
-            }}
+            }
+        }
         return RatingCount;
     }
-     public int CalculateTheAverageRating(int product_id){
-        int RatingTotal=0,RatingCount=0;
+
+    public int CalculateTheAverageRating(int product_id) {
+        int RatingTotal = 0, RatingCount = 0;
         double Avg;
 
-        if (getProductRRList(product_id) != null){
-         for (Review rev : getProductRRList(product_id)){
-             RatingCount++;
-             RatingTotal+=rev.getRating();
-         }}
-         if (RatingTotal != 0 && RatingCount !=0) {
-             Avg = (double) RatingTotal / (double) RatingCount;
-             return (int) Math.round(Avg);
-         }else return 0;
+        if (getProductRRList(product_id) != null) {
+            for (Review rev : getProductRRList(product_id)) {
+                RatingCount++;
+                RatingTotal += rev.getRating();
+            }
+        }
+        if (RatingTotal != 0 && RatingCount != 0) {
+            Avg = (double) RatingTotal / (double) RatingCount;
+            return (int) Math.round(Avg);
+        } else {
+            return 0;
+        }
 
     }
 
-
-    public String[] getReviewList(int product_id){
-        String[] str=null ;int i =0;
-        for (Review rev : getProductRRList(product_id)){
-            str[i]=rev.getReview();
+    public String[] getReviewList(int product_id) {
+        String[] str = null;
+        int i = 0;
+        for (Review rev : getProductRRList(product_id)) {
+            str[i] = rev.getReview();
             i++;
         }
         return str;
     }
-    public boolean canReview(int product_id, int customer_id){
+
+    public boolean canReview(int product_id, int customer_id) {
         boolean result;
-        if (customer_id==-1){
-            result= false;
-        }else result=true;
+        if (customer_id == -1) {
+            result = false;
+        } else {
+            result = true;
+        }
         //check the db for purchasing product
         return result;
     }
