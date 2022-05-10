@@ -18,6 +18,7 @@ import org.bson.*;
 import com.google.gson.*;
 import com.iti.ecommerce.essentials.model.Order;
 import com.mongodb.BasicDBList;
+import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 
 import javax.xml.namespace.QName;
@@ -498,11 +499,11 @@ public class DatabaseManagement {
     }
 
     public void addOrder(Order order) {
-       
+
         Document order_object = new Document();
-        
+
         ArrayList<Cart> cart_list = order.getProducts();
-        List<Document> doc_list = new ArrayList<Document>(); 
+        List<Document> doc_list = new ArrayList<Document>();
         order_object.append("order_id", order.getOrder_id());
         order_object.append("user_id", order.getUser_id());
         order_object.append("total_price", order.getTotal_price());
@@ -520,6 +521,24 @@ public class DatabaseManagement {
         }
         order_object.append("products", doc_list);
         mongoDatabase.getCollection("orders").insertOne(order_object);
+    }
+        public ArrayList<Product> getPurchasedProducts(Integer user_id) {
+        ArrayList<Product> str = new  ArrayList<Product>();
+        mongoCollection = mongoDatabase.getCollection("orders");
+        Document fields = new Document().append("user_id", user_id ); 
+        Document doc;
+        MongoCursor<Document> cursor = mongoCollection.find(fields).iterator();
+        while(cursor.hasNext()){ 
+            doc = cursor.next();
+            List<Document> products_m = (List<Document>) doc.get("products");
+            for(Document d: products_m){
+               Product product = new Product();
+               product.setId(d.getInteger("product_id"));
+               product.setProduct_name(d.getString("product_name"));
+               str.add(product);
+            }
+        }
+       return str;
     }
 
     public void addMongoReview(Review review) {
@@ -619,8 +638,9 @@ public class DatabaseManagement {
         //check the db for purchasing product
         return result;
     }
+
     public List<String> geAllCategories() throws SQLException {
-        List<String> result =new ArrayList<String>();
+        List<String> result = new ArrayList<String>();
         stmt = conn.createStatement();
         String SQL = "SELECT f.type from product_type as f ;";
         rs = stmt.executeQuery(SQL);
@@ -629,15 +649,16 @@ public class DatabaseManagement {
         }
         return result;
     }
-    public String verfiyLoginForREST(String email,String password) throws SQLException {
-        String result="failed";
+
+    public String verfiyLoginForREST(String email, String password) throws SQLException {
+        String result = "failed";
         Statement sqlStmt = conn.createStatement();
         String checkQuery = "select * from users where email = '" + email + "'"
                 + "and password = '" + password + "'";
         ResultSet rs = sqlStmt.executeQuery(checkQuery);
 
         if (rs.next()) {
-            result="success";
+            result = "success";
         }
         return result;
     }
