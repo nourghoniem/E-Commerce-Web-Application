@@ -5,8 +5,13 @@
 package com.iti.ecommerce.essentials.controller;
 
 import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
+import com.iti.ecommerce.essentials.model.Cart;
+import com.iti.ecommerce.essentials.model.Order;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import java.util.ArrayList;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,34 +23,44 @@ import javax.servlet.http.HttpSession;
  * @author nour
  */
 public class handleOrders extends HttpServlet {
-
+    private static Integer order_number = 0;
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp)
             throws ServletException, IOException {
         resp.setContentType("text/html;charset=UTF-8");
         PrintWriter out = resp.getWriter();
         DatabaseManagement database = new DatabaseManagement();
-        Integer total = Integer.parseInt(request.getParameter("total"));
+        Double total = Double.parseDouble(request.getParameter("total"));
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("id");
+        String address = (String)session.getAttribute("address");
         Integer credit_limit = (Integer) session.getAttribute("credit_limit");
-        Integer new_credit;
+        ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
+        ArrayList<Cart> get_cart_products = null;
+        get_cart_products = database.getProductsFromCart(cart_list);
+        Double new_credit;
+        String new_address = request.getParameter("address");
+        String order_note = request.getParameter("notes");
         if(total < credit_limit ){
+           order_number++;
            new_credit = credit_limit - total;
-           //update credit-limit
            database.editCreditLimit(new_credit, id);
-           //decrease quantity of product
-//           editProductQuantity
+           database.editProductQuantity(cart_list);
+           if(new_address.equalsIgnoreCase("no-address")){
+               new_address = address;
+           }
+           if(order_note.equalsIgnoreCase("no-notes")){
+               order_note = "none";
+           }
+           Date now = new Date();
+           Order order = new Order(order_number, id, get_cart_products, total, new_address, now);
+           database.addOrder(order);
+           out.println("success");
            
-          
-           //decrease quantity of product
-           //check if another address is placed
-           //get note if left
-           //insert into mongodb
-           //pop up success message with remaining credit
         }
         else{
-           out.println("sorry no");
+           out.println("failure");
         } 
 
 
