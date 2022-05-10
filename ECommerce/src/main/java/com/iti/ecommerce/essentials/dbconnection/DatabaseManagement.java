@@ -580,4 +580,26 @@ public class DatabaseManagement {
         //check the db for purchasing product
         return result;
     }
+    public List<String> geAllCategories() throws SQLException {
+        List<String> result =new ArrayList<String>();
+        stmt = conn.createStatement();
+        String SQL = "SELECT f.type from product_type as f ;";
+        rs = stmt.executeQuery(SQL);
+        while (rs.next()) {
+            result.add(rs.getString("type"));
+        }
+        return result;
+    }
+    public String verfiyLoginForREST(String email,String password) throws SQLException {
+        String result="failed";
+        Statement sqlStmt = conn.createStatement();
+        String checkQuery = "select * from users where email = '" + email + "'"
+                + "and password = '" + password + "'";
+        ResultSet rs = sqlStmt.executeQuery(checkQuery);
+
+        if (rs.next()) {
+            result="success";
+        }
+        return result;
+    }
 }
