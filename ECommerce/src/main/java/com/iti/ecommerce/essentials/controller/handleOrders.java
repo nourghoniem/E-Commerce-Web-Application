@@ -23,8 +23,9 @@ import javax.servlet.http.HttpSession;
  * @author nour
  */
 public class handleOrders extends HttpServlet {
+
     private static Integer order_number = 0;
-    
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse resp)
             throws ServletException, IOException {
@@ -34,7 +35,7 @@ public class handleOrders extends HttpServlet {
         Double total = Double.parseDouble(request.getParameter("total"));
         HttpSession session = request.getSession();
         Integer id = (Integer) session.getAttribute("id");
-        String address = (String)session.getAttribute("address");
+        String address = (String) session.getAttribute("address");
         Integer credit_limit = (Integer) session.getAttribute("credit_limit");
         ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
         ArrayList<Cart> get_cart_products = null;
@@ -42,30 +43,51 @@ public class handleOrders extends HttpServlet {
         Double new_credit;
         String new_address = request.getParameter("address");
         String order_note = request.getParameter("notes");
-        if(total < credit_limit ){
-           order_number++;
-           new_credit = credit_limit - total;
-           database.editCreditLimit(new_credit, id);
-           database.editProductQuantity(cart_list);
-           if(new_address.equalsIgnoreCase("no-address")){
-               new_address = address;
-           }
-           if(order_note.equalsIgnoreCase("no-notes")){
-               order_note = "none";
-           }
-           Date now = new Date();
-           Order order = new Order(order_number, id, get_cart_products, total, new_address, now);
-           database.addOrder(order);
-           out.println("success");
-           
+//        ArrayList<Integer> array = null;
+        if (total < credit_limit) {
+            order_number++;
+            new_credit = credit_limit - total;
+            database.editCreditLimit(new_credit, id);
+            if (cart_list != null) {
+                System.out.println("cart_list is not empty");
+                database.editProductQuantity(cart_list);
+                if (new_address.equalsIgnoreCase("no-address")) {
+                    new_address = address;
+                }
+                if (order_note.equalsIgnoreCase("no-notes")) {
+                    order_note = "none";
+                }
+                Date now = new Date();
+                Order order = new Order(order_number, id, get_cart_products, total, new_address, order_note, now);
+//                System.out.println(order.getOrder_id());
+//                System.out.println(order.getUser_id());
+//                System.out.println(order.getDelivery_address());
+//                System.out.println(order.getTotal_price());
+//                System.out.println(order.getCreation_date());
+//                System.out.println(order.getOrder_notes());
+//                for(Cart c: order.getProducts()){
+//                    System.out.println(c.getProduct_name());
+//                    System.out.println(c.getId());
+//                    System.out.println(c.getUser_quantity());
+//                    System.out.println(c.getPrice());
+//                
+//                }
+                
+                database.addOrder(order);
+
+//                for(Integer i: array){
+//                  System.out.println(i);
+//                }
+            } else {
+                System.out.println("cart_list is empty");
+            }
+
+            out.println("success");
+
+        } else {
+            out.println("failure");
         }
-        else{
-           out.println("failure");
-        } 
 
-
-        
-       
     }
 
 }

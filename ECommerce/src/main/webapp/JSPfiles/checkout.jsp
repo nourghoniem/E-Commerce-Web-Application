@@ -261,6 +261,26 @@
                         </div>
                         <!-- /Order notes -->
                     </div>
+                    <div class="modal" tabindex="-1" role="dialog">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Success!
+                                    </h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <p>You successfully placed your order. A confirmation message will be sent to you shortly</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary">Okay</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
 
                     <!-- Order Details -->
                     <div class="col-md-5 order-details">
@@ -298,15 +318,15 @@
                                 var total = total;
                                 var address = $("#new_address").val();
                                 var notes;
-                                if(address.length === 0){
+                                if (address.length === 0) {
                                     address = "no-address";
                                 }
                                 if (!$.trim($("#order_notes").val())) {
                                     notes = "no-notes";
-                                }else{
+                                } else {
                                     notes = $("#order_notes").val();
                                 }
-                               
+
                                 $.ajax({
                                     type: "POST",
                                     url: "${pageContext.request.contextPath}/handleOrders",
@@ -316,7 +336,13 @@
                                         notes: notes
                                     },
                                     success: function (data) {
-//                                        alert(data);
+                                        var result = $.trim(data);
+                                        if (result == "success") {
+                                             alert("success");
+
+                                        } else {
+                                             alert("not enough credit");
+                                        }
                                     },
                                     error: function (resp) {
                                         alert("Error");

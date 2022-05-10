@@ -18,6 +18,7 @@ import org.bson.*;
 import com.google.gson.*;
 import com.iti.ecommerce.essentials.model.Order;
 import com.mongodb.BasicDBList;
+import com.mongodb.DBObject;
 
 import javax.xml.namespace.QName;
 import java.io.*;
@@ -25,6 +26,7 @@ import java.net.URL;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -326,19 +328,23 @@ public class DatabaseManagement {
 
     public void editProductQuantity(ArrayList<Cart> cart_list) {
         try {
+
             if (cart_list != null) {
                 for (Cart c : cart_list) {
+
                     pst = conn.prepareStatement("UPDATE products SET quantity = quantity - ? where id = ?");
                     pst.setInt(1, c.getUser_quantity());
                     pst.setInt(2, c.getId());
                     int rows = pst.executeUpdate();
-                    pst.close();
-                    System.out.print(rows);
+
                 }
+                pst.close();
+
             }
         } catch (Exception e) {
             e.getMessage();
         }
+//         return cartList;
     }
 
     public void editCustomer(Customer customer) {
@@ -491,25 +497,26 @@ public class DatabaseManagement {
     }
 
     public void addOrder(Order order) {
+        mongoDatabase.createCollection("orders");
         Document order_object = new Document();
         Document product_object = new Document();
         ArrayList<Cart> cart_list = order.getProducts();
-        List<BasicDBObject> products = new ArrayList<>();
-        order_object.put("order_id", order.getOrder_id());
-        order_object.put("user_id", order.getUser_id());
-        order_object.put("total_price", order.getTotal_price());
-        order_object.put("delivery_address", order.getDelivery_address());
-        order_object.put("creation_date", order.getCreation_date());
-        for(Cart c: cart_list ){
-          products.add(new BasicDBObject("product_id",c.getId()));
-          products.add(new BasicDBObject("product_name",c.getProduct_name()));
-          products.add(new BasicDBObject("quantity", c.getUser_quantity()));
-          products.add(new BasicDBObject("price",c.getPrice()));
+        
+        order_object.append("order_id", order.getOrder_id());
+        order_object.append("user_id", order.getUser_id());
+        order_object.append("total_price", order.getTotal_price());
+        order_object.append("delivery_address", order.getDelivery_address());
+        order_object.append("creation_date", order.getCreation_date());
+        order_object.append("order_notes", order.getOrder_notes());
+
+        for (Cart c : cart_list) {
+            product_object.append("product_id", c.getId());
+            product_object.append("product_name", c.getProduct_name());
+            product_object.append("quantity", c.getUser_quantity());
+            product_object.append("price", c.getPrice());
         }
-        order_object.put("products", products);
-
+        order_object.append("products", Collections.unmodifiableList(Arrays.asList(product_object)));
         mongoDatabase.getCollection("orders").insertOne(order_object);
-
     }
 
     public void addMongoReview(Review review) {

@@ -18,17 +18,20 @@ public class Order {
     private Double total_price;
     private String delivery_address;
     private Date creation_date;
+    private String order_notes;
     
     public Order(){}
 
-    public Order(Integer order_id, Integer user_id, ArrayList<Cart> products, Double total_price, String delivery_address, Date creation_date) {
+    public Order(Integer order_id, Integer user_id, ArrayList<Cart> products, Double total_price, String delivery_address, String order_notes, Date creation_date) {
         this.order_id = order_id;
         this.user_id = user_id;
         this.products = products;
         this.total_price = total_price;
         this.delivery_address = delivery_address;
         this.creation_date = creation_date;
+        this.order_notes = order_notes;
     }
+
 
     public Integer getOrder_id() {
         return order_id;
@@ -77,5 +80,14 @@ public class Order {
     public void setCreation_date(Date creation_date) {
         this.creation_date = creation_date;
     }
+
+    public String getOrder_notes() {
+        return order_notes;
+    }
+
+    public void setOrder_notes(String order_notes) {
+        this.order_notes = order_notes;
+    }
+    
        
 }
