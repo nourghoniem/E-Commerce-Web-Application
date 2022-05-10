@@ -62,8 +62,12 @@
         <url-pattern>/Admin/*</url-pattern>
     </filter-mapping>
     <filter-mapping>
-        <filter-name>editCustomerFilter</filter-name>
+        <filter-name>CheckSessionFilter</filter-name>
         <url-pattern>/JSPfiles/edit_user.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>CheckSessionFilter</filter-name>
+        <url-pattern>/JSPfiles/checkout.jsp</url-pattern>
     </filter-mapping>
     <listener>
         <description>ServletContextListener</description>
@@ -216,7 +220,7 @@
         <filter-class> com.iti.ecommerce.essentials.filters.LoggingFilter </filter-class>
     </filter>
     <filter>
-        <filter-name> editCustomerFilter </filter-name>
-        <filter-class> com.iti.ecommerce.essentials.filters.editCustomerFilter </filter-class>
+        <filter-name> CheckSessionFilter </filter-name>
+        <filter-class>com.iti.ecommerce.essentials.filters.CheckSessionFilter</filter-class>
     </filter>
 </web-app>
