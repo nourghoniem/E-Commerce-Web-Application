@@ -17,7 +17,7 @@ public class AuthenticationAPI {
 
     @POST
     @Path("/Login")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Consumes("application/json")
     @Produces("application/json")
     public String verifyLogin(@FormParam("email") String email,
             @FormParam("password") String password)
@@ -30,7 +30,7 @@ public class AuthenticationAPI {
 
     @PUT
     @Path("/Register")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+//    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
     public String RegisterData(
             @FormParam("first_name") String first_name,
