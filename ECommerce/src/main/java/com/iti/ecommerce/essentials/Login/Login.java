@@ -69,6 +69,7 @@ public class Login extends HttpServlet {
                 session.setAttribute("last_name",rs.getString("last_name"));
                 session.setAttribute("address",rs.getString("address"));
                 session.setAttribute("credit_limit",rs.getInt("credit_limit"));
+                session.setAttribute("phone_number",rs.getString("phone_number"));
              // dispatcher = request.getRequestDispatcher("/JSPfiles/home.jsp");
                 int Customer_type=rs.getInt("usertype_id");
                 if (Customer_type==1) {

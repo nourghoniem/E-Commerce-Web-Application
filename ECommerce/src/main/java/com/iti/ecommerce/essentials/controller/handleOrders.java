@@ -7,6 +7,8 @@ package com.iti.ecommerce.essentials.controller;
 import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
 import com.iti.ecommerce.essentials.model.Cart;
 import com.iti.ecommerce.essentials.model.Order;
+import com.iti.ecommerce.essentials.verifications.Verfication;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -36,6 +38,8 @@ public class handleOrders extends HttpServlet {
         Integer id = (Integer) session.getAttribute("id");
         String address = (String) session.getAttribute("address");
         Integer credit_limit = (Integer) session.getAttribute("credit_limit");
+        String phone_number= (String)session.getAttribute("phone_number");
+        String first_name= (String)session.getAttribute("first_name");
         ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
         ArrayList<Cart> get_cart_products = null;
         get_cart_products = database.getProductsFromCart(cart_list);
@@ -59,7 +63,8 @@ public class handleOrders extends HttpServlet {
                 Order order = new Order(id, get_cart_products, total, new_address, order_note, now);
                 database.addOrder(order);
                 cart_list.clear();
-
+                String SMS_Body = "Thank you, "+first_name+" for ordering from Electro. Your order is dispatched";
+                Verfication.sendSMSAfterCheckout(phone_number,SMS_Body);
             } else {
                 System.out.println("cart_list is empty");
             }

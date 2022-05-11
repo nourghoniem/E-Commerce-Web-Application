@@ -17,9 +17,10 @@ public class AuthenticationAPI {
 
     @POST
     @Path("/Login")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  // @Consumes(MediaType.APPLICATION_JSON)
     @Produces("application/json")
-    public String verifyLogin(@FormParam("email") String email,
+    public String verifyLogin(
+            @FormParam("email") String email,
             @FormParam("password") String password)
             throws SQLException {
         DatabaseManagement DM = new DatabaseManagement();
@@ -30,7 +31,7 @@ public class AuthenticationAPI {
 
     @PUT
     @Path("/Register")
-    @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  //  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
     @Produces("application/json")
     public String RegisterData(
             @FormParam("first_name") String first_name,

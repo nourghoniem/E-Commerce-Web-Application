@@ -60,7 +60,7 @@ public class DatabaseManagement {
         if (mongoDatabase == null) {
             System.out.println("Mongo database connection is null");
         } else {
-            System.out.println("MongoDb is Ready");
+           // System.out.println("MongoDb is Ready");
         }
     }
 
@@ -546,7 +546,16 @@ public class DatabaseManagement {
         }
         return str;
     }
-
+    public boolean productisPurchased(Integer product_id,Integer customer_id){
+        List<Product> allOfProducts=getPurchasedProducts(customer_id);
+        for (Product product : allOfProducts){
+            if (product.getId()==product_id){
+                System.out.println(product.getId());
+                return true;
+            }
+        }
+        return false;
+    }
     public void addMongoReview(Review review) {
 
         Document document = new Document();
@@ -639,7 +648,7 @@ public class DatabaseManagement {
         if (customer_id == -1) {
             result = false;
         } else {
-            result = true;
+            result=productisPurchased(product_id,customer_id);
         }
         //check the db for purchasing product
         return result;
