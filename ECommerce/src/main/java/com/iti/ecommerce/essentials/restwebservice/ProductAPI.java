@@ -1,8 +1,8 @@
 package com.iti.ecommerce.essentials.restwebservice;
 
-
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.iti.ecommerce.essentials.dbconnection.DatabaseManagement;
 import com.iti.ecommerce.essentials.model.Product;
 
@@ -14,54 +14,64 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
+import javax.ws.rs.Produces;
+import org.json.JSONObject;
 
-@Path("/productApi")
-public class ProductAPI
-{
+@Path("/productAPI")
+public class ProductAPI {
+
     DatabaseManagement DM;
 
     @GET
     @Path("/AllCategories")
+    @Produces("application/json")
     public String listAllCategories() throws SQLException, IOException {
-       String result="no category is found";
-        List<String> categories=null;
-        DM=new DatabaseManagement();
-        categories=DM.geAllCategories();
-        if (categories != null){
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(out, categories);
-            final byte[] data = out.toByteArray();
-            result=new String(data);
+        String result = "none";
+        List<String> categories = null;
+        DM = new DatabaseManagement();
+        categories = DM.getAllCategories();
+        JSONObject json=new JSONObject();
+        if (categories != null) {
+            result = json.put("categories",categories).toString();
+//            final ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            final ObjectMapper mapper = new ObjectMapper();
+//            mapper.writeValue(out, categories);
+//            final byte[] data = out.toByteArray();
+//            result = new String(data);
         }
         return result;
     }
 
     @GET
     @Path("/AllProductsInfo")
-    public String listAllProductsInfo () throws IOException {
-        String result="no product is found";
-        DM=new DatabaseManagement();
+    @Produces("application/json")
+    public String listAllProductsInfo() throws IOException {
+        String result = "none";
+        DM = new DatabaseManagement();
         List<Product> productList = DM.getProducts();
-        if (productList != null){
-            final ByteArrayOutputStream out = new ByteArrayOutputStream();
-            final ObjectMapper mapper = new ObjectMapper();
-            mapper.writeValue(out, productList);
-            final byte[] data = out.toByteArray();
-            result=new String(data);
+        if (productList != null) {
+            result = new Gson().toJson(productList);
+//            final ByteArrayOutputStream out = new ByteArrayOutputStream();
+//            final ObjectMapper mapper = new ObjectMapper();
+//            mapper.writeValue(out, productList);
+//            final byte[] data = out.toByteArray();
+//            result = new String(data);
         }
         return result;
     }
 
     @GET
     @Path("/ProductInfo/{id}")
+    @Produces("application/json")
     public String listProductInfo(@PathParam("id") int id) throws JsonProcessingException {
-        String result="The product is not found";
-        DM=new DatabaseManagement();
-        Product product=DM.getProductById(id);
-        if (product != null){
-            ObjectMapper mapper=new ObjectMapper();
-            result =mapper.writeValueAsString(product);
+        String result = "none";
+        DM = new DatabaseManagement();
+        Product product = DM.getProductById(id);
+        if (product != null) {
+            result = new Gson().toJson(product);
+//            ObjectMapper mapper = new ObjectMapper();
+//            result = mapper.writeValueAsString(product);
+           
         }
         return result;
     }

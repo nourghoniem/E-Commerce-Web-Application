@@ -30,6 +30,7 @@ import java.util.Arrays;
 import static java.util.Arrays.asList;
 import java.util.Collections;
 import java.util.List;
+import org.json.JSONObject;
 
 /**
  * @author nour
@@ -450,6 +451,7 @@ public class DatabaseManagement {
     public boolean addCustomer(String fname, String lname, String email, String Password, Date dob, String address, String phone, String interets, int creditLimit) throws SQLException {
         boolean isAdded = false;
         try {
+
             String InsertStatement = "insert into users(first_name,last_name,dob,email,password,credit_limit,address,phone_number,interests)" + "VALUES(?,?,?,?,?,?,?,?,?)";
             pstmt = conn.prepareStatement(InsertStatement);
             pstmt.setString(1, fname);
@@ -465,10 +467,13 @@ public class DatabaseManagement {
             int i = pstmt.executeUpdate();
             System.out.println(i + " records inserted");
             isAdded = true;
+
         } catch (SQLException e) {
             System.out.println(" Exception at adding new users in database : " + e);
-            isAdded = true;
+//            isAdded = true;
+
         }
+//        }
         return isAdded;
     }
 
@@ -522,23 +527,24 @@ public class DatabaseManagement {
         order_object.append("products", doc_list);
         mongoDatabase.getCollection("orders").insertOne(order_object);
     }
-        public ArrayList<Product> getPurchasedProducts(Integer user_id) {
-        ArrayList<Product> str = new  ArrayList<Product>();
+
+    public ArrayList<Product> getPurchasedProducts(Integer user_id) {
+        ArrayList<Product> str = new ArrayList<Product>();
         mongoCollection = mongoDatabase.getCollection("orders");
-        Document fields = new Document().append("user_id", user_id ); 
+        Document fields = new Document().append("user_id", user_id);
         Document doc;
         MongoCursor<Document> cursor = mongoCollection.find(fields).iterator();
-        while(cursor.hasNext()){ 
+        while (cursor.hasNext()) {
             doc = cursor.next();
             List<Document> products_m = (List<Document>) doc.get("products");
-            for(Document d: products_m){
-               Product product = new Product();
-               product.setId(d.getInteger("product_id"));
-               product.setProduct_name(d.getString("product_name"));
-               str.add(product);
+            for (Document d : products_m) {
+                Product product = new Product();
+                product.setId(d.getInteger("product_id"));
+                product.setProduct_name(d.getString("product_name"));
+                str.add(product);
             }
         }
-       return str;
+        return str;
     }
 
     public void addMongoReview(Review review) {
@@ -639,7 +645,7 @@ public class DatabaseManagement {
         return result;
     }
 
-    public List<String> geAllCategories() throws SQLException {
+    public List<String> getAllCategories() throws SQLException {
         List<String> result = new ArrayList<String>();
         stmt = conn.createStatement();
         String SQL = "SELECT f.type from product_type as f ;";
@@ -651,6 +657,7 @@ public class DatabaseManagement {
     }
 
     public String verfiyLoginForREST(String email, String password) throws SQLException {
+        JSONObject json = new JSONObject();
         String result = "failed";
         Statement sqlStmt = conn.createStatement();
         String checkQuery = "select * from users where email = '" + email + "'"
@@ -660,6 +667,7 @@ public class DatabaseManagement {
         if (rs.next()) {
             result = "success";
         }
-        return result;
+
+        return json.put("login", result).toString();
     }
 }
