@@ -46,6 +46,7 @@ public class ProductAPI {
     @Path("/AllProductsInfo")
     @Produces("application/json")
     public String listAllProductsInfo() throws IOException {
+        JSONObject json=new JSONObject();
         String result = "none";
         DM = new DatabaseManagement();
         List<Product> productList = DM.getProducts();
