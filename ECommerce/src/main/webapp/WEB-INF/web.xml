@@ -56,9 +56,14 @@
         <param-value>ysLD9Oca5hzSfMuAx6GD</param-value>
     </context-param>
     <filter-mapping>
+        <filter-name>forwardToHomeFilter</filter-name>
+        <url-pattern>/index.html</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
         <filter-name>LoggingFilter</filter-name>
         <url-pattern>/Admin/*</url-pattern>
     </filter-mapping>
+
     <filter-mapping>
         <filter-name>CheckSessionFilter</filter-name>
         <url-pattern>/JSPfiles/edit_user.jsp</url-pattern>
@@ -221,4 +226,9 @@
         <filter-name> CheckSessionFilter </filter-name>
         <filter-class>com.iti.ecommerce.essentials.filters.CheckSessionFilter</filter-class>
     </filter>
+    <filter>
+        <filter-name> forwardToHomeFilter </filter-name>
+        <filter-class> com.iti.ecommerce.essentials.filters.forwardToHomeFilter</filter-class>
+    </filter>
+
 </web-app>
