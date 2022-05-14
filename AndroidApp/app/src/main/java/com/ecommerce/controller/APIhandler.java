@@ -1,131 +1,227 @@
 package com.ecommerce.controller;
 
+import android.content.Context;
 import android.util.Log;
+import android.view.View;
+import android.widget.Toast;
 
-import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.AuthFailureError;
+import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.HttpHeaderParser;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ecommerce.model.Customer;
 import com.ecommerce.model.Product;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.lang.reflect.Type;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class APIhandler {
-    public static final String remote_IP = "192.168.122.1";
-    public static final String Login_url = "http://"+remote_IP+":8080/ECommerce/rest/AuthenticationAPI/Login";
-    public static final String Registration_url = "http://"+remote_IP+":8080/ECommerce/rest/AuthenticationAPI/Register";
-    public static final String AllCategories_url = "http://"+remote_IP+":8080/ECommerce/rest/productAPI/AllCategories";
-    public static final String AllProducts_url = "http://"+remote_IP+":8080/ECommerce/rest/productAPI/AllProductsInfo";
-    public static final String SpecificProducts_url = "http://"+remote_IP+":8080/ECommerce/rest/productAPI/ProductInfo/";
+    public static final String remote_IP = "41.43.202.107";
+    public static final String Login_url = "http://" + remote_IP + ":8080/ECommerce/rest/AuthenticationAPI/Login";
+    public static final String Registration_url = "http://" + remote_IP + ":8080/ECommerce/rest/AuthenticationAPI/Register";
+    public static final String AllCategories_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/AllCategories";
+    public static final String AllProducts_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/AllProductsInfo";
+    public static final String SpecificProducts_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/ProductInfo/";
 
-    public static String produceProductUrl (int id){
-        return SpecificProducts_url+id;
+    public static String produceProductUrl(int id) {
+        return SpecificProducts_url + id;
     }
-    public static boolean Login (String email , String password) throws IOException {
-        URL url = new URL(Login_url);
-        HttpURLConnection http = (HttpURLConnection)url.openConnection();
-        http.setRequestMethod("POST");
-        http.setDoOutput(true);
-        http.setRequestProperty("Accept", "application/json");
-        http.setRequestProperty("Content-Type", "application/json");
-
-        String data = "{\n  \"email\": \""+email+"\",\n  \"password\": \""+password+"\"\n }";
-
-        byte[] out = data.getBytes(StandardCharsets.UTF_8);
-
-        OutputStream stream = http.getOutputStream();
-        stream.write(out);
-
-        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
-        http.disconnect();
-        return true;
-    }
-    public static boolean Register (Customer customer) throws IOException {
-        URL url = new URL(Registration_url);
-        HttpURLConnection http = (HttpURLConnection)url.openConnection();
-        http.setRequestMethod("PUT");
-        http.setDoOutput(true);
-        http.setRequestProperty("Accept", "application/json");
-        http.setRequestProperty("Content-Type", "application/json");
-
-        String data = "{"+
-                "\n  \"first_name\": \""+customer.getFirst_name()+
-                "\",\n  \"last_name\": \""+customer.getLast_name()+
-                "\",\n  \"Date_of_birth\": \""+customer.getDob()+
-                "\",\n  \"email\": \""+customer.getEmail()+
-                "\",\n  \"password\": \""+customer.getPassword()+
-                "\",\n  \"credit_limit\": "+customer.getCredit_limit()+
-                "  ,\n  \"address\": \""+customer.getAddress()+
-                "\",\n  \"phone_number\": \""+customer.getPhone_number()+
-                "\",\n  \"interests\": \""+customer.getInterests()+
-                "\"\n }";
-
-        byte[] out = data.getBytes(StandardCharsets.UTF_8);
-
-        OutputStream stream = http.getOutputStream();
-        stream.write(out);
-
-        System.out.println(http.getResponseCode() + " " + http.getResponseMessage());
-        http.disconnect();
-        return true;
-    }
-    public static List<Product> getAllProducts ()
-    {
-        String result = "";
-        try {
-            URL url = new URL(AllProducts_url);
-            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("GET");
-            conn.setRequestProperty("Accept", "application/json");
-
-            if (conn.getResponseCode() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : "
-                        + conn.getResponseCode());
-            }
-
-            BufferedReader br = new BufferedReader(new InputStreamReader(
-                    (conn.getInputStream())));
-
-            String output;
-            System.out.println("Output from Server .... \n");
-            while ((output = br.readLine()) != null) {
-                System.out.println(output);
-                result+=" "+ output;
-            }
-
-            conn.disconnect();
-
-        } catch (MalformedURLException e) {
-
-            e.printStackTrace();
-
-        } catch (IOException e) {
-
-            e.printStackTrace();
-
+    /// write your Login Logic here
+    public static void Login_CallBack(Context context,boolean result){
+        if (result == true ){
+            //porceed after login
+            Toast.makeText(context, "Login was successful", Toast.LENGTH_SHORT).show();
+            //procee to home page
+        }else {
+            // the credentials are wrong
+            Toast.makeText(context, "Login has couter an issue please try again ", Toast.LENGTH_SHORT).show();
         }
-        Gson gson = new Gson();
-        Type listType = new TypeToken<ArrayList<Product>>(){}.getType();
-        List<Product> AllProductList = new Gson().fromJson(result, listType);
+    }
+    ///
+    //implement go to home page here
+    public static void Register_CallBack(Context context,boolean result){
+        if (result == true ){
+            //porceed after Registration
+            Toast.makeText(context, "Registration is submitted successfully", Toast.LENGTH_SHORT).show();
+            //go to home page
+        }else {
+            // something isnot right
+            Toast.makeText(context, "Registration Countered an error", Toast.LENGTH_SHORT).show();
+            // something isnot right
+        }
+    }
+
+    public static void Login(Context context,String email, String password) throws IOException {
+
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            JSONObject jsonBody = new JSONObject();
+            jsonBody.put("email", email);
+            jsonBody.put("password", password);
+            final String mRequestBody = jsonBody.toString();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, Login_url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject respObj = new JSONObject(response);
+                        boolean status = Boolean.valueOf(respObj.getString("login"));
+                        Login_CallBack(context,status);
+                      //  Toast.makeText(context, result[0], Toast.LENGTH_SHORT).show();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("LOG_RESPONSE", error.toString());
+                    Toast.makeText(context,  error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+
+
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static void Register(Context context,Customer customer) throws IOException {
+        try {
+            RequestQueue requestQueue = Volley.newRequestQueue(context);
+            JSONObject jsonBody = new JSONObject();
+
+            jsonBody.put("first_name", customer.getFirst_name());
+            jsonBody.put("last_name",  customer.getLast_name() );
+            jsonBody.put("Date_of_birth", customer.getDob());
+            jsonBody.put("email",  customer.getEmail());
+            jsonBody.put("password",  customer.getPassword());
+            jsonBody.put("credit_limit", customer.getCredit_limit());
+            jsonBody.put("address", customer.getAddress());
+            jsonBody.put("phone_number", customer.getPhone_number());
+            jsonBody.put("interests", customer.getInterests());
+
+            final String mRequestBody = jsonBody.toString();
+
+            StringRequest stringRequest = new StringRequest(Request.Method.PUT, Registration_url, new Response.Listener<String>() {
+                @Override
+                public void onResponse(String response) {
+                    try {
+                        JSONObject respObj = new JSONObject(response);
+                        boolean status = Boolean.valueOf(respObj.getString("register"));
+                        Register_CallBack(context,status);
+                        //  Toast.makeText(context, result[0], Toast.LENGTH_SHORT).show();
+
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Log.e("LOG_RESPONSE", error.toString());
+                    Toast.makeText(context,  error.toString(), Toast.LENGTH_SHORT).show();
+                }
+            }) {
+                @Override
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    try {
+                        return mRequestBody == null ? null : mRequestBody.getBytes("utf-8");
+                    } catch (UnsupportedEncodingException uee) {
+                        VolleyLog.wtf("Unsupported Encoding while trying to get the bytes of %s using %s", mRequestBody, "utf-8");
+                        return null;
+                    }
+                }
+            };
+
+
+            requestQueue.add(stringRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public static List<Product> getAllProducts( Context context) {
+        final String[] result = {""};
+        List<Product> AllProductList =new ArrayList<Product>();
+        RequestQueue queue = Volley.newRequestQueue(context);
+        String url = AllProducts_url;
+
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+            @Override
+            public void onResponse(JSONArray response) {
+                for (int i=0;i<response.length();i++){
+                    try {
+                        JSONObject jsonproduct = response.getJSONObject(i);
+                        AllProductList.add(jsontoProduct(jsonproduct));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+                Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
+                }
+//
+
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
         return AllProductList;
+    }
+    public static Product jsontoProduct(JSONObject jsonProduct) throws JSONException {
+        Product product= new Product(
+        jsonProduct.getInt("id"),
+                jsonProduct.getString("product_name"),
+                jsonProduct.getDouble("price"),
+                jsonProduct.getInt("quantity"),
+                jsonProduct.getString("product_type")
+    );
+        return product;
     }
 }

@@ -31,6 +31,7 @@ public class Product {
         this.description = description;
         this.product_type = product_type;
     }
+
     public Product(Integer id, String product_name, Double price, Integer quantity, String product_type) {
         this.id = id;
         this.product_name = product_name;

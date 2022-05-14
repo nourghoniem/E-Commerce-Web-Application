@@ -14,10 +14,7 @@
         android:usesCleartextTraffic="true">
         <activity
             android:name=".ViewAllProducts"
-            android:exported="false" />
-        <activity
-            android:name=".ViewProductDetails"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -25,8 +22,11 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".ViewProductDetails"
+            android:exported="false"/>
+        <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
     </application>
 
 </manifest>
