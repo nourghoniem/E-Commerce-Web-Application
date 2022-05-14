@@ -667,14 +667,14 @@ public class DatabaseManagement {
 
     public String verfiyLoginForREST(String email, String password) throws SQLException {
         JSONObject json = new JSONObject();
-        String result = "failed";
+        String result = "false";
         Statement sqlStmt = conn.createStatement();
         String checkQuery = "select * from users where email = '" + email + "'"
                 + "and password = '" + password + "'";
         ResultSet rs = sqlStmt.executeQuery(checkQuery);
 
         if (rs.next()) {
-            result = "success";
+            result = "true";
         }
 
         return json.put("login", result).toString();

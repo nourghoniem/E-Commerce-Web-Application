@@ -1,8 +1,11 @@
 package com.ecommerce.controller;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -18,6 +21,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.ecommerce.model.Customer;
 import com.ecommerce.model.Product;
+import com.example.ecommerceandroidapp.ViewAllProducts;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,7 +43,7 @@ public class APIhandler {
     public static final String AllCategories_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/AllCategories";
     public static final String AllProducts_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/AllProductsInfo";
     public static final String SpecificProducts_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/ProductInfo/";
-
+    public static final String UserNameKey = "USER_NAME";
     public static String produceProductUrl(int id) {
         return SpecificProducts_url + id;
     }
@@ -48,25 +52,35 @@ public class APIhandler {
         if (result == true ){
             //porceed after login
             Toast.makeText(context, "Login was successful", Toast.LENGTH_SHORT).show();
-            //procee to home page
+            //proceed to home page
+            proceedToNextActivity(context, ViewAllProducts.class);
         }else {
             // the credentials are wrong
-            Toast.makeText(context, "Login has couter an issue please try again ", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Login has counter an issue please try again ", Toast.LENGTH_SHORT).show();
         }
     }
-    ///
-    //implement go to home page here
     public static void Register_CallBack(Context context,boolean result){
         if (result == true ){
             //porceed after Registration
             Toast.makeText(context, "Registration is submitted successfully", Toast.LENGTH_SHORT).show();
             //go to home page
+            proceedToNextActivity(context, ViewAllProducts.class);
         }else {
             // something isnot right
-            Toast.makeText(context, "Registration Countered an error", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Registration Countered an error please try again ", Toast.LENGTH_SHORT).show();
             // something isnot right
         }
     }
+    private static void proceedToNextActivity(Context context,Class nextActivityClass){
+        Intent intent = new Intent(context,nextActivityClass);
+ //       String Name_val = Name.getText().toString();
+ //       Bundle bundle=new Bundle();
+  //      bundle.putString(UserNameKey,Name_val);
+ //       intent.putExtras(bundle);
+        context.startActivity(intent);
+    }
+
+
 
     public static void Login(Context context,String email, String password) throws IOException {
 
