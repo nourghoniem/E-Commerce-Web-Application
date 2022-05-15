@@ -4,6 +4,7 @@ import static com.ecommerce.controller.APIhandler.produceProductUrl;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -25,7 +26,8 @@ public class ViewProductDetails extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_product_details);
-        int id = 1;
+        Toast.makeText(getApplicationContext(),"second page"+String.valueOf(getIntent().getIntExtra("id",-1)),Toast.LENGTH_LONG).show();
+        int id = getIntent().getIntExtra("id",-1);
 //        String url = "http://192.168.122.1:8080/ECommerce/rest/productAPI/ProductInfo/1";
         String url = produceProductUrl(id);
         HashMap<String, String> param = new HashMap<>();

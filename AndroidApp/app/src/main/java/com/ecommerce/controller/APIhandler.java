@@ -1,5 +1,7 @@
 package com.ecommerce.controller;
 
+import static com.example.ecommerceandroidapp.ViewAllProducts.getAllProduct_CallBack;
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -7,6 +9,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
@@ -37,16 +42,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class APIhandler {
-    public static final String remote_IP = "41.43.202.107";
+    public static final String remote_IP = "41.37.254.137";
     public static final String Login_url = "http://" + remote_IP + ":8080/ECommerce/rest/AuthenticationAPI/Login";
     public static final String Registration_url = "http://" + remote_IP + ":8080/ECommerce/rest/AuthenticationAPI/Register";
     public static final String AllCategories_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/AllCategories";
     public static final String AllProducts_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/AllProductsInfo";
     public static final String SpecificProducts_url = "http://" + remote_IP + ":8080/ECommerce/rest/productAPI/ProductInfo/";
+    public static final String Images_url="http://" + remote_IP + ":8080/ECommerce/db_images/";
     public static final String UserNameKey = "USER_NAME";
     public static String produceProductUrl(int id) {
         return SpecificProducts_url + id;
     }
+    public static String produceImageUrl(int id){ return Images_url+id+".jpg"; }
     /// write your Login Logic here
     public static void Login_CallBack(Context context,boolean result){
         if (result == true ){
@@ -198,15 +205,13 @@ public class APIhandler {
 
     }
 
-    public static List<Product> getAllProducts( Context context) {
-        final String[] result = {""};
-        List<Product> AllProductList =new ArrayList<Product>();
-        RequestQueue queue = Volley.newRequestQueue(context);
-        String url = AllProducts_url;
+    public static void getAllProducts( Context context) {
 
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
+        RequestQueue queue = Volley.newRequestQueue(context);
+        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, AllProducts_url, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
+                ArrayList<Product> AllProductList =new ArrayList<Product>();
                 for (int i=0;i<response.length();i++){
                     try {
                         JSONObject jsonproduct = response.getJSONObject(i);
@@ -216,6 +221,7 @@ public class APIhandler {
                     }
 
                 }
+                getAllProduct_CallBack(AllProductList);
                 Toast.makeText(context, response.toString(), Toast.LENGTH_LONG).show();
                 }
 //
@@ -226,7 +232,7 @@ public class APIhandler {
                 Toast.makeText(context, error.toString(), Toast.LENGTH_SHORT).show();
             }
         });
-        return AllProductList;
+        queue.add(request);
     }
     public static Product jsontoProduct(JSONObject jsonProduct) throws JSONException {
         Product product= new Product(
@@ -238,4 +244,5 @@ public class APIhandler {
     );
         return product;
     }
+
 }
