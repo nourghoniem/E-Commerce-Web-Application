@@ -10,8 +10,7 @@
 <%@page import="java.text.SimpleDateFormat"%>
 
 <%@page import="com.iti.ecommerce.essentials.verifications.Verfication"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-  <%@ include file="../HTMLPages/Header.html" %>
+<%@ include file="/JSPfiles/Header.jsp" %>
   <% String FName=request.getParameter("form-first-name");
   String LName=request.getParameter("form-last-name");
   String Address=request.getParameter("form-address");

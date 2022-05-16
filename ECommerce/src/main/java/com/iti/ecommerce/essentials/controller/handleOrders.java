@@ -64,7 +64,7 @@ public class handleOrders extends HttpServlet {
                 database.addOrder(order);
                 cart_list.clear();
                 String SMS_Body = "Thank you, "+first_name+" for ordering from Electro. Your order is dispatched";
-                Verfication.sendSMSAfterCheckout(phone_number,SMS_Body);
+           //     Verfication.sendSMSAfterCheckout(phone_number,SMS_Body);
             } else {
                 System.out.println("cart_list is empty");
             }

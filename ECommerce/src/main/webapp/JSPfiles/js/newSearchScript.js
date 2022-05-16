@@ -23,7 +23,6 @@ var Max_Price_id=document.getElementById("price-max");
             } else {
                 var array = msg.split(";");
                 array.forEach(myFunction);
-            //    ResultDiv.removeAttribute("class");
                 ResultDiv.innerHTML = txt;
              //   ResultDiv.classList.add("products-slick slick-initialized slick-slider");
                 //alert(msg);

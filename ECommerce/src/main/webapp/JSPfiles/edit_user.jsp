@@ -4,8 +4,6 @@
     Author     : Aya Mostafa
 --%>
 
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<%@ include file="../HTMLPages/Header.html" %>
 <%@page import="com.iti.ecommerce.essentials.model.Customer"%>
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 
@@ -31,9 +29,7 @@
 
 
 %>
-
-<!DOCTYPE html>
-<html>
+<%@ include file="/JSPfiles/Header.jsp" %>
     <body>
 
                                 <div class="panel-body">

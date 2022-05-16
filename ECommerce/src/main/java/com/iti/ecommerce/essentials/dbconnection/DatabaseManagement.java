@@ -234,7 +234,7 @@ public class DatabaseManagement {
         return result;
     }
 
-    List<Product> getProductsForMainSearch(String KeyWord) throws IOException {
+    public List<Product> getProductsForMainSearch(String KeyWord) throws IOException {
 
         try {
             stmt = conn.createStatement();
@@ -487,15 +487,22 @@ public class DatabaseManagement {
             Double price = rs.getDouble("price");
             String product_type = rs.getString("type");
             InputStream image = rs.getBinaryStream("image");
-            byte[] byteArray = new byte[image.available()];
-            image.read(byteArray);
-
-            URL resource = getClass().getResource("/");
-            String path = resource.getPath();
-            path = path.replace("WEB-INF/classes/", "");
-            System.out.println(path + "db_images/" + id + ".jpg");
-            FileOutputStream out = new FileOutputStream(path + "db_images/" + id + ".jpg");
-            out.write(byteArray);
+            //////////////////check before writing new data to increase performance///////
+            URL checkUrl = getClass().getResource("/");
+            String checkPath = checkUrl.getPath();
+            checkPath = checkPath.replace("WEB-INF/classes/", "");
+            File tempFile = new File(checkPath + "db_images/" + id + ".jpg");
+            boolean exists = tempFile.exists();
+            //////////////////check before writing new data to increase performance///////
+            if (!exists) {
+                byte[] byteArray = new byte[image.available()];
+                image.read(byteArray);
+                URL resource = getClass().getResource("/");
+                String path = resource.getPath();
+                path = path.replace("WEB-INF/classes/", "");
+                FileOutputStream out = new FileOutputStream(path + "db_images/" + id + ".jpg");
+                out.write(byteArray);
+            }
             Product product = new Product(id, name, price, quantity, product_type);
             products.add(product);
 
