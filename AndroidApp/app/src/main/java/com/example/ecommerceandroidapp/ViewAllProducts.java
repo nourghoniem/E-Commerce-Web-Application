@@ -29,10 +29,12 @@ public class ViewAllProducts extends AppCompatActivity implements RecyclerViewIn
     Button CloseButton;
     static ArrayList<Product> AllProductList;
     static AP_RecyclerViewAdapter adapter;
+    public static String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_view_all_products);
+        type = getIntent().getStringExtra("type");
         RecyclerView recyclerView = findViewById(R.id.mRecyclerView);
         getAllProducts(ViewAllProducts.this);
         AllProductList = new ArrayList<>();
@@ -62,7 +64,17 @@ public class ViewAllProducts extends AppCompatActivity implements RecyclerViewIn
     }
     public static void getAllProduct_CallBack( ArrayList<Product> ProductList){
         AllProductList.clear();
-        AllProductList.addAll(ProductList);
+        if (type != "" || type !=null){
+            for (Product product:ProductList){
+                if (type == product.getProduct_type()){
+                    AllProductList.add(product);
+                }
+            }
+        }else {
+            AllProductList.addAll(ProductList);
+        }
+
+       // AllProductList.addAll(ProductList);
         // notify adapter
         adapter.notifyDataSetChanged();
     }
