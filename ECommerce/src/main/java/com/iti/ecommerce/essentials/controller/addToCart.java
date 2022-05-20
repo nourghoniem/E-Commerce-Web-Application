@@ -26,9 +26,10 @@ public class addToCart extends HttpServlet {
         PrintWriter out = resp.getWriter();
         ArrayList<Cart> cartList = new ArrayList<>();
         Integer id = Integer.parseInt(request.getParameter("id"));
+        Integer quantity = Integer.parseInt(request.getParameter("quantity"));
         Cart cart = new Cart();
         cart.setId(id);
-        cart.setUser_quantity(1);
+        cart.setUser_quantity(quantity);
 
         HttpSession session = request.getSession();
         ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");

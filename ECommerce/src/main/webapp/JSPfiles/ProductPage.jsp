@@ -109,7 +109,7 @@
                         <div class="qty-label">
                             Qty
                             <div class="input-number">
-                                <input type="number">
+                                <input id="quantity_product" value="1" type="number">
                                 <span class="qty-up">+</span>
                                 <span class="qty-down">-</span>
                             </div>
@@ -567,12 +567,17 @@
     function myAlert(my_id)
     {
         var id = my_id;
+        var  quantity = $("#quantity_product").val();
+        if(quantity === ""){
+            quantity = 1;
+        }
 //
         $.ajax({
             type: "POST",
             url: "${pageContext.request.contextPath}/addToCart",
             data: {
-                id: id
+                id: id,
+                quantity: quantity
             },
 
             success: function (data) {

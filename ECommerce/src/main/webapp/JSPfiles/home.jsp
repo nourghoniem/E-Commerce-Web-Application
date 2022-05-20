@@ -158,6 +158,7 @@
                                         </div>
                                     </div>
                                     <div class="product-body">
+                                        <input id="quantity_product" value="1" style="display:none;">
                                         <p class="product-category"><%=product_type%></p>
                                         <h3 class="product-name"><a href="#"><%=name%></a></h3>
                                         <h4 class="product-price">$<%=price%>  <del class="product-old-price">$<%=oldPrice%></del></h4>
@@ -351,11 +352,16 @@
                                     function myAlert(my_id)
                                     {
                                         var id = my_id;
+                                        var  quantity = $("#quantity_product").val();
+                                         if(quantity === ""){
+                                                quantity = 1;
+                                         }
                                         $.ajax({
                                             type: "POST",
                                             url: "${pageContext.request.contextPath}/addToCart",
                                             data: {
-                                                id: id
+                                                id: id,
+                                                quantity: quantity
                                             },
 
                                             success: function (data) {

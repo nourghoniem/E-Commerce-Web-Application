@@ -185,7 +185,7 @@ Double all_Price =0.0;
                                 <span>Your Cart</span>
                                 <div class="qty">
                                     <% if (use_CartList){
-                                    out.println( cart_list.size());}else{ out.println(0); }
+                                       out.println( cart_list.size());}else{ out.println(0); }
                                 %></div>
                             </a>
 
