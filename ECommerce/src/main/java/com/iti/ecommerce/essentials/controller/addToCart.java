@@ -52,10 +52,13 @@ public class addToCart extends HttpServlet {
             if (!exists) {
                 cartList.add(cart);
                 out.println("added," + cartList.size());
+              
 
             }
 
         }
+        
+        
 
     }
 }

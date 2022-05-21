@@ -4,15 +4,18 @@
 <%@ page import="java.util.ArrayList" %>
 <%@page import="com.iti.ecommerce.essentials.dbconnection.DatabaseManagement"%>
 <%
+//    int cart_size = (int) request.getSession().getAttribute("cart_size");
     ArrayList<Cart> cart_list = (ArrayList<Cart>) session.getAttribute("cart-list");
     String check;
     boolean use_CartList=false;
+
     if (cart_list != null) {
         use_CartList=true;
         check = "notnull";
     } else {
         check = "null";
     }
+  
     %>
 <%
     String AccountLink = null;
@@ -168,6 +171,10 @@ Double all_Price =0.0;
                 <!-- ACCOUNT -->
                 <div class="col-md-3 clearfix">
                     <div class="header-ctn">
+                        <input type="hidden" id="check_for_cart" value="<%=use_CartList%>">
+                      <% if(cart_list != null){ %>
+                        <input type="hidden" id="cart_sizes" value="<%=cart_list.size()%>">
+                              <%  }  %>
                         <!-- Wishlist -->
                         <div>
                             <a href="#">
@@ -179,18 +186,16 @@ Double all_Price =0.0;
                         <!-- /Wishlist -->
 
                         <!-- Cart -->
-                        <div class="dropdown">
+                        <div  class="dropdown">
+                  
                             <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Your Cart</span>
-                                <div class="qty">
-                                    <% if (use_CartList){
-                                       out.println( cart_list.size());}else{ out.println(0); }
-                                %></div>
+                                <div class="qty" id="quantity_cart" style="display:none;"></div>
                             </a>
 
-                            <div class="cart-dropdown cart-dropdownList">
-                                <div class="cart-list">
+                            <div id="cart_dropdown" class="cart-dropdown cart-dropdownList">
+                                <div class="cart-list" id="cart_items_dropdown">
 <%--                                    --%>
                                     <% if (use_CartList){
                                             ArrayList<Cart> carts =null;
@@ -202,7 +207,7 @@ Double all_Price =0.0;
                                     %>
                                     <% for(Cart cart : carts){%>
                                     <% all_Price += cart.getPrice();%>
-                                    <div class="product-widget">
+                                    <div  id="cart_drop_list"  class="product-widget">
                                         <div class="product-img">
                                             <img src="${pageContext.request.contextPath}/db_images/<% out.println(cart.getId()); %>.jpg" alt="">
                                         </div>
@@ -214,9 +219,9 @@ Double all_Price =0.0;
 <%--    --%>                            <%}%>
 
                             </div>
-                                <div class="cart-summary">
-                                    <small><%out.println(cart_list.size());%> Item(s) selected</small>
-                                    <h5>SUBTOTAL: $<%=all_Price%></h5>
+                                <div id="cart-summary" class="cart-summary">
+                                    <small></small>
+                                    <h5>SUBTOTAL: $<%=all_Price%>s  LE</h5>
                                 </div>
 
                                 <div class="cart-btns">
@@ -245,3 +250,22 @@ Double all_Price =0.0;
     <!-- /MAIN HEADER -->
 </header>
 <!-- /HEADER -->
+<script>
+    
+
+   setTimeout(function() {
+       
+        var cart = $("#check_for_cart").val();
+        var cart_size = $("#cart_sizes").val();
+        
+        if(cart === "true"){
+       
+            $("#quantity_cart").html(cart_size);
+            $("#quantity_cart").show();
+            $("#cart_dropdown").show();
+                   
+        }
+   }, 1000);
+  
+   
+</script>

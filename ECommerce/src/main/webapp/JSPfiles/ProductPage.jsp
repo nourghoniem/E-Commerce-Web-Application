@@ -564,48 +564,76 @@
 <script src="/ECommerce/JSPfiles/js/main.js"></script>
 <script src="/ECommerce/JSPfiles/js/newSearchScript.js"></script>
 <script>
-    function myAlert(my_id)
-    {
-        var id = my_id;
-        var  quantity = $("#quantity_product").val();
-        if(quantity === ""){
-            quantity = 1;
-        }
-//
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/addToCart",
-            data: {
-                id: id,
-                quantity: quantity
-            },
+                         function myAlert(my_id)
+                            {
+                                var id = my_id;
+                                var quantity = $("#quantity_product").val();
+                                if (quantity === "") {
+                                    quantity = 1;
+                                }
+                                $.ajax({
+                                    type: "POST",
+                                    url: "${pageContext.request.contextPath}/addToCart",
+                                    data: {
+                                        id: id,
+                                        quantity: quantity
+                                    },
 
-            success: function (data) {
-                var result = $.trim(data);
-                if (result === "exists") {
-                    $("#alreadyInCart").show();
-                    setTimeout(function () {
-                        $("#alreadyInCart").hide();
-                    }, 2000);
+                                    success: function (data) {
+
+                                        var results = data.split(',');
+                                        var result = $.trim(results[0]);
+                                        if (result === "exists") {
+                                            $("#alreadyInCart").show();
+                                            setTimeout(function () {
+                                                $("#alreadyInCart").hide();
+                                            }, 2000);
 
 
-                } else if (result === "added") {
-                    $("#addedToCart").show();
-                    setTimeout(function () {
-                        $("#addedToCart").hide();
-                    }, 2000);
+                                        } else if (result === "added") {
+                                            $("#addedToCart").show();
+                                            setTimeout(function () {
+                                                $("#addedToCart").hide();
+                                            }, 2000);
 
-                }
-                else{
-                    alert(data);
-                }
+                                        }
 
-            },
-            error: function (resp) {
-                alert("Error");
-            }
-        });
-    }
+                                        setTimeout(function () {
+
+                                           
+                                            if (results[1] > 0) {
+                                                $('#quantity_cart').html(results[1]);
+                                                $('#quantity_cart').show();
+                                                $("#cart_drop_list").show();
+
+
+                                            }
+                                        }, 100);
+
+
+//                                        if (results[1] > 0) {
+//                                            $('#qty').html(results[1]);
+//                                            $("#qty").show();
+//                                        }
+
+
+
+
+                                    },
+                                    error: function (resp) {
+                                        alert("Error");
+                                    }
+
+                                });
+
+
+//                                        $(document).ajaxStop(function () {
+//                                            window.location.reload();
+//                                        });
+
+                            }
+
+
 </script>
 <script>
     function Review(Pid,  Cid)
