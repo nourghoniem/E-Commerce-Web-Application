@@ -9,21 +9,22 @@
   To change this template use File | Settings | File Templates.
 --%>
 
-<%  int id=Integer.parseInt(request.getParameter("ID"));
-    int CID=-1;
-    System.out.println("session attribute id :"+session.getAttribute("id"));
-    if (session.getAttribute("id")!=null){
-        CID= (int)session.getAttribute("id");}
-    DatabaseManagement DM=new DatabaseManagement();
-    List<Product> products=DM.getProducts();
-    Product product=DM.getProductById(id);
+<%  int id = Integer.parseInt(request.getParameter("ID"));
+    int CID = -1;
+    System.out.println("session attribute id :" + session.getAttribute("id"));
+    if (session.getAttribute("id") != null) {
+        CID = (int) session.getAttribute("id");
+    }
+    DatabaseManagement DM = new DatabaseManagement();
+    List<Product> products = DM.getProducts();
+    Product product = DM.getProductById(id);
     List<Review> reviewList = DM.getProductRRList(id);
-    int Product_id,Customer_id,year,month,day,hours,minutes,oneProductRating;
-    String ReviewBody,Customer_name;
+    int Product_id, Customer_id, year, month, day, hours, minutes, oneProductRating;
+    String ReviewBody, Customer_name;
     String name, description, image_URL, product_type;
     Double price, oldPrice;
-    Integer quantity,rating,reviews_Count;
-    boolean inStock =true;
+    Integer quantity, rating, reviews_Count;
+    boolean inStock = true;
     name = product.getProduct_name();
     price = product.getPrice();
     oldPrice = price + (price * .02);
@@ -33,14 +34,13 @@
     image_URL = "/ECommerce/db_images/" + id + ".jpg";
     product_type = product.getProduct_type();
     rating = DM.getProductRating(id);
-    boolean canReview=DM.canReview(id,CID);
+    boolean canReview = DM.canReview(id, CID);
     //boolean canReview=true;
-    reviews_Count=DM.getReviewCount(id);
-    if (quantity > 0){
-        inStock=true;
-    }
-    else if(quantity ==0){
-        inStock=false;
+    reviews_Count = DM.getReviewCount(id);
+    if (quantity > 0) {
+        inStock = true;
+    } else if (quantity == 0) {
+        inStock = false;
     }
 %>
 <%@ include file="/JSPfiles/Header.jsp" %>
@@ -83,22 +83,24 @@
                     <h2 class="product-name"><%=name%></h2>
                     <div>
                         <div class="product-rating">
-                            <% int i =rating;
-                            while (i !=0){ %>
+                            <% int i = rating;
+                                while (i != 0) { %>
                             <i class="fa fa-star"></i>
-                            <%i--;}%>
-                            <% int j = 5-rating;
-                            while (j != 0){ %>
+                            <%i--;
+                                }%>
+                            <% int j = 5 - rating;
+                                while (j != 0) { %>
                             <i class="fa fa-star-o"></i>
-                            <%j--;}%>
+                            <%j--;
+                                }%>
                         </div>
                         <a class="review-link" href="#"><%=reviews_Count%> Review(s)</a>
                     </div>
                     <div>
                         <h3 class="product-price">$<%=price%> <del class="product-old-price">$<%=oldPrice%></del></h3>
-                        <% if (inStock){%>
+                        <% if (inStock) {%>
                         <span class="product-available">In Stock</span>
-                        <%}else{%>
+                        <%} else {%>
                         <span class="product-unavailable">Out of Stock</span>
                         <%}%>
 
@@ -167,7 +169,7 @@
                         <div id="tab2" class="tab-pane fade in">
                             <div class="row">
                                 <div class="col-md-12">
-                                <p><%=description%></p>
+                                    <p><%=description%></p>
                                 </div>
                             </div>
                         </div>
@@ -182,14 +184,16 @@
                                         <div class="rating-avg">
                                             <span><%=rating%></span>
                                             <div class="rating-stars">
-                                                <% i =rating;
-                                                    while (i !=0){ %>
+                                                <% i = rating;
+                                                    while (i != 0) { %>
                                                 <i class="fa fa-star"></i>
-                                                <%i--;}%>
-                                                <% j = 5-rating;
-                                                    while (j != 0){ %>
+                                                <%i--;
+                                                    }%>
+                                                <% j = 5 - rating;
+                                                    while (j != 0) { %>
                                                 <i class="fa fa-star-o"></i>
-                                                <%j--;}%>
+                                                <%j--;
+                                                    }%>
                                             </div>
                                         </div>
                                         <ul class="rating">
@@ -267,19 +271,19 @@
                                 <div class="col-md-6">
                                     <div id="reviews">
                                         <ul class="reviews">
-                                            <% i =reviews_Count;
-                                            if (reviewList != null){
-                                                for (Review review : reviewList){
-                                                            Product_id=review.getProduct_id();
-                                                            Customer_id=review.getCustomer_id();
-                                                            Customer_name=review.getCustomer_name();
-                                                            year=review.getYear();
-                                                            month=review.getMonth();
-                                                            day=review.getDay();
-                                                            hours=review.getHours();
-                                                            minutes=review.getMinutes();
-                                                            oneProductRating=review.getRating();
-                                                            ReviewBody=review.getReview();
+                                            <% i = reviews_Count;
+                                                if (reviewList != null) {
+                                                    for (Review review : reviewList) {
+                                                        Product_id = review.getProduct_id();
+                                                        Customer_id = review.getCustomer_id();
+                                                        Customer_name = review.getCustomer_name();
+                                                        year = review.getYear();
+                                                        month = review.getMonth();
+                                                        day = review.getDay();
+                                                        hours = review.getHours();
+                                                        minutes = review.getMinutes();
+                                                        oneProductRating = review.getRating();
+                                                        ReviewBody = review.getReview();
                                             %>
                                             <li>
                                                 <div class="review-heading">
@@ -287,15 +291,17 @@
                                                     <p class="date"><%=year%> <%=month%> <%=day%>, <%=hours%>:<%=minutes%></p>
                                                     <div class="review-rating">
                                                         <% i = oneProductRating;
-                                                            while (i!=0){
+                                                            while (i != 0) {
                                                         %>
                                                         <i class="fa fa-star"></i>
-                                                        <%i--;}%>
+                                                        <%i--;
+                                                            }%>
                                                         <% i = 5 - oneProductRating;
-                                                            while (i!=0){
+                                                            while (i != 0) {
                                                         %>
                                                         <i class="fa fa-star-o empty"></i>
-                                                        <%i--;}%>
+                                                        <%i--;
+                                                            }%>
                                                     </div>
                                                 </div>
                                                 <div class="review-body">
@@ -303,7 +309,8 @@
                                                 </div>
                                             </li>
                                             <%
-                                                }}
+                                                    }
+                                                }
                                             %>
 
                                         </ul>
@@ -317,8 +324,12 @@
                                     </div>
                                 </div>
                                 <!-- /Reviews -->
-                                <% String condition=""; String style="style=\"display:none;\"";%>
-                                <% if (!canReview){  condition="disabled";  style="";}%>
+                                <% String condition = "";
+                                    String style = "style=\"display:none;\"";%>
+                                <% if (!canReview) {
+                                        condition = "disabled";
+                                        style = "";
+                                    }%>
                                 <!-- Review Form -->
                                 <div class="col-md-3">
                                     <div id="addedReview" style="display:none;" class="alert alert-success" role="alert">
@@ -375,14 +386,14 @@
             </div>
             <% for (Product product2 : products) {
 
-                name = product2.getProduct_name();
-                price = product2.getPrice();
-                oldPrice = price + (price * .02);
-                quantity = product2.getQuantity();
-                description = product2.getDescription();
-                id = product2.getId();
-                image_URL = "../db_images/" + id + ".jpg";
-                product_type = product2.getProduct_type();
+                    name = product2.getProduct_name();
+                    price = product2.getPrice();
+                    oldPrice = price + (price * .02);
+                    quantity = product2.getQuantity();
+                    description = product2.getDescription();
+                    id = product2.getId();
+                    image_URL = "../db_images/" + id + ".jpg";
+                    product_type = product2.getProduct_type();
 
 
             %>
@@ -404,7 +415,7 @@
                         <div class="product-btns">
                             <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
                             <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-                            <button  onclick="location.href = '<%=request.getContextPath() %>'+'/JSPfiles/ProductPage.jsp?ID=<%=id%>'" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                            <button  onclick="location.href = '<%=request.getContextPath()%>' + '/JSPfiles/ProductPage.jsp?ID=<%=id%>'" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
                         </div>
                     </div>
                     <div class="add-to-cart">
@@ -540,10 +551,10 @@
                         <li><a href="#"><i class="fa fa-cc-amex"></i></a></li>
                     </ul>
                     <span class="copyright">
-								<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-								Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
                         <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-							</span>
+                        Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                        <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+                    </span>
                 </div>
             </div>
             <!-- /row -->
@@ -564,7 +575,7 @@
 <script src="/ECommerce/JSPfiles/js/main.js"></script>
 <script src="/ECommerce/JSPfiles/js/newSearchScript.js"></script>
 <script>
-                         function myAlert(my_id)
+                            function myAlert(my_id)
                             {
                                 var id = my_id;
                                 var quantity = $("#quantity_product").val();
@@ -598,26 +609,6 @@
 
                                         }
 
-                                        setTimeout(function () {
-
-                                           
-                                            if (results[1] > 0) {
-                                                $('#quantity_cart').html(results[1]);
-                                                $('#quantity_cart').show();
-                                                $("#cart_drop_list").show();
-
-
-                                            }
-                                        }, 100);
-
-
-//                                        if (results[1] > 0) {
-//                                            $('#qty').html(results[1]);
-//                                            $("#qty").show();
-//                                        }
-
-
-
 
                                     },
                                     error: function (resp) {
@@ -625,64 +616,70 @@
                                     }
 
                                 });
+                                $(document).ajaxStop(function () {
+                                    if (cart_size !== "") {
+                                        $("#quantity_cart").html(cart_size);
+                                        $("#quantity_cart").show();
+                                        $("#cart_dropdown").show();
+
+                                    }
+                                });
 
 
-//                                        $(document).ajaxStop(function () {
-//                                            window.location.reload();
-//                                        });
+
 
                             }
 
 
 </script>
 <script>
-    function Review(Pid,  Cid)
+    function Review(Pid, Cid)
     {
-        var product_id=Pid;
-        var customer_id=Cid;
-        var review=document.getElementById("review_id").value;
+        var product_id = Pid;
+        var customer_id = Cid;
+        var review = document.getElementById("review_id").value;
 
-        var year=new Date().getFullYear();
-        var month=new Date().getMonth();
-        var day= new Date().getDay();
-        var hours=new Date().getHours();
-        var minutes=new Date().getMinutes();
-        var rating=document.querySelector('input[name="rating"]:checked').value ;
+        var year = new Date().getFullYear();
+        var month = new Date().getMonth();
+        var day = new Date().getDay();
+        var hours = new Date().getHours();
+        var minutes = new Date().getMinutes();
+        var rating = document.querySelector('input[name="rating"]:checked').value;
         console.log(review);
-        if (review != ""){
-        $.ajax({
-            type: "POST",
-            url: "${pageContext.request.contextPath}/SubmitAReview",
-            data: {
-                product_id:product_id,
-                customer_id:customer_id,
-                review:review,
-                year:year,
-                month:month,
-                day: day,
-                hours:hours ,
-                minutes: minutes,
-                rating:rating
-            },
+        if (review != "") {
+            $.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/SubmitAReview",
+                data: {
+                    product_id: product_id,
+                    customer_id: customer_id,
+                    review: review,
+                    year: year,
+                    month: month,
+                    day: day,
+                    hours: hours,
+                    minutes: minutes,
+                    rating: rating
+                },
 
-            success: function (data) {
-                var result = $.trim(data);
-                if (result === "added") {
-                    $("#addedReview").show();
-                    setTimeout(function () {
-                        $("#addedReview").hide();
-                    }, 2000);
+                success: function (data) {
+                    var result = $.trim(data);
+                    if (result === "added") {
+                        $("#addedReview").show();
+                        setTimeout(function () {
+                            $("#addedReview").hide();
+                        }, 2000);
 
+                    } else {
+                        alert(data);
+                    }
+
+                },
+                error: function (resp) {
+                    alert("Error");
                 }
-                else{
-                    alert(data);
-                }
-
-            },
-            error: function (resp) {
-                alert("Error");
-            }
-        });}
+            });
+        }
     }
 </script>
 </body>

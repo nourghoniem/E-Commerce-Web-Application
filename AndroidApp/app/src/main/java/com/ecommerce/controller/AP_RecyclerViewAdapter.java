@@ -19,7 +19,7 @@ import com.example.ecommerceandroidapp.R;
 import java.util.ArrayList;
 
 public class AP_RecyclerViewAdapter extends RecyclerView.Adapter<AP_RecyclerViewAdapter.MyViewHolder> {
-    private final RecyclerViewInterface recyclerViewInterface ;
+    private final RecyclerViewInterface recyclerViewInterface;
     Context context;
     ArrayList<Product> productArrayList;
     public AP_RecyclerViewAdapter(Context context, ArrayList<Product> productArrayList ,
@@ -28,6 +28,7 @@ public class AP_RecyclerViewAdapter extends RecyclerView.Adapter<AP_RecyclerView
         this.productArrayList=productArrayList;
         this.recyclerViewInterface=recyclerViewInterface;
     }
+
 
     @NonNull
     @Override
